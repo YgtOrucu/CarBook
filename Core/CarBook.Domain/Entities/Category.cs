@@ -1,0 +1,7 @@
+﻿using CarBook.Domain.Entities.Comman;
+namespace CarBook.Domain.Entities;
+
+public class Category : BaseEntity
+{
+    public string? Name { get; set; }
+}

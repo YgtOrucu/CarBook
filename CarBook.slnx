@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/Core/">
+    <Project Path="Core/CarBook.Domain/CarBook.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/CarBook.Persistence/CarBook.Persistence.csproj" />
+  </Folder>
+  <Folder Name="/Presantation/">
+    <Project Path="Presantation/CarBook.WebAPI/CarBook.WebAPI.csproj" />
+  </Folder>
+</Solution>
