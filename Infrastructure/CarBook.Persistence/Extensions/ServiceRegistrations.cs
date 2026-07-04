@@ -1,4 +1,6 @@
-﻿using CarBook.Persistence.Context;
+﻿using CarBook.Application.Interfaces;
+using CarBook.Persistence.Context;
+using CarBook.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +13,9 @@ public static class ServiceRegistrations
     {
         services.AddDbContext<CarBookContext>(opt =>
             opt.UseSqlServer(configuration.GetConnectionString(name: "DefaultConnection")));
+
+        services.AddDbContext<CarBookContext>();
+        services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
     }
 }
