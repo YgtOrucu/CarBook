@@ -2,9 +2,9 @@
 
 namespace CarBook.Application.Features.CQRS.Commands.AboutCommant;
 
-public class RemoveAboutCommant : AuditableEntity
+public class RemoveAboutCommand : AuditableEntity
 {
-    public RemoveAboutCommant(int id)
+    public RemoveAboutCommand(int id)
     {
         Id = id;
     }

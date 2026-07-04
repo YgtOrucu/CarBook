@@ -4,16 +4,16 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.AboutHandler;
 
-public class RemoveAboutCommantHandle
+public class RemoveAboutCommandHandle
 {
     private readonly IRepository<About> _repository;
 
-    public RemoveAboutCommantHandle(IRepository<About> repository)
+    public RemoveAboutCommandHandle(IRepository<About> repository)
     {
         _repository = repository;
     }
 
-    public async Task Handle(RemoveAboutCommant about)
+    public async Task Handle(RemoveAboutCommand about)
     {
         var entity = await _repository.GetByIdAsync(about.Id);
         if (entity != null)

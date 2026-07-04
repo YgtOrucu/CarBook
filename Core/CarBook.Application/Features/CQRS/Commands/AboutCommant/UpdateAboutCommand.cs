@@ -2,7 +2,7 @@
 
 namespace CarBook.Application.Features.CQRS.Commands.AboutCommant;
 
-public class CreateAboutCommant: AuditableEntity
+public class UpdateAboutCommand : AuditableEntity
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

@@ -1,26 +1,25 @@
-﻿using CarBook.Application.Features.CQRS.Commands.AboutCommant;
+﻿using CarBook.Application.Features.CQRS.Commands.BannerCommand;
 using CarBook.Application.Interfaces;
 using CarBook.Domain.Entities;
 
-namespace CarBook.Application.Features.CQRS.Handlers.AboutHandler;
+namespace CarBook.Application.Features.CQRS.Handlers.BannerHandler.Write;
 
-public class UpdateAboutCommantHandle
+public class UpdateBannerCommandHandle
 {
-    private readonly IRepository<About> _repository;
+    private readonly IRepository<Banner> _repository;
 
-    public UpdateAboutCommantHandle(IRepository<About> repository)
+    public UpdateBannerCommandHandle(IRepository<Banner> repository)
     {
         _repository = repository;
     }
 
-    public async Task Handle(UpdateAboutCommant commant)
+    public async Task Handle(UpdateBannerCommand commant)
     {
-        _repository.Update(new About
+        _repository.Update(new Banner
         {
             Id = commant.Id,
             Title = commant.Title,
             Description = commant.Description,
-            ImageUrl = commant.ImageUrl,
             CreatedBy = commant.CreatedBy,
             CreatedDate = commant.CreatedDate,
             UpdatedBy = commant.UpdatedBy,
