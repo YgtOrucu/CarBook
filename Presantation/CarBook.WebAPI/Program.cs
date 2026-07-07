@@ -1,5 +1,6 @@
 using CarBook.Persistence.Extensions;
 using CarBook.Application.Extensions;
+using CarBook.WebAPI.Endpoints.RegisterEndpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +24,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.MapGroup("/api").AppRegisterEndpoint();
 app.MapControllers();
 
 app.Run();

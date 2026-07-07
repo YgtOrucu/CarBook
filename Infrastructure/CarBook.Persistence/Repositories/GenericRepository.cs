@@ -1,12 +1,11 @@
 ﻿using CarBook.Application.Interfaces;
-using CarBook.Domain.Entities.Comman;
 using CarBook.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace CarBook.Persistence.Repositories;
 
-public class GenericRepository<T>(CarBookContext _carBook) : IRepository<T> where T : AuditableEntity
+public class GenericRepository<T>(CarBookContext _carBook) : IRepository<T> where T : class
 {
     private readonly DbSet<T> _dbset = _carBook.Set<T>();
     public async Task CreateAsync(T entity)

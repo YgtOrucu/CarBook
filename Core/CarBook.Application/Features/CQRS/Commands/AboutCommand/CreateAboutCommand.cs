@@ -1,6 +1,6 @@
 ﻿using CarBook.Domain.Entities.Comman;
 
-namespace CarBook.Application.Features.CQRS.Commands.AboutCommant;
+namespace CarBook.Application.Features.CQRS.Commands.AboutCommand;
 
 public class CreateAboutCommand: AuditableEntity
 {

@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace CarBook.Application.Interfaces;
 
-public interface IRepository<T> where T : AuditableEntity
+public interface IRepository<T> where T : class
 {
     Task<List<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);
