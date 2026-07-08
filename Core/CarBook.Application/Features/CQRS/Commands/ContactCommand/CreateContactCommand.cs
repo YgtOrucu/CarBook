@@ -1,7 +1,6 @@
-﻿using CarBook.Domain.Entities.Comman;
-namespace CarBook.Domain.Entities;
+﻿namespace CarBook.Application.Features.CQRS.Commands.ContactCommand;
 
-public class Contact : BaseEntity
+public class CreateContactCommand
 {
     public string? Name { get; set; }
     public string? Email { get; set; }

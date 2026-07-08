@@ -6,6 +6,8 @@ using CarBook.Application.Features.CQRS.Handlers.CarHandler.Read;
 using CarBook.Application.Features.CQRS.Handlers.CarHandler.Write;
 using CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Read;
 using CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Write;
+using CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
+using ContactBook.Application.Features.CQRS.Handlers.ContactHandle.Read;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CarBook.Application.Extensions;
@@ -45,5 +47,11 @@ public static class ServiceRegistrations
         services.AddScoped<GetCategoryCommandHandle>();
         services.AddScoped<UpdateCategoryCommandHandle>();
         services.AddScoped<RemoveCategoryCommandHandle>();
+
+        services.AddScoped<CreateContactCommandHandle>();
+        services.AddScoped<GetContactByIdQueryHandle>();
+        services.AddScoped<GetContactQueryHandle>();
+        services.AddScoped<UpdateContactCommandHandle>();
+        services.AddScoped<RemoveContactCommandHandle>();
     }
 }

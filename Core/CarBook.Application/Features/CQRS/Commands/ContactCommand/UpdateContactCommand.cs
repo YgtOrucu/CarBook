@@ -1,7 +1,8 @@
 ﻿using CarBook.Domain.Entities.Comman;
-namespace CarBook.Domain.Entities;
 
-public class Contact : BaseEntity
+namespace CarBook.Application.Features.CQRS.Commands.ContactCommand;
+
+public class UpdateContactCommand : BaseEntity
 {
     public string? Name { get; set; }
     public string? Email { get; set; }
