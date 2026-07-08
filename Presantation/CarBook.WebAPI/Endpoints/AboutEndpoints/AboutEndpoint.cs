@@ -6,7 +6,7 @@ namespace CarBook.WebAPI.Endpoints.AboutEndpoints
 {
     public static class AboutEndpoint
     {
-        public static void AppCategoryEndpoint(this IEndpointRouteBuilder builder)
+        public static void AppAboutEndpoint(this IEndpointRouteBuilder builder)
         {
             var abouts = builder.MapGroup("/about").WithTags("Abouts");
 
