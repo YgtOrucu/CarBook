@@ -17,6 +17,9 @@ public static class ServiceRegistrations
 {
     public static void AddApplicationServices(this IServiceCollection services)
     {
+
+        services.AddAutoMapper(src => src.AddMaps(Assembly.GetExecutingAssembly()));
+
         services.AddScoped<CreateAboutCommandHandle>();
         services.AddScoped<GetAboutByIdQueryHandle>();
         services.AddScoped<GetAboutQueryHandle>();

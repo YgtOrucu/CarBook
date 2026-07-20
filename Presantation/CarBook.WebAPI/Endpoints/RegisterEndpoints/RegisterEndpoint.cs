@@ -5,6 +5,7 @@ using CarBook.WebAPI.Endpoints.CarEndpoints;
 using CarBook.WebAPI.Endpoints.CategoryEndpoints;
 using CarBook.WebAPI.Endpoints.ContactEndpoints;
 using CarBook.WebAPI.Endpoints.FeatureEndpoints;
+using CarBook.WebAPI.Endpoints.FooterAddressEndpoints;
 
 namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
 {
@@ -19,6 +20,7 @@ namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
             app.AppCategoryEndpoint();
             app.AppContactEndpoint();
             app.AppFeatureEndpoint();
+            app.AppFooterAddressEndpoint();
         }
     }
 }
