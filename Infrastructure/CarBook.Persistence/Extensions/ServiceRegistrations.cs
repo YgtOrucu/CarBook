@@ -18,7 +18,6 @@ public static class ServiceRegistrations
 
         services.AddDbContext<CarBookContext>();
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-        services.AddScoped(typeof(ICarRepository), typeof(CarRepository));
         services.AddScoped<ICarRepository, CarRepository>();
 
     }

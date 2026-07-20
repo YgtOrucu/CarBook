@@ -9,6 +9,7 @@ using CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Write;
 using CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
 using ContactBook.Application.Features.CQRS.Handlers.ContactHandle.Read;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CarBook.Application.Extensions;
 
@@ -53,5 +54,10 @@ public static class ServiceRegistrations
         services.AddScoped<GetContactQueryHandle>();
         services.AddScoped<UpdateContactCommandHandle>();
         services.AddScoped<RemoveContactCommandHandle>();
+
+        services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+        });
     }
 }
