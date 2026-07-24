@@ -24,12 +24,7 @@ public class GetBannerByIdQueryHandle
                 Id = banner.Id,
                 Title = banner.Title,
                 Description = banner.Description,
-                CreatedDate = banner.CreatedDate,
-                CreatedBy = banner.CreatedBy,
-                UpdatedDate = banner.UpdatedDate,
-                UpdatedBy = banner.UpdatedBy,
                 VideoUrl = banner.VideoUrl,
-                IsDeleted = banner.IsDeleted
             });
         }
         return result;

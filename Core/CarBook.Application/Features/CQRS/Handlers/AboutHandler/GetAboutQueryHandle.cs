@@ -24,11 +24,10 @@ public class GetAboutQueryHandle
                 Id = about.Id,
                 Title = about.Title,
                 Description = about.Description,
-                CreatedDate = about.CreatedDate,
-                CreatedBy = about.CreatedBy,
-                UpdatedDate = about.UpdatedDate,
-                UpdatedBy = about.UpdatedBy,
                 ImageUrl = about.ImageUrl,
+                CreatedDate = about.CreatedDate,
+                DeletedDate = about.DeletedDate,
+                UpdatedDate = about.UpdatedDate,
                 IsDeleted = about.IsDeleted
             });
         }

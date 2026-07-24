@@ -1,8 +1,7 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿namespace CarBook.Application.Features.CQRS.Commands.CategoryCommand;
 
-namespace CarBook.Application.Features.CQRS.Commands.CategoryCommand;
-
-public class UpdateCategoryCommand : BaseEntity
+public class UpdateCategoryCommand
 {
+    public int Id { get; set; }
     public string? Name { get; set; }
 }

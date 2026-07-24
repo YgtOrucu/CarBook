@@ -4,7 +4,7 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Write;
 
-public class CreateCategoryCommandHandle(IRepository<Category> repository)
+public class CreateCategoryCommandHandle(IRepository<Category> repository,IUnitOfWork unitOfWork)
 {
     public async Task Handle(CreateCategoryCommand command)
     {
@@ -12,5 +12,6 @@ public class CreateCategoryCommandHandle(IRepository<Category> repository)
         {
            Name = command.Name
         });
+        await unitOfWork.SaveChangeAsync();
     }
 }

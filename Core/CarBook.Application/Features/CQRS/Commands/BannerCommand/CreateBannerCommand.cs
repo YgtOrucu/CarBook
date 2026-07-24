@@ -1,8 +1,6 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿namespace CarBook.Application.Features.CQRS.Commands.BannerCommand;
 
-namespace CarBook.Application.Features.CQRS.Commands.BannerCommand;
-
-public class CreateBannerCommand : AuditableEntity
+public class CreateBannerCommand
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

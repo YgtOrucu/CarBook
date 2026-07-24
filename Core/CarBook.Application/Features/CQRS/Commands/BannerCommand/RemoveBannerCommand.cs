@@ -1,9 +1,8 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿namespace CarBook.Application.Features.CQRS.Commands.BannerCommand;
 
-namespace CarBook.Application.Features.CQRS.Commands.BannerCommand;
-
-public class RemoveBannerCommand : BaseEntity
+public class RemoveBannerCommand
 {
+    public int Id { get; set; }
     public RemoveBannerCommand(int id)
     {
         Id = id;

@@ -4,18 +4,11 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
 
-public class UpdateContactCommandHandle
+public class UpdateContactCommandHandle(IRepository<Contact> repository, IUnitOfWork unitOfWork)
 {
-    private readonly IRepository<Contact> _repository;
-
-    public UpdateContactCommandHandle(IRepository<Contact> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(UpdateContactCommand command)
     {
-        _repository.Update(new Contact
+        repository.Update(new Contact
         {
             Id = command.Id,
             Name = command.Name,
@@ -24,5 +17,7 @@ public class UpdateContactCommandHandle
             SendDate = DateTime.Now,
             Subject = command.Subject,
         });
+
+        await unitOfWork.SaveChangeAsync();
     }
 }

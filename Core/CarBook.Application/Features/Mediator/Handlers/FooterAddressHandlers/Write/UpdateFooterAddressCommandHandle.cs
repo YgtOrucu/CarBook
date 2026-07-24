@@ -6,15 +6,16 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Handlers.FooterAddressHandlers.Write;
 
-public class UpdateFooterAddressCommandHandle(IRepository<FooterAddress> repository, IMapper mapper)
+public class UpdateFooterAddressCommandHandle(IRepository<FooterAddress> repository, IMapper mapper, IUnitOfWork unitOfWork)
     : IRequestHandler<UpdateFooterAddressCommand, object>
 {
     public async Task<object> Handle(UpdateFooterAddressCommand request, CancellationToken cancellationToken)
     {
         var values = await repository.GetByIdAsync(request.Id);
 
-        mapper.Map(request,values);
+        mapper.Map(request, values);
         repository.Update(values);
+        await unitOfWork.SaveChangeAsync();
         return new
         {
             success = true,

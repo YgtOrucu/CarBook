@@ -4,7 +4,7 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
 
-public class CreateContactCommandHandle(IRepository<Contact> repository)
+public class CreateContactCommandHandle(IRepository<Contact> repository,IUnitOfWork unitOfWork)
 {
     public async Task Handle(CreateContactCommand command)
     {
@@ -16,5 +16,7 @@ public class CreateContactCommandHandle(IRepository<Contact> repository)
             SendDate = DateTime.Now,
             Subject = command.Subject,
         });
+
+        await unitOfWork.SaveChangeAsync();
     }
 }

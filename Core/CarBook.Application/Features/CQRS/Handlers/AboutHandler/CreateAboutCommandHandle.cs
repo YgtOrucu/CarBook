@@ -4,15 +4,8 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.AboutHandler;
 
-public class CreateAboutCommandHandle
+public class CreateAboutCommandHandle(IRepository<About> _repository, IUnitOfWork unitOfWork)
 {
-    private readonly IRepository<About> _repository;
-
-    public CreateAboutCommandHandle(IRepository<About> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(CreateAboutCommand about)
     {
         await _repository.CreateAsync(new About
@@ -20,9 +13,8 @@ public class CreateAboutCommandHandle
             Title = about.Title,
             Description = about.Description,
             ImageUrl = about.ImageUrl,
-            CreatedBy = about.CreatedBy,
-            CreatedDate = DateTime.Now,
-            IsDeleted = false,
         });
+
+        await unitOfWork.SaveChangeAsync();
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Handlers.FeatureHandlers.Write;
 
-public class RemoveFeatureCommandHandler(IRepository<Feature> repository) : IRequestHandler<RemoveFeatureCommand>
+public class RemoveFeatureCommandHandler(IRepository<Feature> repository, IUnitOfWork unitOfWork) : IRequestHandler<RemoveFeatureCommand>
 {
     public async Task Handle(RemoveFeatureCommand request, CancellationToken cancellationToken)
     {
@@ -14,5 +14,6 @@ public class RemoveFeatureCommandHandler(IRepository<Feature> repository) : IReq
         {
             repository.Delete(entity);
         }
+        await unitOfWork.SaveChangeAsync();
     }
 }

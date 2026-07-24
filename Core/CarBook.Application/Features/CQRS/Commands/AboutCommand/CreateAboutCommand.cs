@@ -1,8 +1,6 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿namespace CarBook.Application.Features.CQRS.Commands.AboutCommand;
 
-namespace CarBook.Application.Features.CQRS.Commands.AboutCommand;
-
-public class CreateAboutCommand: AuditableEntity
+public class CreateAboutCommand
 {
     public string? Title { get; set; }
     public string? Description { get; set; }

@@ -19,6 +19,7 @@ public class GetBannerQueryHandle
             Id = b.Id,
             Title = b.Title,
             Description = b.Description,
+            VideoUrl = b.VideoUrl,
         }).ToList();
     }
 }

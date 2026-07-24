@@ -5,13 +5,14 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Handlers.FooterAddressHandlers.Write;
 
-public class DeleteFooterAddressCommandHandle(IRepository<FooterAddress> repository)
+public class DeleteFooterAddressCommandHandle(IRepository<FooterAddress> repository, IUnitOfWork unitOfWork)
     : IRequestHandler<DeleteFooterAddressCommand, bool>
 {
     public async Task<bool> Handle(DeleteFooterAddressCommand request, CancellationToken cancellationToken)
     {
         var values = await repository.GetByIdAsync(request.Id);
         repository.Delete(values);
+        await unitOfWork.SaveChangeAsync();
         return true;
     }
 }

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Handlers.FeatureHandlers.Write;
 
-public class CreateFeatureCommandHandler(IRepository<Feature> repository) : IRequestHandler<CreateFeatureCommand, Unit>
+public class CreateFeatureCommandHandler(IRepository<Feature> repository, IUnitOfWork unitOfWork) : IRequestHandler<CreateFeatureCommand, Unit>
 {
     public async Task<Unit> Handle(CreateFeatureCommand request, CancellationToken cancellationToken)
     {
@@ -13,7 +13,7 @@ public class CreateFeatureCommandHandler(IRepository<Feature> repository) : IReq
         {
             Name = request.Name,
         });
-
+        await unitOfWork.SaveChangeAsync();
         return Unit.Value;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CarBook.Application.Features.CQRS.Commands.CarCommand;
 
-public class CreateCarCommand : AuditableEntity
+public class CreateCarCommand
 {
     public int? BrandId { get; set; }
     public string? Model { get; set; }

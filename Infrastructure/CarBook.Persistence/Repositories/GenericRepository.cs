@@ -11,13 +11,11 @@ public class GenericRepository<T>(CarBookContext _carBook) : IRepository<T> wher
     public async Task CreateAsync(T entity)
     {
         await _dbset.AddAsync(entity);
-        await _carBook.SaveChangesAsync();
     }
 
     public void Delete(T entity)
     {
         _dbset.Remove(entity);
-        _carBook.SaveChanges();
     }
 
     public async Task<List<T>> GetAllAsync()
@@ -38,6 +36,5 @@ public class GenericRepository<T>(CarBookContext _carBook) : IRepository<T> wher
     public void Update(T entity)
     {
         _dbset.Update(entity);
-        _carBook.SaveChanges();
     }
 }

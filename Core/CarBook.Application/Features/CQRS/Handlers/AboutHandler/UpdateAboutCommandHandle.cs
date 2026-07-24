@@ -4,15 +4,8 @@ using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.AboutHandler;
 
-public class UpdateAboutCommandHandle
+public class UpdateAboutCommandHandle(IUnitOfWork unitOfWork, IRepository<About> _repository)
 {
-    private readonly IRepository<About> _repository;
-
-    public UpdateAboutCommandHandle(IRepository<About> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(UpdateAboutCommand commant)
     {
         _repository.Update(new About
@@ -21,11 +14,8 @@ public class UpdateAboutCommandHandle
             Title = commant.Title,
             Description = commant.Description,
             ImageUrl = commant.ImageUrl,
-            CreatedBy = commant.CreatedBy,
-            CreatedDate = commant.CreatedDate,
-            UpdatedBy = commant.UpdatedBy,
-            UpdatedDate = commant.UpdatedDate,
-            IsDeleted = commant.IsDeleted
         });
+
+        await unitOfWork.SaveChangeAsync();
     }
 }

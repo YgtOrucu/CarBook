@@ -1,9 +1,8 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿namespace CarBook.Application.Features.CQRS.Commands.CarCommand;
 
-namespace CarBook.Application.Features.CQRS.Commands.CarCommand;
-
-public class UpdateCarCommand : AuditableEntity
+public class UpdateCarCommand
 {
+    public int Id { get; set; }
     public int? BrandId { get; set; }
     public string? Model { get; set; }
     public string? CoverImageUrl { get; set; }

@@ -3,15 +3,8 @@ using CarBook.Application.Interfaces;
 using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.BannerHandler.Write;
-public class RemoveBannerCommandHandle
+public class RemoveBannerCommandHandle(IRepository<Banner> _repository, IUnitOfWork unitOfWork)
 {
-    private readonly IRepository<Banner> _repository;
-
-    public RemoveBannerCommandHandle(IRepository<Banner> repository)
-    {
-        _repository = repository;
-    }
-
     public async Task Handle(RemoveBannerCommand Banner)
     {
         var entity = await _repository.GetByIdAsync(Banner.Id);
@@ -19,5 +12,8 @@ public class RemoveBannerCommandHandle
         {
             _repository.Delete(entity);
         }
+
+        await unitOfWork.SaveChangeAsync();
+
     }
 }
