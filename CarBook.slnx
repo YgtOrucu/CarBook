@@ -3,6 +3,10 @@
     <Project Path="Core/CarBook.Application/CarBook.Application.csproj" Id="f59d7c2d-6682-4459-a9ab-2ce781d6840f" />
     <Project Path="Core/CarBook.Domain/CarBook.Domain.csproj" />
   </Folder>
+  <Folder Name="/Frontends/">
+    <Project Path="Frontends/CarBook.Dto/CarBook.Dto.csproj" Id="303d8c0a-c060-4bb0-991d-a071685f4310" />
+    <Project Path="Frontends/CarBook.WebUI/CarBook.WebUI.csproj" Id="c78da27e-1504-4c50-81dc-6d39e54e5f20" />
+  </Folder>
   <Folder Name="/Infrastructure/">
     <Project Path="Infrastructure/CarBook.Persistence/CarBook.Persistence.csproj" />
   </Folder>

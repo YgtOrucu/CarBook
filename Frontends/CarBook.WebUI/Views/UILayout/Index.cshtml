@@ -1,0 +1,15 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+@await Component.InvokeAsync("CarBookHead")
+<body>
+    @await Component.InvokeAsync("CarBookNavbar")
+    @RenderBody();
+    @await Component.InvokeAsync("CarBookFooter")
+    @await Component.InvokeAsync("CarBookScript")
+</body>
+</html>

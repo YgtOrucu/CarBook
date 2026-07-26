@@ -10,6 +10,7 @@ using CarBook.WebAPI.Endpoints.LocationEndpoints;
 using CarBook.WebAPI.Endpoints.PricingEndpoints;
 using CarBook.WebAPI.Endpoints.ServicesEndpoints;
 using CarBook.WebAPI.Endpoints.SocialMediaEndpoints;
+using CarBook.WebAPI.Endpoints.TestimonialEndpoints;
 
 namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
 {
@@ -29,6 +30,7 @@ namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
             app.AppPricingEndpoint();
             app.AppServicesEndpoint();
             app.AppSocialMediaEndpoint();
+            app.AppTestimonialEndpoint();
         }
     }
 }
