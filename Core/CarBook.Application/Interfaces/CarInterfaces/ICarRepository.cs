@@ -5,4 +5,5 @@ public interface ICarRepository
 {
     Task<List<Car>> GetCarsWithBrandAsync();
     Task<List<Car>> GetCarForPresantationPageAsync();
+    Task<List<Car>> GetCarLastest5ForPresantationPageAsync();
 }
