@@ -7,6 +7,11 @@ namespace CarBook.Persistence.Repositories.CarRepositories;
 
 public class CarRepository(CarBookContext _context) : ICarRepository
 {
+    public async Task<List<Car>> GetCarForPresantationPageAsync()
+    {
+        return await _context.Cars.AsNoTracking().Include(x => x.Brand).Include(x => x.CarPricings).ThenInclude(x=>x.Pricing).ToListAsync();
+    }
+
     public async Task<List<Car>> GetCarsWithBrandAsync()
     {
         return await _context.Cars.AsNoTracking().Include(x => x.Brand).Include(x => x.CarDetails).ToListAsync();

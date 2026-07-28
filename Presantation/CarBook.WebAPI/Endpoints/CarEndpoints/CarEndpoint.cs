@@ -2,6 +2,7 @@
 using CarBook.Application.Features.CQRS.Handlers.CarHandler.Write;
 using CarBook.Application.Features.CQRS.Handlers.CarHandler.Read;
 using CarBook.Application.Features.CQRS.Queries.CarQueries;
+using MediatR;
 
 namespace CarBook.WebAPI.Endpoints.CarEndpoints
 {
@@ -14,9 +15,16 @@ namespace CarBook.WebAPI.Endpoints.CarEndpoints
             cars.MapGet(string.Empty, GetCarAsync);
             cars.MapGet("{id}", GetCarByIdAsync);
             cars.MapGet("getBrand", GetCarWithBrandAsync);
+            cars.MapGet("GetCarForPresantation", GetCarForPresantationPageAsync);
             cars.MapPost(string.Empty, CreateCarAsync);
             cars.MapPut(string.Empty, UpdateCarAsync);
             cars.MapDelete("{id}", RemoveCarAsync);
+        }
+
+        private static async Task<IResult> GetCarForPresantationPageAsync(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetCarForPresantationPageQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 
         private static async Task<IResult> GetCarAsync(GetCarQueryHandle getCarQueryHandle)

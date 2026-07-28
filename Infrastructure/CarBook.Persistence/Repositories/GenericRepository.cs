@@ -28,6 +28,11 @@ public class GenericRepository<T>(CarBookContext _carBook) : IRepository<T> wher
         return await _dbset.FindAsync(id);
     }
 
+    public IQueryable<T> GetByQuery()
+    {
+        return _dbset;
+    }
+
     public async Task<T> GetFilterAsync(Expression<Func<T, bool>> filter)
     {
         return await _dbset.FirstOrDefaultAsync(filter);

@@ -13,6 +13,7 @@ namespace CarBook.WebAPI.Endpoints.ServicesEndpoints
             services.MapPost(string.Empty, CreateServicesAsync);
             services.MapPut(string.Empty, UpdateServicesAsync);
             services.MapGet(string.Empty, GetServicesAsync);
+            services.MapGet("Lastest5Services", GetServicesLastest5Async);
             services.MapGet("{id}", GetServicesByIdAsync);
             services.MapDelete("{id}", RemoveServicesAsync);
         }
@@ -33,6 +34,12 @@ namespace CarBook.WebAPI.Endpoints.ServicesEndpoints
         private static async Task<IResult> GetServicesAsync(IMediator mediator)
         {
             var response = await mediator.Send(new GetServicesQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GetServicesLastest5Async(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetServicesLastest5Query());
             return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 

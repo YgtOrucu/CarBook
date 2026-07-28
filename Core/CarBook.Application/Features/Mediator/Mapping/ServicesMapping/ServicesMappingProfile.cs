@@ -13,5 +13,6 @@ public class ServicesMappingProfile : Profile
         CreateMap<UpdateServicesCommand, Service>();
         CreateMap<Service, GetServicesQueryResult>();
         CreateMap<Service, GetServicesByIdQueryResult>();
+        CreateMap<Service, GetServicesLastest5QueryResult>();
     }
 }
