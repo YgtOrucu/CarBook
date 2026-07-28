@@ -1,0 +1,57 @@
+﻿@if (ViewBag.SuccessMessage != null)
+{
+    <div id="successCardModal"
+         class="position-fixed w-100 h-100 d-flex justify-content-center align-items-center"
+         style="top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999999 !important; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);">
+
+        <div class="card border-0 shadow-lg text-center rounded-lg p-3"
+             style="max-width: 420px; width: 90%; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px; background-color: #e8f5e9;">
+                        <i class="ion-ios-checkmark-circle text-success" style="font-size: 55px;"></i>
+                    </div>
+                </div>
+
+                <h3 class="card-title font-weight-bold mb-2 text-dark">Tebrikler!</h3>
+                <p class="card-text text-secondary mb-4" style="font-size: 15px; line-height: 1.6;">
+                    @ViewBag.SuccessMessage
+                </p>
+
+                <button type="button" class="btn btn-success btn-block rounded-pill py-2 font-weight-bold shadow-sm" onclick="closeSuccessCard()">
+                    Anladım
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div id="errorCardModal"
+         class="position-fixed w-100 h-100 d-flex justify-content-center align-items-center"
+         style="top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999999 !important; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);">
+
+        <div class="card border-0 shadow-lg text-center rounded-lg p-3"
+             style="max-width: 420px; width: 90%; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+            <div class="card-body">
+
+                <div class="mb-3">
+                    <div class="d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 80px; height: 80px; background-color: #ffebee;">
+                        <i class="ion-ios-close-circle text-danger" style="font-size: 55px;"></i>
+                    </div>
+                </div>
+
+                <h3 class="card-title font-weight-bold mb-2 text-dark">Hata Oluştu!</h3>
+                <p class="card-text text-secondary mb-4" style="font-size: 15px; line-height: 1.6;">
+                    @ViewBag.ErrorMessage
+                </p>
+
+                <button type="button" class="btn btn-danger btn-block rounded-pill py-2 font-weight-bold shadow-sm" onclick="closeErrorCard()">
+                    Tekrar Deneyin
+                </button>
+            </div>
+        </div>
+    </div>
+}

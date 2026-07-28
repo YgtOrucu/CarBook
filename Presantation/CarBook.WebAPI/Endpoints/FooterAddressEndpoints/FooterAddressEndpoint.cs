@@ -13,6 +13,7 @@ namespace CarBook.WebAPI.Endpoints.FooterAddressEndpoints
             footeraddress.MapPost(string.Empty, CreateFooterAddressAsync);
             footeraddress.MapPut(string.Empty, UpdateFooterAddressAsync);
             footeraddress.MapGet(string.Empty, GetFooterAddressAsync);
+            footeraddress.MapGet("GetFooterAddressForPresantation", GetFooterAddressForPresantationAsync);
             footeraddress.MapGet("{id}", GetFooterAddressByIdAsync);
             footeraddress.MapDelete("{id}", RemoveFooterAddressAsync);
         }
@@ -33,6 +34,12 @@ namespace CarBook.WebAPI.Endpoints.FooterAddressEndpoints
         private static async Task<IResult> GetFooterAddressAsync(IMediator mediator)
         {
             var response = await mediator.Send(new GetFooterAddressQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GetFooterAddressForPresantationAsync(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetFooterAddressForPresantationPageQuery());
             return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 

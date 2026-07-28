@@ -13,5 +13,6 @@ public class FooterAddressMappingProfile : Profile
         CreateMap<UpdateFooterAddressCommand, FooterAddress>();
         CreateMap<FooterAddress, GetFooterAddressQueryResult>();
         CreateMap<FooterAddress, GetFooterAddressByIdQueryResult>();
+        CreateMap<FooterAddress, GetFooterAddressForPresantationPageQueryResult>();
     }
 }
