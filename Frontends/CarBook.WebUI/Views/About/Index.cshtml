@@ -1,8 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hakkımızda";
+    ViewData["PageTitle"] = "Hakkımızda";
+    ViewData["PageBreadcrumb"] = "Hakkımızda";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
     Layout = "~/Views/UILayout/Index.cshtml";
 }
 
-@await Component.InvokeAsync("AboutUs");
-@await Component.InvokeAsync("BecomeADrive");
-@await Component.InvokeAsync("Testimonial");
+<partial name="_PageHeaderPartial" />
+@await Component.InvokeAsync("AboutUs")
+@await Component.InvokeAsync("BecomeADrive")
+@await Component.InvokeAsync("Testimonial")
