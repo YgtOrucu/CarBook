@@ -1,8 +1,10 @@
 ﻿using CarBook.Application.Interfaces;
+using CarBook.Application.Interfaces.BlogInterfaces;
 using CarBook.Application.Interfaces.CarInterfaces;
 using CarBook.Persistence.Context;
 using CarBook.Persistence.Interceptors;
 using CarBook.Persistence.Repositories;
+using CarBook.Persistence.Repositories.BlogRepositories;
 using CarBook.Persistence.Repositories.CarRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,7 @@ public static class ServiceRegistrations
         services.AddDbContext<CarBookContext>();
         services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ICarRepository, CarRepository>();
+        services.AddScoped<IBlogRepository, BlogRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
 
     }
