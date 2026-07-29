@@ -11,15 +11,20 @@ public class GetBannerQueryHandle
     {
         _repository = repository;
     }
-    public async Task<List<GetBannerQueryResult>> Handle()
+    public async Task<GetBannerQueryResult> Handle()
     {
-        var banners = await _repository.GetAllAsync();
-        return banners.Select(b => new GetBannerQueryResult
+        var banners = _repository.GetByQuery().FirstOrDefault();
+
+        return new GetBannerQueryResult
         {
-            Id = b.Id,
-            Title = b.Title,
-            Description = b.Description,
-            VideoUrl = b.VideoUrl,
-        }).ToList();
+            Id = banners.Id,
+            Title = banners.Title,
+            Description = banners.Description,
+            VideoUrl = banners.VideoUrl,
+            CreatedDate = banners.CreatedDate,
+            UpdatedDate = banners.UpdatedDate,
+            DeletedDate = banners.DeletedDate,
+            IsDeleted = banners.IsDeleted,
+        };
     }
 }
