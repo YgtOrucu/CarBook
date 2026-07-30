@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["PageTitle"] = "Blog Detay";
+    ViewData["PageBreadcrumb"] = "Blog";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+@await Component.InvokeAsync("BlogDetail", new { Id = ViewBag.Id })

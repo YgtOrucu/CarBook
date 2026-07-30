@@ -4,6 +4,7 @@ using CarBook.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarBook.Persistence.Migrations
 {
     [DbContext(typeof(CarBookContext))]
-    partial class CarBookContextModelSnapshot : ModelSnapshot
+    [Migration("20260730092737_AddedDescriptionColumnInBlogTable")]
+    partial class AddedDescriptionColumnInBlogTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,41 +170,6 @@ namespace CarBook.Persistence.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Blogs");
-                });
-
-            modelBuilder.Entity("CarBook.Domain.Entities.BlogDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BlogId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("MainDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(700)");
-
-                    b.Property<string>("MainTitle")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("SecondDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.Property<string>("SecondTitle")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BlogId")
-                        .IsUnique();
-
-                    b.ToTable("BlogDetails");
                 });
 
             modelBuilder.Entity("CarBook.Domain.Entities.Brand", b =>
@@ -649,17 +617,6 @@ namespace CarBook.Persistence.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CarBook.Domain.Entities.BlogDetail", b =>
-                {
-                    b.HasOne("CarBook.Domain.Entities.Blog", "Blog")
-                        .WithOne("BlogDetail")
-                        .HasForeignKey("CarBook.Domain.Entities.BlogDetail", "BlogId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Blog");
-                });
-
             modelBuilder.Entity("CarBook.Domain.Entities.Car", b =>
                 {
                     b.HasOne("CarBook.Domain.Entities.Brand", "Brand")
@@ -729,12 +686,6 @@ namespace CarBook.Persistence.Migrations
             modelBuilder.Entity("CarBook.Domain.Entities.Author", b =>
                 {
                     b.Navigation("Blogs");
-                });
-
-            modelBuilder.Entity("CarBook.Domain.Entities.Blog", b =>
-                {
-                    b.Navigation("BlogDetail")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("CarBook.Domain.Entities.Brand", b =>

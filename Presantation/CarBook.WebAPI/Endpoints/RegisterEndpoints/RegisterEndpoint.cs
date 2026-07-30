@@ -1,6 +1,7 @@
 ﻿using CarBook.WebAPI.Endpoints.AboutEndpoints;
 using CarBook.WebAPI.Endpoints.AuthorEndpoints;
 using CarBook.WebAPI.Endpoints.BannerEndpoints;
+using CarBook.WebAPI.Endpoints.BlogDetailEndpoints;
 using CarBook.WebAPI.Endpoints.BlogEndpoints;
 using CarBook.WebAPI.Endpoints.BrandEndpoints;
 using CarBook.WebAPI.Endpoints.CarEndpoints;
@@ -35,6 +36,7 @@ namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
             app.AppTestimonialEndpoint();
             app.AppAuthorEndpoint();
             app.AppBlogEndpoint();
+            app.AppBlogDetailEndpoint();
         }
     }
 }

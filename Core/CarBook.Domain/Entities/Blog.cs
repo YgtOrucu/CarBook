@@ -12,4 +12,8 @@ public class Blog : AuditableEntity
 
     public Author? Author { get; set; }
     public Category? Category { get; set; }
+
+    public string Description { get; set; }
+
+    public BlogDetail BlogDetail { get; set; }
 }

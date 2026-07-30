@@ -11,7 +11,7 @@ namespace CarBook.WebUI.ViewComponents.BlogSectionInHomePageComponent
             var response = await client.GetAsync("blog/Lastest3ForPresantationPage");
             if (response.IsSuccessStatusCode)
             {
-                var value = await response.Content.ReadFromJsonAsync<List<ResultBlogDto>>();
+                var value = await response.Content.ReadFromJsonAsync<List<ResultBlogForPresantationPageDto>>();
                 return View("~/Views/Shared/Components/BlogSectionInHomePageComponent/BlogSection.cshtml", value);
             }
             return View("~/Views/Shared/Components/BlogSectionInHomePageComponent/BlogSection.cshtml");
