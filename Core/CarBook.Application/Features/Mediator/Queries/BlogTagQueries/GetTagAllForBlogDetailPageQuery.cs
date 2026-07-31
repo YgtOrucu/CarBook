@@ -3,5 +3,5 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Queries.BlogTagQueries
 {
-    public record GetTagByBlogIdQuery(int BlogId) : IRequest<List<GetTagByBlogIdQueryResult>>;
+    public record GetTagAllForBlogDetailPageQuery(int BlogId) : IRequest<List<GetTagAllForBlogDetailPageQueryResult>>;
 }

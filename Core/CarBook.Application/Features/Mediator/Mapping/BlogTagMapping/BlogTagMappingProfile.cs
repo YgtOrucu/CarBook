@@ -8,6 +8,7 @@ public class BlogTagMappingProfile : Profile
 {
 	public BlogTagMappingProfile()
 	{
-		CreateMap<Tag, GetTagByBlogIdQueryResult>();
+		CreateMap<Tag, GetTag4PieceForBlogDetailPageQueryResult>();
+		CreateMap<Tag, GetTagAllForBlogDetailPageQueryResult>();
 	}
 }

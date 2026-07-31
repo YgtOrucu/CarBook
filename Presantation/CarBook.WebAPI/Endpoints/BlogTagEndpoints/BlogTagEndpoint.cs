@@ -12,7 +12,8 @@ namespace CarBook.WebAPI.Endpoints.BlogTagEndpoints
             //BlogTag.MapPost(string.Empty, CreateBlogTagAsync);
             //BlogTag.MapPut(string.Empty, UpdateBlogTagAsync);
             //BlogTag.MapGet(string.Empty, GetBlogTagAsync);
-            BlogTag.MapGet("GetTagByBlogId", GetBlogTagByIdAsync);
+            BlogTag.MapGet("GetTag4Piece", GetTag4PieceForBlogDetailPageAsync);
+            BlogTag.MapGet("GetTagAll", GetTagAllForBlogDetailPageAsync);
             //BlogTag.MapDelete("{id}", RemoveBlogTagAsync);
         }
 
@@ -35,9 +36,15 @@ namespace CarBook.WebAPI.Endpoints.BlogTagEndpoints
         //    return response != null ? Results.Ok(response) : Results.BadRequest(response);
         //}
 
-        private static async Task<IResult> GetBlogTagByIdAsync(int id, IMediator mediator)
+        private static async Task<IResult> GetTag4PieceForBlogDetailPageAsync(int id, IMediator mediator)
         {
-            var response = await mediator.Send(new GetTagByBlogIdQuery(id));
+            var response = await mediator.Send(new GetTag4PieceForBlogDetailPageQuery(id));
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GetTagAllForBlogDetailPageAsync(int id, IMediator mediator)
+        {
+            var response = await mediator.Send(new GetTagAllForBlogDetailPageQuery(id));
             return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 
