@@ -20,4 +20,8 @@
     <ProjectReference Include="..\CarBook.Domain\CarBook.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Mediator\Handlers\BlogTagHandlers\Write\" />
+  </ItemGroup>
+
 </Project>

@@ -3,6 +3,7 @@ using CarBook.WebAPI.Endpoints.AuthorEndpoints;
 using CarBook.WebAPI.Endpoints.BannerEndpoints;
 using CarBook.WebAPI.Endpoints.BlogDetailEndpoints;
 using CarBook.WebAPI.Endpoints.BlogEndpoints;
+using CarBook.WebAPI.Endpoints.BlogTagEndpoints;
 using CarBook.WebAPI.Endpoints.BrandEndpoints;
 using CarBook.WebAPI.Endpoints.CarEndpoints;
 using CarBook.WebAPI.Endpoints.CategoryEndpoints;
@@ -13,6 +14,7 @@ using CarBook.WebAPI.Endpoints.LocationEndpoints;
 using CarBook.WebAPI.Endpoints.PricingEndpoints;
 using CarBook.WebAPI.Endpoints.ServicesEndpoints;
 using CarBook.WebAPI.Endpoints.SocialMediaEndpoints;
+using CarBook.WebAPI.Endpoints.TagEndpoints;
 using CarBook.WebAPI.Endpoints.TestimonialEndpoints;
 
 namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
@@ -37,6 +39,8 @@ namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
             app.AppAuthorEndpoint();
             app.AppBlogEndpoint();
             app.AppBlogDetailEndpoint();
+            app.AppTagEndpoint();
+            app.AppBlogTagEndpoint();
         }
     }
 }

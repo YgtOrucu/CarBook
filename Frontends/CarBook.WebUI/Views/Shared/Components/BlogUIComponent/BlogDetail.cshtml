@@ -5,15 +5,8 @@
         <div class="row">
             <div class="col-md-8 ftco-animate">
                 @await Component.InvokeAsync("BlogDetailContentSection", new { Id = Model })
-                @*Categoryielri getir 4 tane*@
-                <div class="tag-widget post-tag-container mb-5 mt-5">
-                    <div class="tagcloud">
-                        <a href="#" class="tag-cloud-link">Life</a>
-                        <a href="#" class="tag-cloud-link">Sport</a>
-                        <a href="#" class="tag-cloud-link">Tech</a>
-                        <a href="#" class="tag-cloud-link">Travel</a>
-                    </div>
-                </div>
+
+                @await Component.InvokeAsync("BlogDetailGet4TagCloudSection", new { Id = Model })
 
                 @*Yazarın Bilgileri*@
                 <div class="about-author d-flex p-4 bg-light">
