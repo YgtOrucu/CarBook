@@ -32,4 +32,5 @@ public class CarBookContext(DbContextOptions options) : DbContext(options)
     public DbSet<Author> Authors { get; set; }
     public DbSet<BlogDetail> BlogDetails { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 }

@@ -10,9 +10,9 @@
         <div class="row d-flex justify-content-center">
             @foreach (var item in Model)
             {
-                <div class="col-md-12 text-center d-flex ftco-animate">
+                <div class="col-md-10 text-center d-flex ftco-animate">
                     <div class="blog-entry justify-content-end mb-md-5">
-                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@item.CoverImageUrl');">
+                        <a href="blog-single.html" class="block-20 img" style="background-image: url('@item.CoverImageUrl'); height: 500px;">
                         </a>
                         <div class="text px-md-5 pt-4">
                             <div class="meta mb-3">
@@ -23,7 +23,7 @@
                             <p>
                                 @if (!string.IsNullOrEmpty(item.Description))
                                 {
-                                    @(item.Description.Length > 200 ? item.Description.Substring(0, 200) + "..." : item.Description)
+                                    @(item.Description.Length > 300 ? item.Description.Substring(0, 300) + "..." : item.Description)
                                 }
                             </p>
                             <p><a href="Blog/BlogDetail/@item.Id" class="btn btn-primary">Devamını Oku <span class="icon-long-arrow-right"></span></a></p>

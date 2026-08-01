@@ -14,7 +14,9 @@ namespace CarBook.WebAPI.Endpoints.BlogEndpoints
             blog.MapPut(string.Empty, UpdateBlogAsync);
             blog.MapGet(string.Empty, GetBlogAsync);
             blog.MapGet("GetAuthorByBlogId", GetAuthorByBlogId);
+            blog.MapGet("GetBlogCountByCategory", GetBlogCountByCategoryAsync);
             blog.MapGet("Lastest3ForPresantationPage", GetLastest3ForPresantationPageAsync);
+            blog.MapGet("Lastest5ForPresantationPage", GetLastest5ForPresantationPageAsync);
             blog.MapGet("{id}", GetBlogByIdAsync);
             blog.MapDelete("{id}", RemoveBlogAsync);
         }
@@ -22,6 +24,18 @@ namespace CarBook.WebAPI.Endpoints.BlogEndpoints
         private static async Task<IResult> GetLastest3ForPresantationPageAsync(IMediator mediator)
         {
             var response = await mediator.Send(new GetBlogLastest3ForPresantationPageQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GetLastest5ForPresantationPageAsync(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetBlogLastest5ForPresantationPageQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GetBlogCountByCategoryAsync(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetBlogCountByCategoryQuery());
             return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 

@@ -1,0 +1,21 @@
+﻿@model List<ResultBlogForPresantationPageDto>
+
+<div class="sidebar-box ftco-animate">
+    <h3>Son Bloglar</h3>
+    @foreach (var item in Model)
+    {
+        <div class="block-21 mb-4 d-flex">
+            <a class="blog-img mr-4" style="background-image: url(@item.CoverImageUrl);"></a>
+            <div class="text">
+                <h3 class="heading"><a href="/Blog/BlogDetail/@item.Id">@item.Title</a></h3>
+                <div class="meta">
+                    <div style="display: flex;justify-content: space-between;">
+                        <a href="#"><span class="icon-calendar" style="margin-right: 5px;"></span>@item.CreatedDate.ToString("dd MMM yyyy")</a>
+                        <a href="#"><span class="icon-person"></span>@item.AuthorName</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+</div>

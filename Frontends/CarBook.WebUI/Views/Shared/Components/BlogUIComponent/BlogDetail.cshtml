@@ -9,93 +9,9 @@
                 @await Component.InvokeAsync("BlogDetailGet4TagCloudSection", new { Id = Model })
 
                 @await Component.InvokeAsync("BlogDetailGetAuthorDetailsSection", new { Id = Model })
-               
-
 
                 <div class="pt-5 mt-5">
-                    @*Yorumları Listelicez*@
-                    <h3 class="mb-5">6 Comments</h3>
-                    <ul class="comment-list">
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                        </li>
-
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-
-                            <ul class="children">
-                                <li class="comment">
-                                    <div class="vcard bio">
-                                        <img src="images/person_1.jpg" alt="Image placeholder">
-                                    </div>
-                                    <div class="comment-body">
-                                        <h3>John Doe</h3>
-                                        <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                        <p><a href="#" class="reply">Reply</a></p>
-                                    </div>
-
-
-                                    <ul class="children">
-                                        <li class="comment">
-                                            <div class="vcard bio">
-                                                <img src="images/person_1.jpg" alt="Image placeholder">
-                                            </div>
-                                            <div class="comment-body">
-                                                <h3>John Doe</h3>
-                                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                                <p><a href="#" class="reply">Reply</a></p>
-                                            </div>
-
-                                            <ul class="children">
-                                                <li class="comment">
-                                                    <div class="vcard bio">
-                                                        <img src="images/person_1.jpg" alt="Image placeholder">
-                                                    </div>
-                                                    <div class="comment-body">
-                                                        <h3>John Doe</h3>
-                                                        <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                                        <p><a href="#" class="reply">Reply</a></p>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="comment">
-                            <div class="vcard bio">
-                                <img src="images/person_1.jpg" alt="Image placeholder">
-                            </div>
-                            <div class="comment-body">
-                                <h3>John Doe</h3>
-                                <div class="meta">Oct. 29, 2019 at 1:21pm</div>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quidem laborum necessitatibus, ipsam impedit vitae autem, eum officia, fugiat saepe enim sapiente iste iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-                                <p><a href="#" class="reply">Reply</a></p>
-                            </div>
-                        </li>
-                    </ul>
-                    @*Yorumları Listelicez*@
+                    @await Component.InvokeAsync("GetCommentByBlogId", new { Id = Model })
 
                     @*Yorumlar Post olucak Ayrı component'de*@
                     <div class="comment-form-wrap pt-5">
@@ -126,82 +42,13 @@
                     </div>
                 </div>
 
-            </div> <!-- .col-md-8 -->
-
+            </div>
 
             <div class="col-md-4 sidebar ftco-animate">
-                @*Kategori ismine göre blog sayıları*@
-                <div class="sidebar-box ftco-animate">
-                    <div class="categories">
-                        <h3>Categories</h3>
-                        <li><a href="#">Ferrari <span>(12)</span></a></li>
-                        <li><a href="#">Cheverolet <span>(22)</span></a></li>
-                        <li><a href="#">Ford <span>(37)</span></a></li>
-                        <li><a href="#">Subaru <span>(42)</span></a></li>
-                        <li><a href="#">Toyota <span>(14)</span></a></li>
-                        <li><a href="#">Mistsubishi <span>(140)</span></a></li>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("BlogDetailGetBlogCountByCategory")
 
-                @*Sol tarafta ki son 3 blog*@
-                <div class="sidebar-box ftco-animate">
-                    <h3>Recent Blog</h3>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url(images/image_1.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>Oct. 29, 2019</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url(images/image_2.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>Oct. 29, 2019</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>Oct. 29, 2019</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>Oct. 29, 2019</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="block-21 mb-4 d-flex">
-                        <a class="blog-img mr-4" style="background-image: url(images/image_3.jpg);"></a>
-                        <div class="text">
-                            <h3 class="heading"><a href="#">Why Lead Generation is Key for Business Growth</a></h3>
-                            <div class="meta">
-                                <div><a href="#"><span class="icon-calendar"></span>Oct. 29, 2019</a></div>
-                                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("GetLastest5BlogSection")
+
                 @await Component.InvokeAsync("BlogDetailGetAllTagCloudSection", new { Id = Model })
             </div>
 

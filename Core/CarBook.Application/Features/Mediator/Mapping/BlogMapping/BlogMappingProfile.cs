@@ -12,6 +12,7 @@ public class BlogMappingProfile : Profile
         CreateMap<Blog, GetBlogQueryResult>();
         CreateMap<Blog, GetBlogByIdQueryResult>();
         CreateMap<Blog, GetBlogLastest3ForPresantationPageQueryResult>();
+        CreateMap<Blog, GetBlogLastest5ForPresantationPageQueryResult>();
         CreateMap<CreateBlogCommand, Blog>();
         CreateMap<UpdateBlogCommand, Blog>();
         CreateMap<RemoveBlogCommand, Blog>();

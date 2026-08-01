@@ -1,7 +1,4 @@
-﻿using CarBook.Application.Features.CQRS.Commands.ContactCommand;
-using CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
-using CarBook.Application.Features.CQRS.Queries.ContactQueries;
-using CarBook.Application.Features.Mediator.Commands.FeatureCommands;
+﻿using CarBook.Application.Features.Mediator.Commands.FeatureCommands;
 using CarBook.Application.Features.Mediator.Queries.FeatureQueries;
 using MediatR;
 
