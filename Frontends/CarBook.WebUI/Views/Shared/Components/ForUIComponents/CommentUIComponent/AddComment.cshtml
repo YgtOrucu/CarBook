@@ -1,0 +1,31 @@
+﻿@model AddCommmentDto
+
+<div class="comment-form-wrap pt-5">
+    <h3 class="mb-5">Bir Yorum Bırakın</h3>
+
+    <form asp-controller="Comment" asp-action="AddComment" method="post" class="p-5 bg-light">
+
+        <input type="hidden" asp-for="BlogId" />
+
+        <div class="form-group">
+            <label for="NameSurname">Adınız Soyadınız *</label>
+            <input type="text" asp-for="NameSurname" class="form-control" id="NameSurname" required>
+        </div>
+
+        <div class="form-group">
+            <label for="ImageUrl">Profil Resim URL (Opsiyonel)</label>
+            <input type="url" asp-for="ImageUrl" class="form-control" id="ImageUrl" placeholder="https://...">
+        </div>
+
+        <div class="form-group">
+            <label for="MessageBody">Yorumunuz *</label>
+            <textarea asp-for="MessageBody" id="MessageBody" cols="30" rows="6" class="form-control" maxlength="700" required></textarea>
+            <small class="form-text text-muted">Maksimum 700 karakter girebilirsiniz.</small>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Yorum Yap" class="btn py-3 px-4 btn-primary">
+        </div>
+
+    </form>
+</div>

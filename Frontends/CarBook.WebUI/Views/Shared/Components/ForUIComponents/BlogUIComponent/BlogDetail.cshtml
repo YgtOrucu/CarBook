@@ -1,0 +1,30 @@
+﻿@model int
+
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ftco-animate">
+                @await Component.InvokeAsync("BlogDetailContentSection", new { Id = Model })
+
+                @await Component.InvokeAsync("BlogDetailGet4TagCloudSection", new { Id = Model })
+
+                @await Component.InvokeAsync("BlogDetailGetAuthorDetailsSection", new { Id = Model })
+
+                <div class="pt-5 mt-5">
+                    @await Component.InvokeAsync("GetCommentByBlogId", new { Id = Model })
+                    @await Component.InvokeAsync("AddComment", new { Id = Model })
+                </div>
+
+            </div>
+
+            <div class="col-md-4 sidebar ftco-animate">
+                @await Component.InvokeAsync("BlogDetailGetBlogCountByCategory")
+
+                @await Component.InvokeAsync("GetLastest5BlogSection")
+
+                @await Component.InvokeAsync("BlogDetailGetAllTagCloudSection", new { Id = Model })
+            </div>
+
+        </div>
+    </div>
+</section>
