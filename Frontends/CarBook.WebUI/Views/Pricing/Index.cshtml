@@ -1,0 +1,9 @@
+﻿@{
+    ViewData["PageTitle"] = "Fiyatlandırma";
+    ViewData["PageBreadcrumb"] = "Fiyatlandırma";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+@await Component.InvokeAsync("Pricing")
