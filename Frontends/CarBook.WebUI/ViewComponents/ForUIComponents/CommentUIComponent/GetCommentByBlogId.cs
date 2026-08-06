@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.CommentSectionDto;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.CommentSectionDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.CommentUIComponent

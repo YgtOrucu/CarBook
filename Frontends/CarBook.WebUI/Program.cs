@@ -23,7 +23,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=HomePage}/{action=Index}/{id?}");
+    pattern: "{area=Admin}/{controller=About}/{action=Index}/{id?}");
 
 app.Run();

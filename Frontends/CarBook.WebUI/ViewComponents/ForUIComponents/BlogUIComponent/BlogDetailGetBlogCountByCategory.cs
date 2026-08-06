@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.BlogSectionDtos;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.BlogSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.BlogUIComponent

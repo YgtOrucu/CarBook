@@ -14,24 +14,22 @@ public class GetAboutByIdQueryHandle
         _repository = repository;
     }
 
-    public async Task<List<GetAboutByIdQueryResult>> Handle(GetAboutByIdQuery query)
+    public async Task<GetAboutByIdQueryResult> Handle(GetAboutByIdQuery query)
     {
         var about = await _repository.GetByIdAsync(query.Id);
-        var result = new List<GetAboutByIdQueryResult>();
-        if (about != null)
+
+        var result = new GetAboutByIdQueryResult
         {
-            result.Add(new GetAboutByIdQueryResult
-            {
-                Id = about.Id,
-                Title = about.Title,
-                Description = about.Description,
-                ImageUrl = about.ImageUrl,
-                CreatedDate = about.CreatedDate,
-                DeletedDate = about.DeletedDate,
-                UpdatedDate = about.UpdatedDate,
-                IsDeleted = about.IsDeleted
-            });
-        }
+            Id = about.Id,
+            Title = about.Title,
+            ImageUrl = about.ImageUrl,
+            Description = about.Description,
+            CreatedDate = about.CreatedDate,
+            UpdatedDate = about.UpdatedDate,
+            DeletedDate = about.DeletedDate,
+            IsDeleted = about.IsDeleted
+        };
+       
         return result;
     }
 }

@@ -11,6 +11,8 @@ public class RemoveAuthorCommandHandler(IRepository<Author> repository, IUnitOfW
     public async Task<object> Handle(RemoveAuthorCommand request, CancellationToken cancellationToken)
     {
         var values = await repository.GetByIdAsync(request.Id);
+        if (values == null)
+            throw new Exception("ID could not be found");
         repository.Delete(values);
         var result = await unitOfWork.SaveChangeAsync();
         return new

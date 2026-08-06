@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.CarPricingSectionDtos;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.CarPricingSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.PricingUIComponent

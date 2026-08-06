@@ -15,7 +15,7 @@ public class GetAboutQueryHandle
 
     public async Task<List<GetAboutQueryResult>> Handle()
     {
-        var abouts = await _repository.GetAllAsync();
+        var abouts = _repository.GetByQuery().Where(x=>!x.IsDeleted).ToList();
         var result = new List<GetAboutQueryResult>();
         foreach (var about in abouts)
         {

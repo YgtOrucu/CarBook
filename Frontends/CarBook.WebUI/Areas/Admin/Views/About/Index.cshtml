@@ -1,0 +1,92 @@
+﻿@model List<ResultAboutDto>
+@{
+    ViewData["PageTitle"] = "Hakkımızda";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-info text-primary mr-2"></i>Hakkımızda İçerik Listesi
+                </h5>
+
+                @if (Model != null && Model.Count >= 1)
+                {
+                    <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Hakkımızda alanına yalnızca 1 adet kayıt eklenebilir. Mevcut kaydı düzenleyebilirsiniz.">
+                        <button class="btn btn-sm btn-secondary btn-rounded shadow-sm" disabled style="pointer-events: none;">
+                            <i class="mdi mdi-plus mr-1"></i> Yeni İçerik Ekle
+                        </button>
+                    </span>
+                }
+                else
+                {
+                    <a href="/Admin/About/CreateAbout/" class="btn btn-sm btn-primary btn-rounded waves-effect waves-light shadow-sm">
+                        <i class="mdi mdi-plus mr-1"></i> Yeni İçerik Ekle
+                    </a>
+                }
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Görsel</th>
+                                <th>Başlık</th>
+                                <th>Açıklama</th>
+                                <th class="text-center" style="width: 150px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <div class="avatar-sm">
+                                                <img src="@item.ImageUrl" alt="about-img" class="img-thumbnail rounded-circle shadow-sm" style="width:40px; height:40px; object-fit:cover;" onerror="this.src='/carbook-admin/assets/images/users/avatar-1.jpg'">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="font-weight-semibold text-dark">@item.Title</span>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0 text-truncate" style="max-width: 350px;" title="@item.Description">
+                                                @item.Description
+                                            </p>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/Admin/About/UpdateAbout/@item.Id" class="btn btn-sm btn-soft-warning waves-effect waves-light mr-1" data-toggle="tooltip" title="Düzenle">
+                                                <i class="mdi mdi-pencil font-size-16"></i>
+                                            </a>
+                                            <a href="/Admin/About/RemoveAbout/@item.Id" onclick="return confirm('Bu içeriği silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light" data-toggle="tooltip" title="Sil">
+                                                <i class="mdi mdi-trash-can font-size-16"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Henüz bir kayıt bulunamadı.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

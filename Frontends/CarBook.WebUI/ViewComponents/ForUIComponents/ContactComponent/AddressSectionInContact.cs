@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.ContactSectionDtos;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.ContactSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.ContactComponent

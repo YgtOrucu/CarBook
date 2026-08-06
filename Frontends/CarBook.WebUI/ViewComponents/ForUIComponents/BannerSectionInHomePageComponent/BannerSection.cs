@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.BannerSectionDtos;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.BannerSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.BannerSectionInHomePageComponent

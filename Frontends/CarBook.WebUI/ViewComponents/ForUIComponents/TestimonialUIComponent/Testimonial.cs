@@ -1,4 +1,4 @@
-﻿using CarBook.Dto.Dtos.TestimonialSectionDtos;
+﻿using CarBook.Dto.Dtos.ForUsersPageDtos.TestimonialSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.ViewComponents.ForUIComponents.TestimonialUIComponent

@@ -34,9 +34,9 @@ namespace CarBook.WebAPI.Endpoints.AboutEndpoints
                 return Results.Ok(new { message = "Güncelleme işlemi başarılı." });
             });
 
-            abouts.MapDelete("{id}", (int id, RemoveAboutCommandHandle _removeAboutCommandHandler) =>
+            abouts.MapDelete("{id}", async (int id, RemoveAboutCommandHandle _removeAboutCommandHandler) =>
             {
-                _removeAboutCommandHandler?.Handle(new RemoveAboutCommand(id));
+                await _removeAboutCommandHandler?.Handle(new RemoveAboutCommand(id));
                 return Results.Ok(new { message = "Silme işlemi başarılı." });
             });
         }
