@@ -1,0 +1,67 @@
+﻿@model List<ResultBlogsByCategoryDto>
+@{
+    ViewData["PageTitle"] = "Kategoriye Ait Blog Yazıları";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-file-text text-primary mr-2"></i>Seçilen Kategoriye Ait Blog Yazıları
+                </h5>
+                <a href="/Admin/Category/Index" class="btn btn-sm btn-soft-secondary btn-rounded shadow-sm">
+                    <i class="mdi mdi-arrow-left mr-1"></i> Kategorilere Dön
+                </a>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Görsel</th>
+                                <th>Başlık</th>
+                                <th>Yayınlanma Tarihi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <img src="@item.CoverImageUrl" alt="blog-cover" class="rounded shadow-sm" style="width:50px; height:35px; object-fit:cover;" onerror="this.src='/carbook-admin/assets/images/small/img-1.jpg'">
+                                        </td>
+                                        <td>
+                                            <span class="font-weight-semibold text-dark">@item.Title</span>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted font-size-13">@item.CreatedDate.ToString("dd.MM.yyyy")</span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Bu kategoriye ait kayıtlı blog yazısı bulunmamaktadır.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

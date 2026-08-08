@@ -4,6 +4,7 @@ using CarBook.Application.Interfaces;
 using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.BannerHandler.Read;
+
 public class GetBannerByIdQueryHandle
 {
     private readonly IRepository<Banner> _repository;
@@ -13,20 +14,18 @@ public class GetBannerByIdQueryHandle
         _repository = repository;
     }
 
-    public async Task<List<GetBannerByIdQueryResult>> Handle(GetBannerByIdQuery query)
+    public async Task<GetBannerByIdQueryResult> Handle(GetBannerByIdQuery query)
     {
         var banner = await _repository.GetByIdAsync(query.Id);
-        var result = new List<GetBannerByIdQueryResult>();
-        if (banner != null)
+        var result = new GetBannerByIdQueryResult();
+
+        return new GetBannerByIdQueryResult
         {
-            result.Add(new GetBannerByIdQueryResult
-            {
-                Id = banner.Id,
-                Title = banner.Title,
-                Description = banner.Description,
-                VideoUrl = banner.VideoUrl,
-            });
-        }
-        return result;
+            Id = banner.Id,
+            Title = banner.Title,
+            Description = banner.Description,
+            VideoUrl = banner.VideoUrl,
+        };
+
     }
 }

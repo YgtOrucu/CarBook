@@ -1,0 +1,111 @@
+﻿@model List<ResultCarDto>
+@{
+    ViewData["PageTitle"] = "Araç Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-car text-primary mr-2"></i>Araç Filosu Listesi
+                </h5>
+                <a href="/Admin/Car/CreateCar/" class="btn btn-sm btn-primary btn-rounded waves-effect waves-light shadow-sm">
+                    <i class="mdi mdi-plus mr-1"></i> Yeni Araç Ekle
+                </a>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Görsel</th>
+                                <th>Marka & Model</th>
+                                <th>Vites & Yakıt</th>
+                                <th class="text-center">Kapasite</th>
+                                <th class="text-center">Kilometre</th>
+                                <th class="text-center" style="width: 160px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <div class="avatar-md">
+                                                <img src="@item.CoverImageUrl"
+                                                     alt="@item.BrandName @item.Model"
+                                                     class="img-thumbnail rounded shadow-sm"
+                                                     style="width: 65px; height: 45px; object-fit: cover;"
+                                                     onerror="this.src='/carbook-admin/assets/images/small/img-1.jpg'">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="font-weight-bold text-dark font-size-15">@item.BrandName</div>
+                                            <small class="text-muted">@item.Model</small>
+                                        </td>
+                                        <td>
+                                            <div class="mb-1">
+                                                <span class="badge badge-soft-info px-2 py-1">
+                                                    <i class="mdi mdi-car-shift-pattern mr-1"></i>
+                                                    @(item.Transmission == 1 ? "Otomatik" : item.Transmission == 2 ? "Yarı Otomatik" : "Manuel")
+                                                </span>
+                                            </div>
+                                            <span class="badge badge-soft-warning px-2 py-1">
+                                                <i class="mdi mdi-gas-station mr-1"></i>@item.Fuel
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="text-muted font-size-13">
+                                                <span class="mr-2" data-toggle="tooltip" title="Koltuk Sayısı">
+                                                    <i class="mdi mdi-account-group-outline text-primary mr-1"></i>@item.SeatCount
+                                                </span>
+                                                <span data-toggle="tooltip" title="Bagaj Kapasitesi">
+                                                    <i class="mdi mdi-briefcase-outline text-secondary mr-1"></i>@item.LuggageCount
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge badge-soft-dark font-size-13 px-2 py-1">
+                                                @item.CarKM.ToString("N0") KM
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="/Admin/Car/CarDetail/@item.CarDetailsId" class="btn btn-sm btn-soft-info waves-effect waves-light mr-1" data-toggle="tooltip" title="Detaylar">
+                                                <i class="mdi mdi-eye font-size-16"></i>
+                                            </a>
+                                            <a href="/Admin/Car/UpdateCar/@item.CarDetailsId" class="btn btn-sm btn-soft-warning waves-effect waves-light mr-1" data-toggle="tooltip" title="Düzenle">
+                                                <i class="mdi mdi-pencil font-size-16"></i>
+                                            </a>
+                                            <a href="/Admin/Car/RemoveCar/@item.CarDetailsId" onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light" data-toggle="tooltip" title="Sil">
+                                                <i class="mdi mdi-trash-can font-size-16"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-car-off font-size-22 mr-1 align-middle"></i> Henüz kayıtlı bir araç bulunamadı.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

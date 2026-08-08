@@ -1,0 +1,8 @@
+﻿namespace CarBook.Dto.Dtos.ForAdminPageDtos.BannerSectionDtos;
+
+public class CreateBannerDto
+{
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public string? VideoUrl { get; set; }
+}
