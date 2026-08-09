@@ -1,0 +1,128 @@
+﻿@model List<ResultCommentDto>
+@{
+    ViewData["PageTitle"] = "Yorum Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-message-square text-primary mr-2"></i>Blog Yorumları Listesi
+                </h5>
+                <span class="badge badge-soft-info p-2 font-size-13">
+                    <i class="feather-info mr-1"></i> Toplam Yorum: @(Model?.Count ?? 0)
+                </span>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Kullanıcı</th>
+                                <th>Yorum İçeriği</th>
+                                <th class="text-center" style="width: 140px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm mr-2">
+                                                    <img src="@item.ImageUrl" alt="user-avatar" class="img-thumbnail rounded-circle shadow-sm" style="width:38px; height:38px; object-fit:cover;" onerror="this.src='/carbook-admin/assets/images/users/avatar-1.jpg'">
+                                                </div>
+                                                <span class="font-weight-semibold text-dark">@item.NameSurname</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="text-muted mb-0 text-truncate" style="max-width: 320px;" title="@item.MessageBody">
+                                                @item.MessageBody
+                                            </p>
+                                        </td>
+                                        <td class="text-center">
+                                            <!-- Detay Modalı Tetikleyen Buton -->
+                                            <button type="button"
+                                                    class="btn btn-sm btn-soft-info waves-effect waves-light mr-1 open-comment-modal"
+                                                    data-toggle="modal"
+                                                    data-target="#commentDetailModal"
+                                                    data-name="@item.NameSurname"
+                                                    data-image="@item.ImageUrl"
+                                                    data-blog="@item.BlogTitle"
+                                                    data-message="@item.MessageBody"
+                                                    data-date="@item.CreatedDate.ToString("dd MMMM yyyy HH:mm")"
+                                                    title="Detayı Gör">
+                                                <i class="mdi mdi-eye font-size-16"></i>
+                                            </button>
+
+                                            <!-- Silme Butonu -->
+                                            <a href="/Admin/Comment/RemoveComment/@item.Id" onclick="return confirm('Bu yorumu silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light" data-toggle="tooltip" title="Sil">
+                                                <i class="mdi mdi-trash-can font-size-16"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Henüz yapılmış bir blog yorumu bulunamadı.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="commentDetailModal" tabindex="-1" role="dialog" aria-labelledby="commentDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg rounded-lg">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title font-weight-bold text-dark" id="commentDetailModalLabel">
+                    <i class="feather-message-square text-primary mr-2"></i>Yorum Detayı
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <img id="modalUserImage" src="" alt="user-avatar" class="rounded-circle mr-3 shadow-sm" style="width: 50px; height: 50px; object-fit: cover;">
+                    <div>
+                        <h6 id="modalUserName" class="mb-0 font-weight-bold text-dark font-size-15"></h6>
+                        <small id="modalDate" class="text-muted"></small>
+                    </div>
+                </div>
+
+                <div class="mb-3 p-2 bg-soft-primary rounded">
+                    <small class="text-uppercase text-primary font-weight-bold d-block mb-1" style="font-size: 10px; letter-spacing: 0.5px;">İlişkili Blog Yazısı</small>
+                    <span id="modalBlogTitle" class="font-weight-semibold text-dark font-size-13"></span>
+                </div>
+
+                <div>
+                    <small class="text-uppercase text-muted font-weight-bold d-block mb-1" style="font-size: 10px; letter-spacing: 0.5px;">Yorum İçeriği</small>
+                    <div id="modalMessage" class="p-3 bg-light rounded text-secondary font-size-14" style="white-space: pre-line; line-height: 1.6;"></div>
+                </div>
+            </div>
+            <div class="modal-footer bg-light py-2">
+                <button type="button" class="btn btn-secondary btn-sm waves-effect" data-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

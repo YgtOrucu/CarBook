@@ -13,6 +13,7 @@ namespace CarBook.WebAPI.Endpoints.CommentEndpoints
             comments.MapGet(string.Empty, GetCommentAsync);
             comments.MapGet("{id}", GetCommentByIdAsync);
             comments.MapGet("GetCommentByBlogId", GetCommentByBlogIdAsync);
+            comments.MapGet("GetCommentWithBlogTitle", GetCommentWithBlogTitleAsync);
             comments.MapPost(string.Empty, CreateCommentAsync);
             comments.MapPut(string.Empty, UpdateCommentAsync);
             comments.MapDelete("{id}", RemoveCommentAsync);
@@ -35,6 +36,12 @@ namespace CarBook.WebAPI.Endpoints.CommentEndpoints
             var result = await mediator.Send(new GetCommentByBlogIdQuery(BlogId));
             return result != null ? Results.Ok(result) : Results.NotFound();
         }
+        private static async Task<IResult> GetCommentWithBlogTitleAsync(IMediator mediator)
+        {
+            var result = await mediator.Send(new GetCommentWithBlogTitleQuery());
+            return result != null ? Results.Ok(result) : Results.NotFound();
+        }
+
 
         private static async Task<IResult> CreateCommentAsync(IMediator mediator, CreateCommentCommand command)
         {

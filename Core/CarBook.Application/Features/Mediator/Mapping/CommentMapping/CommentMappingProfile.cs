@@ -14,5 +14,8 @@ public class CommentMappingProfile : Profile
         CreateMap<Comment, GetCommentQueryResult>();
         CreateMap<Comment, GetCommentByIdQueryResult>();
         CreateMap<Comment, GetCommentByBlogIdQueryResult>();
+
+        CreateMap<Comment, GetCommentWithBlogTitleQueryResult>()
+            .ForMember(opt => opt.BlogTitle, desc => desc.MapFrom(src => src.Blog.Title));
     }
 }
