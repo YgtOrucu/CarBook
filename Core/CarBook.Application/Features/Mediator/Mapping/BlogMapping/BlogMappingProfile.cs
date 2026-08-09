@@ -16,5 +16,7 @@ public class BlogMappingProfile : Profile
         CreateMap<CreateBlogCommand, Blog>();
         CreateMap<UpdateBlogCommand, Blog>();
         CreateMap<RemoveBlogCommand, Blog>();
+
+        CreateMap<Blog, GetBlogsByCategoryIdQueryResult>();
     }
 }

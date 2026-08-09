@@ -71,9 +71,17 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
             return View();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> BlogsByCategory(int id)
         {
+            var client = httpClientFactory.CreateClient("CarBookAPI");
+            var response = await client.GetAsync($"blog/BlogsByCategoryId?id={id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var value = await response.Content.ReadFromJsonAsync<List<ResultBlogsByCategoryIdDto>>();
+                return View(value);
+            }
             return View();
         }
     }

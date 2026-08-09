@@ -8,5 +8,6 @@ public interface IBlogRepository
     Task<Blog> GetByIdBlogsWithAuthorAndCategoryAsync(int Id);
     Task<List<Blog>> GetLast3BlogsWithRelationsAsync();
     Task<List<Blog>> GetLast5BlogsWithRelationsAsync();
+    Task<List<GetBlogsByCategoryIdQueryResult>> GetBlogsByCategoryIdAsync(int Id);
     Task<List<GetBlogCountByCategoryQueryResult>> GetBlogCountByCategoryAsync();
 }

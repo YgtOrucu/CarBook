@@ -2,10 +2,11 @@
 
 namespace CarBook.Dto.Dtos.ForAdminPageDtos.CategorySectionDtos;
 
-public class ResultBlogsByCategoryDto : AuditableDto
+public class ResultBlogsByCategoryIdDto : AuditableDto
 {
     public string Title { get; set; }
     public string CoverImageUrl { get; set; }
-    public int? AuthorName { get; set; }
+    public string? AuthorName { get; set; }
+    public string? CategoryName { get; set; }
     public string Description { get; set; }
 }

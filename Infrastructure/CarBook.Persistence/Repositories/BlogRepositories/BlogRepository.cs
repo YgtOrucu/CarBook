@@ -44,4 +44,17 @@ public class BlogRepository(CarBookContext context) : IBlogRepository
        .Take(5)
        .ToListAsync();
     }
+
+    public Task<List<GetBlogsByCategoryIdQueryResult>> GetBlogsByCategoryIdAsync(int Id)
+    {
+        return context.Blogs.Where(x => x.CategoryId == Id).Select(x => new GetBlogsByCategoryIdQueryResult
+        {
+            Title = x.Title,
+            Description = x.Description,
+            AuthorName = x.Author!.Name,
+            CategoryName = x.Category!.Name,
+            CoverImageUrl = x.CoverImageUrl,
+            CreatedDate = x.CreatedDate,
+        }).ToListAsync();
+    }
 }
