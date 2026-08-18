@@ -1,0 +1,91 @@
+﻿@model ResultFooterAddressDto
+@{
+    ViewData["PageTitle"] = "Alt Bilgi & Adres Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-map-pin text-primary mr-2"></i>Footer Adres ve İletişim Bilgileri
+                </h5>
+                @if (Model != null)
+                {
+                    <a href="/Admin/FooterAddress/UpdateFooterAddress/@Model.Id" class="btn btn-sm btn-warning waves-effect waves-light shadow-sm text-white">
+                        <i class="mdi mdi-pencil mr-1"></i> Bilgileri Güncelle
+                    </a>
+                }
+                else
+                {
+                    <a href="/Admin/FooterAddress/CreateFooterAddress" class="btn btn-sm btn-primary btn-rounded shadow-sm">
+                        <i class="mdi mdi-plus mr-1"></i> Adres Bilgisi Ekle
+                    </a>
+                }
+            </div>
+
+            <div class="card-body">
+                @if (Model != null)
+                {
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 border rounded bg-light h-100">
+                                <h6 class="text-muted text-uppercase font-size-12 font-weight-bold mb-2">
+                                    <i class="mdi mdi-map-marker text-danger mr-1"></i> Adres
+                                </h6>
+                                <p class="text-dark font-weight-semibold mb-0">@Model.Address</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 border rounded bg-light h-100">
+                                <h6 class="text-muted text-uppercase font-size-12 font-weight-bold mb-2">
+                                    <i class="mdi mdi-phone text-success mr-1"></i> Telefon
+                                </h6>
+                                <p class="text-dark font-weight-semibold mb-0">@Model.Phone</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <div class="p-3 border rounded bg-light h-100">
+                                <h6 class="text-muted text-uppercase font-size-12 font-weight-bold mb-2">
+                                    <i class="mdi mdi-email-outline text-info mr-1"></i> E-Posta
+                                </h6>
+                                <p class="text-dark font-weight-semibold mb-0">@Model.Email</p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mb-3">
+                            <div class="p-3 border rounded bg-light">
+                                <h6 class="text-muted text-uppercase font-size-12 font-weight-bold mb-2">
+                                    <i class="mdi mdi-text-subject text-primary mr-1"></i> Alt Bilgi Açıklaması
+                                </h6>
+                                <p class="text-dark mb-0">@Model.Description</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="/Admin/FooterAddress/RemoveFooterAddress/@Model.Id" onclick="return confirm('Bu adres bilgisini silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light">
+                            <i class="mdi mdi-trash-can mr-1"></i> Adres Bilgisini Sil
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="mdi mdi-alert-circle-outline font-size-24 mb-2 d-block text-warning"></i>
+                        <h5 class="text-dark font-weight-semibold">Henüz tanımlanmış bir adres bilgisi bulunamadı.</h5>
+                        <p class="mb-3">Sistemde gösterilmek üzere yeni bir footer adres kaydı oluşturabilirsiniz.</p>
+                        <a href="/Admin/FooterAddress/CreateFooterAddress" class="btn btn-primary btn-sm waves-effect waves-light shadow-sm">
+                            <i class="mdi mdi-plus mr-1"></i> Yeni Adres Bilgisi Oluştur
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

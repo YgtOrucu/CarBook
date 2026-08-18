@@ -17,7 +17,8 @@ public class GetContactQueryHandle(IRepository<Contact> repository)
             Email = x.Email,
             Message = x.Message,
             Subject = x.Subject,
-            SendDate = x.SendDate
+            SendDate = x.SendDate,
+            IsStatus = x.IsStatus,
         }).ToList();
     }
 }

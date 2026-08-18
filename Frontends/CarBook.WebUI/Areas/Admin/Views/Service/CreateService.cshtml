@@ -1,0 +1,59 @@
+﻿@model CreateServiceDto
+@{
+    ViewData["PageTitle"] = "Yeni Hizmet Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-plus-circle text-primary mr-2"></i>Yeni Hizmet Tanımlama
+                </h5>
+                <a href="/Admin/Service/Index" class="btn btn-sm btn-soft-secondary btn-rounded shadow-sm">
+                    <i class="mdi mdi-arrow-left mr-1"></i> Listeye Dön
+                </a>
+            </div>
+
+            <div class="card-body">
+                <form method="post" action="/Admin/Service/CreateService">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-semibold text-dark">Hizmet Başlığı</label>
+                                <input type="text" asp-for="Title" class="form-control" placeholder="Örn: 7/24 Yol Yardım Hizmeti" required />
+                                <span asp-validation-for="Title" class="text-danger font-size-12"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-semibold text-dark">İkon Sınıfı veya Görsel URL</label>
+                                <input type="text" asp-for="IconUrl" class="form-control" placeholder="Örn: mdi mdi-car-wash veya https://..." />
+                                <span asp-validation-for="IconUrl" class="text-danger font-size-12"></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group mb-3">
+                                <label class="font-weight-semibold text-dark">Hizmet Açıklaması</label>
+                                <textarea asp-for="Description" class="form-control" rows="4" placeholder="Hizmet detaylarını giriniz..." required></textarea>
+                                <span asp-validation-for="Description" class="text-danger font-size-12"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-3">
+                        <a href="/Admin/Service/Index" class="btn btn-light waves-effect mr-2">İptal</a>
+                        <button type="submit" class="btn btn-primary waves-effect waves-light shadow-sm">
+                            <i class="mdi mdi-content-save mr-1"></i> Hizmeti Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

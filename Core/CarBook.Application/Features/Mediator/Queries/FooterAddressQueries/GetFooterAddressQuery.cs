@@ -3,7 +3,7 @@ using MediatR;
 
 namespace CarBook.Application.Features.Mediator.Queries.FooterAddressQueries
 {
-    public class GetFooterAddressQuery : IRequest<List<GetFooterAddressQueryResult>>
+    public class GetFooterAddressQuery : IRequest<GetFooterAddressQueryResult>
     {
     }
 }

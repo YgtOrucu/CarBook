@@ -2,6 +2,7 @@
 using CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
 using CarBook.Application.Features.CQRS.Queries.ContactQueries;
 using ContactBook.Application.Features.CQRS.Handlers.ContactHandle.Read;
+using MediatR;
 
 namespace CarBook.WebAPI.Endpoints.ContactEndpoints
 {
@@ -13,10 +14,24 @@ namespace CarBook.WebAPI.Endpoints.ContactEndpoints
 
             Contacts.MapGet(string.Empty, GetContactAsync);
             Contacts.MapGet("{id}", GetContactByIdAsync);
+            Contacts.MapGet("GetOpenAIAnswer", GetOpenAIAnswerAsync);
             Contacts.MapPost(string.Empty, CreateContactAsync);
+            Contacts.MapPost("SendMessage", SendMessageAsync);
             Contacts.MapPut(string.Empty, UpdateContactAsync);
             Contacts.MapDelete("{id}", RemoveContactAsync);
 
+        }
+
+        private static async Task<IResult> GetOpenAIAnswerAsync(string Message, string Name, IMediator mediator)
+        {
+            var response = await mediator.Send(new AnswerOpenAIQuery(Message, Name));
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> SendMessageAsync(IMediator mediator, SendMailCommand command)
+        {
+            var response = await mediator.Send(command);
+            return response != null ? Results.Ok(new { Message = response }) : Results.BadRequest(new { Message = response });
         }
 
         private static async Task<IResult> GetContactAsync(GetContactQueryHandle getContactQueryHandle)

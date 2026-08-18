@@ -1,0 +1,76 @@
+﻿@model CarBook.Dto.Dtos.ForAdminPageDtos.ContactSectionDtos.SendMailDto
+
+<form id="replyForm" method="post" action="/Admin/Contact/SendReply">
+    <div class="modal-body p-4">
+        <input type="hidden" id="modalContactId" name="Id" />
+
+        <div class="row">
+            <div class="col-md-5 border-right">
+                <h6 class="text-uppercase font-size-12 text-primary font-weight-bold mb-3">
+                    <i class="mdi mdi-account-details mr-1"></i> Gönderen Bilgileri
+                </h6>
+
+                <div class="mb-3">
+                    <label class="text-muted font-size-12 mb-0">Ad Soyad</label>
+                    <p id="modalName" class="font-weight-bold text-dark mb-0"></p>
+                    <input type="hidden" id="modalNameInput" name="ReceiverName" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted font-size-12 mb-0">E-Posta Adresi</label>
+                    <p id="modalEmail" class="font-weight-semibold text-info mb-0"></p>
+                    <input type="hidden" id="modalEmailInput" name="ReceiverEmail" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted font-size-12 mb-0">Gönderim Tarihi</label>
+                    <p id="modalDate" class="text-dark mb-0"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-muted font-size-12 mb-0">Konu</label>
+                    <p id="modalSubject" class="font-weight-semibold text-dark mb-0"></p>
+                </div>
+
+                <hr />
+
+                <div class="mb-3">
+                    <label class="text-muted font-size-12 mb-1">Gelen Mesaj</label>
+                    <div id="modalMessage" class="p-3 bg-light rounded text-dark font-size-13" style="min-height: 120px; max-height: 200px; overflow-y: auto; whitespace: pre-line;"></div>
+                </div>
+            </div>
+
+            <div class="col-md-7 pl-md-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h6 class="text-uppercase font-size-12 text-primary font-weight-bold m-0">
+                        <i class="mdi mdi-reply mr-1"></i> Verilecek Cevap
+                    </h6>
+                    <button type="button" id="btnGenerateAi" class="btn btn-xs btn-soft-purple waves-effect waves-light border-0">
+                        <i class="mdi mdi-robot mr-1"></i> AI İle Yanıt Oluştur
+                    </button>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="font-weight-semibold text-dark">Cevap Başlığı / Konu</label>
+                    <input type="text" id="replySubject" name="ReplySubject" class="form-control" placeholder="Konu hakkında..." required />
+                </div>
+
+                <div class="form-group mb-2">
+                    <label class="font-weight-semibold text-dark">Cevap Metni</label>
+                    <textarea id="replyMessage" name="ReplyMessage" class="form-control" rows="9" placeholder="Müşteriye gönderilecek cevap metnini buraya yazın veya AI ile üretin..." required></textarea>
+                </div>
+
+                <small class="text-muted font-size-11">
+                    <i class="mdi mdi-information-outline mr-1"></i> Cevap gönderildiğinde bu mesaj "Okundu / Yanıtlandı" olarak işaretlenecektir.
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-light waves-effect" data-dismiss="modal">Kapat</button>
+        <button type="submit" class="btn btn-primary waves-effect waves-light shadow-sm">
+            <i class="mdi mdi-send mr-1"></i> Mail Gönder
+        </button>
+    </div>
+</form>

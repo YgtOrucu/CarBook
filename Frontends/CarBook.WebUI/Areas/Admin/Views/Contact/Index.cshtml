@@ -1,0 +1,134 @@
+﻿@model List<ResultContactDto>
+@{
+    ViewData["PageTitle"] = "Gelen Mesajlar";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+        <i class="mdi mdi-check-all-circle mr-2 font-size-16 align-middle"></i>
+        <strong>Başarılı!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+        <i class="mdi mdi-alert-circle-outline mr-2 font-size-16 align-middle"></i>
+        <strong>Hata!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-mail text-primary mr-2"></i>İletişim Mesajları Listesi
+                </h5>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Gönderen</th>
+                                <th>Konu</th>
+                                <th>Tarih</th>
+                                <th class="text-center">Durum</th>
+                                <th class="text-center" style="width: 120px;">İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model)
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="font-weight-semibold text-dark">@item.Name</span>
+                                                <small class="text-muted">@item.Email</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="text-dark font-weight-medium">@item.Subject</span>
+                                        </td>
+                                        <td>
+                                            <small class="text-muted">@(item.SendDate.HasValue ? item.SendDate.Value.ToString("dd.MM.yyyy HH:mm") : "-")</small>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.IsStatus)
+                                            {
+                                                <span class="badge badge-soft-success p-1 px-2">Okundu / Yanıtlandı</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-soft-warning p-1 px-2">Okunmadı</span>
+                                            }
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-soft-primary waves-effect waves-light btn-detail"
+                                                    data-id="@item.Id"
+                                                    data-name="@item.Name"
+                                                    data-email="@item.Email"
+                                                    data-subject="@item.Subject"
+                                                    data-message="@item.Message"
+                                                    data-date="@(item.SendDate.HasValue ? item.SendDate.Value.ToString("dd.MM.yyyy HH:mm") : "")"
+                                                    data-toggle="modal"
+                                                    data-target="#contactDetailModal">
+                                                <i class="mdi mdi-eye mr-1"></i> Detay
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Henüz gelen bir iletişim mesajı bulunmuyor.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="contactDetailModal" tabindex="-1" role="dialog" aria-labelledby="contactDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title font-weight-bold text-dark" id="contactDetailModalLabel">
+                    <i class="feather-mail text-primary mr-2"></i>Mesaj Detayı ve Yanıtlama
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @await Component.InvokeAsync("SendMessageForContactSection")
+        </div>
+    </div>
+</div>

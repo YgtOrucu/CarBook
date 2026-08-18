@@ -16,6 +16,7 @@ public class UpdateContactCommandHandle(IRepository<Contact> repository, IUnitOf
             Message = command.Message,
             SendDate = DateTime.Now,
             Subject = command.Subject,
+            IsStatus = command.IsStatus,
         });
 
         await unitOfWork.SaveChangeAsync();

@@ -8,11 +8,11 @@ using MediatR;
 namespace CarBook.Application.Features.Mediator.Handlers.FooterAddressHandlers.Read;
 
 public class GetFooterAddressQueryHandle(IRepository<FooterAddress> repository, IMapper mapper)
-    : IRequestHandler<GetFooterAddressQuery, List<GetFooterAddressQueryResult>>
+    : IRequestHandler<GetFooterAddressQuery, GetFooterAddressQueryResult>
 {
-    public async Task<List<GetFooterAddressQueryResult>> Handle(GetFooterAddressQuery request, CancellationToken cancellationToken)
+    public async Task<GetFooterAddressQueryResult> Handle(GetFooterAddressQuery request, CancellationToken cancellationToken)
     {
-        var footerAddress = mapper.Map<List<GetFooterAddressQueryResult>>(await repository.GetAllAsync());
+        var footerAddress = mapper.Map<GetFooterAddressQueryResult>(repository.GetByQuery().FirstOrDefault());
         return footerAddress;
     }
 }
