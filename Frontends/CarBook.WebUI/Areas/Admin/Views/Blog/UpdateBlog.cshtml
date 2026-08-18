@@ -1,0 +1,79 @@
+﻿@model UpdateBlogDto
+@{
+    ViewData["PageTitle"] = "Blog Güncelle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-edit text-warning mr-2"></i>Blog Yazısını Düzenle
+                </h5>
+                <a href="/Admin/Blog/Index" class="btn btn-sm btn-outline-secondary btn-rounded">
+                    <i class="mdi mdi-arrow-left mr-1"></i> Listeye Dön
+                </a>
+            </div>
+
+            <div class="card-body">
+                <form asp-action="UpdateBlog" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-semibold text-dark">Blog Başlığı</label>
+                        <input type="text" asp-for="Title" class="form-control" placeholder="Blog başlığını giriniz" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Yazar</label>
+                            <select asp-for="AuthorId" class="form-control form-select">
+                                <option value="">-- Yazar Seçiniz --</option>
+                                @if (ViewBag.Author != null)
+                                {
+                                    @foreach (var author in ViewBag.Author)
+                                    {
+                                        <option value="@author.Id">@author.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Kategori</label>
+                            <select asp-for="CategoryId" class="form-control form-select">
+                                @if (ViewBag.Category != null)
+                                {
+                                    @foreach (var category in ViewBag.Category)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-semibold text-dark">Kapak Görseli URL</label>
+                        <input type="text" asp-for="CoverImageUrl" class="form-control" placeholder="Görsel URL adresini giriniz" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-weight-semibold text-dark">Açıklama</label>
+                        <textarea asp-for="Description" class="form-control" rows="5" placeholder="Blog detayını yazınız..."></textarea>
+                    </div>
+
+                    <div class="text-right">
+                        <a href="/Admin/Blog/Index" class="btn btn-light mr-2">İptal</a>
+                        <button type="submit" class="btn btn-warning px-4 text-white shadow-sm">
+                            <i class="mdi mdi-refresh mr-1"></i> Güncelle
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+﻿@model CreateBlogDto
+@{
+    ViewData["PageTitle"] = "Yeni Blog Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-plus-circle text-primary mr-2"></i>Yeni Blog Ekle
+                </h5>
+                <div>
+                    <button type="button" id="btnGenerateAI" class="btn btn-sm btn-ai btn-rounded mr-2 px-3">
+                        <i class="mdi mdi-robot-industrial ai-pulse mr-1"></i> AI ile İçerik Oluştur
+                    </button>
+                    <a href="/Admin/Blog/Index" class="btn btn-sm btn-outline-secondary btn-rounded">
+                        <i class="mdi mdi-arrow-left mr-1"></i> Listeye Dön
+                    </a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form asp-action="CreateBlog" method="post">
+                    <div class="form-group mb-3">
+                        <label class="font-weight-semibold text-dark">Blog Başlığı</label>
+                        <input type="text" id="txtTitle" asp-for="Title" class="form-control" placeholder="Blog başlığını giriniz veya AI ile doldurunuz" required />
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Yazar</label>
+                            <select asp-for="AuthorId" class="form-control form-select">
+                                <option value="">-- Yazar Seçiniz --</option>
+                                @if (ViewBag.Author != null)
+                                {
+                                    @foreach (var author in ViewBag.Author)
+                                    {
+                                        <option value="@author.Id">@author.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Kategori</label>
+                            <select id="ddlCategory" asp-for="CategoryId" class="form-control form-select">
+                                <option value="">-- Kategori Seçiniz --</option>
+                                @if (ViewBag.Category != null)
+                                {
+                                    @foreach (var category in ViewBag.Category)
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="font-weight-semibold text-dark">Kapak Görseli URL</label>
+                        <input type="text" asp-for="CoverImageUrl" class="form-control" placeholder="Görsel URL adresini giriniz" />
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="font-weight-semibold text-dark">Açıklama</label>
+                        <textarea id="txtDescription" asp-for="Description" class="form-control" rows="6" placeholder="Blog detayını yazınız veya AI ile otomatik üretiniz..."></textarea>
+                    </div>
+
+                    <div class="text-right">
+                        <a href="/Admin/Blog/Index" class="btn btn-light mr-2">İptal</a>
+                        <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                            <i class="mdi mdi-check mr-1"></i> Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

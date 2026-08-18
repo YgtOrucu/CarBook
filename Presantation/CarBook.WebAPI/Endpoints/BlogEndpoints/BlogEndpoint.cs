@@ -18,8 +18,15 @@ namespace CarBook.WebAPI.Endpoints.BlogEndpoints
             blog.MapGet("Lastest3ForPresantationPage", GetLastest3ForPresantationPageAsync);
             blog.MapGet("Lastest5ForPresantationPage", GetLastest5ForPresantationPageAsync);
             blog.MapGet("BlogsByCategoryId", GetBlogsByCategoryIdAsync);
+            blog.MapGet("AnswerOpenAI/{categoryName}", AnswerOpenAIForCreateBlogAsync);
             blog.MapGet("{id}", GetBlogByIdAsync);
             blog.MapDelete("{id}", RemoveBlogAsync);
+        }
+
+        private static async Task<IResult> AnswerOpenAIForCreateBlogAsync(string categoryName ,IMediator mediator)
+        {
+            var response = await mediator.Send(new AnswerAIQuery(categoryName));
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 
         private static async Task<IResult> GetLastest3ForPresantationPageAsync(IMediator mediator)
