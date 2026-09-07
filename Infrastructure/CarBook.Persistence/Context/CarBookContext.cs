@@ -1,9 +1,10 @@
 ﻿using CarBook.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarBook.Persistence.Context;
 
-public class CarBookContext(DbContextOptions options) : DbContext(options)
+public class CarBookContext(DbContextOptions<CarBookContext> options) : IdentityDbContext<AppUser, AppRole, Guid>(options)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -16,7 +17,6 @@ public class CarBookContext(DbContextOptions options) : DbContext(options)
     public DbSet<Brand> Brands { get; set; }
     public DbSet<Car> Cars { get; set; }
     public DbSet<CarDescription> CarDescriptions { get; set; }
-    public DbSet<CarDetails> CarDetails { get; set; }
     public DbSet<CarFeature> CarFeatures { get; set; }
     public DbSet<CarPricing> CarPricings { get; set; }
     public DbSet<Category> Categories { get; set; }
@@ -28,7 +28,7 @@ public class CarBookContext(DbContextOptions options) : DbContext(options)
     public DbSet<Service> Services { get; set; }
     public DbSet<SocialMedia> SocialMedias { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
-    public DbSet<Blog> Blogs  { get; set; }
+    public DbSet<Blog> Blogs { get; set; }
     public DbSet<Author> Authors { get; set; }
     public DbSet<BlogDetail> BlogDetails { get; set; }
     public DbSet<Tag> Tags { get; set; }

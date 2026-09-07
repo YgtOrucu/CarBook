@@ -1,4 +1,5 @@
-﻿using CarBook.Dto.Dtos.ForAdminPageDtos.CarSectionDtos;
+﻿using CarBook.Dto.Dtos.ForAdminPageDtos.BrandSectionDtos;
+using CarBook.Dto.Dtos.ForAdminPageDtos.CarSectionDtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.Areas.Admin.Controllers
@@ -10,7 +11,7 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
         public async Task<IActionResult> Index()
         {
             var client = httpClientFactory.CreateClient("CarBookAPI");
-            var response = await client.GetAsync($"car/getBrand");
+            var response = await client.GetAsync("car/getBrand");
             if (response.IsSuccessStatusCode)
             {
                 var value = await response.Content.ReadFromJsonAsync<List<ResultCarDto>>();
@@ -22,6 +23,7 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateCar()
         {
+            ViewBag.BrandValues = await GetBrandList();
             return View();
         }
 
@@ -33,12 +35,14 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            ViewBag.BrandValues = await GetBrandList();
             return View(dto);
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateCar(int id)
         {
+            ViewBag.BrandValues = await GetBrandList();
             var client = httpClientFactory.CreateClient("CarBookAPI");
             var response = await client.GetAsync($"Car/{id}");
             if (response.IsSuccessStatusCode)
@@ -58,6 +62,7 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
+            ViewBag.BrandValues = await GetBrandList();
             return View(dto);
         }
 
@@ -68,7 +73,19 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
             if (response.IsSuccessStatusCode)
                 return RedirectToAction("Index");
 
-            return View();
+            return RedirectToAction("Index");
+        }
+
+        private async Task<List<ResultBrandDto>> GetBrandList()
+        {
+            var client = httpClientFactory.CreateClient("CarBookAPI");
+            var response = await client.GetAsync("brand");
+            if (response.IsSuccessStatusCode)
+            {
+                var values = await response.Content.ReadFromJsonAsync<List<ResultBrandDto>>();
+                return values;
+            }
+            return null;
         }
     }
 }

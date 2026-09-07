@@ -12,6 +12,11 @@ using CarBook.Persistence.Repositories.CarRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using CarBook.Domain.Entities;
+using CarBook.Persistence.IdentityErrors;
+using Microsoft.AspNetCore.Identity;
+using CarBook.Persistence.Seeders;
+using Microsoft.AspNetCore.Builder;
 
 namespace CarBook.Persistence.Extensions;
 
@@ -28,10 +33,19 @@ public static class ServiceRegistrations
             var interceptor = serviceProvider.GetRequiredService<DbContextInterceptor>();
             options.AddInterceptors(interceptor);
         });
-
-        services.AddDbContext<CarBookContext>();
-        services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddScoped<ICarRepository, CarRepository>();
+
+        services.AddIdentity<AppUser, AppRole>(opt =>
+        {
+            opt.User.RequireUniqueEmail = true;
+            opt.Password.RequireNonAlphanumeric = false;
+        })
+        .AddEntityFrameworkStores<CarBookContext>()
+        .AddDefaultTokenProviders()
+        .AddErrorDescriber<TurkishIdentityError>();
+
+
+        services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IOpenAIRepository, OpenAIRepository>();
         services.AddScoped<ISendMailRepository, SendMailRepository>();
         services.AddScoped<IBlogRepository, BlogRepository>();
@@ -46,6 +60,12 @@ public static class ServiceRegistrations
 
             opt.BaseAddress = new Uri(address);
         });
+    }
 
+    public static async Task UseDbSeederAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var service = scope.ServiceProvider;
+        await RoleSeeder.SeedRolesAndAdminUserAsync(service);
     }
 }

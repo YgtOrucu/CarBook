@@ -13,10 +13,14 @@ public class GetCarQueryHandle(IRepository<Car> repository)
         return values.Select(x => new GetCarQueryResult
         {
             BrandId = x.BrandId,
-            CarDetailsId = x.CarDetailsId,
             CoverImageUrl = x.CoverImageUrl,
             Id = x.Id,
             Model = x.Model,
+            CarKM = x.CarKM,
+            Fuel = x.Fuel,
+            LuggageCount = x.LuggageCount,
+            SeatCount = x.SeatCount,
+            Transmission = x.Transmission
         }).ToList();
     }
 }

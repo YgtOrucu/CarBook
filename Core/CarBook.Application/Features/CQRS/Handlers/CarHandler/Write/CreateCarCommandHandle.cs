@@ -11,9 +11,14 @@ public class CreateCarCommandHandle(IRepository<Car> repository, IUnitOfWork uni
         await repository.CreateAsync(new Car
         {
             BrandId = command.BrandId,
-            CarDetailsId = command.CarDetailsId,
-            CoverImageUrl = command.CoverImageUrl,
             Model = command.Model,
+            CoverImageUrl = command.CoverImageUrl,
+            BigImageUrl = command.BigImageUrl,
+            CarKM = command.CarKM,
+            Transmission = command.Transmission,
+            SeatCount = command.SeatCount,
+            LuggageCount = command.LuggageCount,
+            Fuel = command.Fuel
         });
 
         await unitOfWork.SaveChangeAsync();

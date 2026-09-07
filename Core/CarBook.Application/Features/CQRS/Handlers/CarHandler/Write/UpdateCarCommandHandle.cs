@@ -3,20 +3,26 @@ using CarBook.Application.Interfaces;
 using CarBook.Domain.Entities;
 
 namespace CarBook.Application.Features.CQRS.Handlers.CarHandler.Write;
-public class UpdateCarCommandHandle(IRepository<Car> _repository, IUnitOfWork unitOfWork)
+
+public class UpdateCarCommandHandle(IRepository<Car> repository, IUnitOfWork unitOfWork)
 {
     public async Task Handle(UpdateCarCommand command)
     {
-        _repository.Update(new Car
+        var car = await repository.GetByIdAsync(command.Id);
+        if (car != null)
         {
-            Id = command.Id,
-            BrandId = command.BrandId,
-            CarDetailsId = command.CarDetailsId,
-            CoverImageUrl = command.CoverImageUrl,
-            Model = command.Model,
-        });
+            car.BrandId = command.BrandId;
+            car.Model = command.Model;
+            car.CoverImageUrl = command.CoverImageUrl;
+            car.BigImageUrl = command.BigImageUrl;
+            car.CarKM = command.CarKM;
+            car.Transmission = command.Transmission;
+            car.SeatCount = command.SeatCount;
+            car.LuggageCount = command.LuggageCount;
+            car.Fuel = command.Fuel;
 
-        await unitOfWork.SaveChangeAsync();
-
+            repository.Update(car);
+            await unitOfWork.SaveChangeAsync();
+        }
     }
 }

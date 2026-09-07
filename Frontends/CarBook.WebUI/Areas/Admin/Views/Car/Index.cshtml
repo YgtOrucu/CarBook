@@ -36,7 +36,7 @@
                         <tbody>
                             @if (Model != null && Model.Any())
                             {
-                                @foreach (var item in Model)
+                                @foreach (var item in Model.Where(x => !x.IsDeleted))
                                 {
                                     count++;
                                     <tr>
@@ -81,13 +81,13 @@
                                             </span>
                                         </td>
                                         <td class="text-center">
-                                            <a href="/Admin/Car/CarDetail/@item.CarDetailsId" class="btn btn-sm btn-soft-info waves-effect waves-light mr-1" data-toggle="tooltip" title="Detaylar">
+                                            <a href="/Admin/Car/CarDetail/@item.Id" class="btn btn-sm btn-soft-info waves-effect waves-light mr-1" data-toggle="tooltip" title="Detaylar">
                                                 <i class="mdi mdi-eye font-size-16"></i>
                                             </a>
-                                            <a href="/Admin/Car/UpdateCar/@item.CarDetailsId" class="btn btn-sm btn-soft-warning waves-effect waves-light mr-1" data-toggle="tooltip" title="Düzenle">
+                                            <a href="/Admin/Car/UpdateCar/@item.Id" class="btn btn-sm btn-soft-warning waves-effect waves-light mr-1" data-toggle="tooltip" title="Düzenle">
                                                 <i class="mdi mdi-pencil font-size-16"></i>
                                             </a>
-                                            <a href="/Admin/Car/RemoveCar/@item.CarDetailsId" onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light" data-toggle="tooltip" title="Sil">
+                                            <a href="/Admin/Car/RemoveCar/@item.Id" onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')" class="btn btn-sm btn-soft-danger waves-effect waves-light" data-toggle="tooltip" title="Sil">
                                                 <i class="mdi mdi-trash-can font-size-16"></i>
                                             </a>
                                         </td>

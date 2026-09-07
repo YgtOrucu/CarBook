@@ -13,7 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+await app.UseDbSeederAsync();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

@@ -14,10 +14,15 @@ public class GetCarByIdQueryHandle(IRepository<Car> repository)
         return new GetCarQueryByIdResult
         {
             BrandId = values.BrandId,
-            CarDetailsId = values.CarDetailsId,
             CoverImageUrl = values.CoverImageUrl,
             Id = values.Id,
-            Model = values.Model
+            Model = values.Model,
+            BigImageUrl = values.BigImageUrl,
+            CarKM = values.CarKM,
+            Fuel = values.Fuel,
+            LuggageCount = values.LuggageCount,
+            SeatCount = values.SeatCount,
+            Transmission = values.Transmission
         };
     }
 }

@@ -14,15 +14,13 @@ public class CarConfig : IEntityTypeConfiguration<Car>
         builder.Property(x => x.Model).HasMaxLength(100).IsRequired(false);
         builder.Property(x => x.CoverImageUrl).HasColumnType("varchar(500)").IsRequired(false);
 
+        builder.Property(x => x.Fuel).HasMaxLength(50).IsRequired(false);
+        builder.Property(x => x.BigImageUrl).HasColumnType("varchar(500)").IsRequired(false);
+
         builder.HasOne(x => x.Brand)
                .WithMany(x => x.Cars)
                .HasForeignKey(x => x.BrandId)
                .OnDelete(DeleteBehavior.Restrict);
-
-        builder.HasOne(x => x.CarDetails)
-               .WithOne(x => x.Car)
-               .HasForeignKey<Car>(x => x.CarDetailsId)
-               .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.CarDescription)
                .WithOne(x => x.Car)

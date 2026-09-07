@@ -14,16 +14,16 @@ public class GetCarWithBrandQueryHandle(ICarRepository repository)
         {
             BrandId = x.BrandId,
             BrandName = x.Brand?.Name,
-            CarDetailsId = x.CarDetailsId,
             CoverImageUrl = x.CoverImageUrl,
             Id = x.Id,
             Model = x.Model,
-            BigImageUrl = x.CarDetails.BigImageUrl,
-            CarKM = x.CarDetails.CarKM,
-            Fuel = x.CarDetails.Fuel,
-            LuggageCount = x.CarDetails.LuggageCount,
-            SeatCount = x.CarDetails.SeatCount,
-            Transmission = x.CarDetails.Transmission
+            BigImageUrl = x.BigImageUrl,
+            CarKM = x.CarKM,
+            Fuel = x.Fuel,
+            LuggageCount = x.LuggageCount,
+            SeatCount = x.SeatCount,
+            Transmission = x.Transmission,
+            IsDeleted = x.IsDeleted,       
         }).ToList();
     }
 }

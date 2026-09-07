@@ -1,0 +1,70 @@
+﻿@model CreateCarPricingDto
+@using CarBook.Dto.Dtos.ForAdminPageDtos.CarSectionDtos
+@{
+    ViewData["PageTitle"] = "Yeni Araç Fiyatı Ekle";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-plus-circle text-primary mr-2"></i>Araç Fiyat Tanımlama Formu
+                </h5>
+                <a href="/Admin/CarPricing/Index" class="btn btn-sm btn-outline-secondary btn-rounded">
+                    <i class="mdi mdi-arrow-left mr-1"></i> Listeye Dön
+                </a>
+            </div>
+
+            <div class="card-body">
+                <form asp-action="CreateCarPricing" method="post">
+                    <div class="form-group mb-3">
+                        <label class="font-weight-semibold text-dark">Araç Seçiniz</label>
+                        <select asp-for="CarId" class="form-control form-select" required>
+                            <option value="">-- Araç Seçiniz --</option>
+                            @if (ViewBag.CarValues != null )
+                            {
+                                @foreach (var car in (List<ResultCarDto>)ViewBag.CarValues)
+                                {
+                                    <option value="@car.Id">@car.BrandName @car.Model</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Saatlik Ücret (₺)</label>
+                            <input type="number" step="0.01" asp-for="HourlyAmount" class="form-control" placeholder="0.00" required />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Günlük Ücret (₺)</label>
+                            <input type="number" step="0.01" asp-for="DailyAmount" class="form-control" placeholder="0.00" required />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Haftalık Ücret (₺)</label>
+                            <input type="number" step="0.01" asp-for="WeeklyAmount" class="form-control" placeholder="0.00" required />
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label class="font-weight-semibold text-dark">Aylık Ücret (₺)</label>
+                            <input type="number" step="0.01" asp-for="MonthlyAmount" class="form-control" placeholder="0.00" required />
+                        </div>
+                    </div>
+
+                    <div class="text-right mt-3">
+                        <a href="/Admin/CarPricing/Index" class="btn btn-light mr-2">İptal</a>
+                        <button type="submit" class="btn btn-primary px-4 shadow-sm">
+                            <i class="mdi mdi-check mr-1"></i> Kaydet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

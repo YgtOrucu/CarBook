@@ -22,6 +22,6 @@ public class CarRepository(CarBookContext _context) : ICarRepository
 
     public async Task<List<Car>> GetCarsWithBrandAsync()
     {
-        return await _context.Cars.AsNoTracking().Include(x => x.Brand).Include(x => x.CarDetails).ToListAsync();
+        return await _context.Cars.AsNoTracking().Include(x => x.Brand).Where(y => !y.IsDeleted).ToListAsync();
     }
 }
