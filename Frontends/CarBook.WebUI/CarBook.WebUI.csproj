@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Presantation\CarBook.WebAPI\CarBook.WebAPI.csproj" />
-    <ProjectReference Include="..\CarBook.Dto\CarBook.Dto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

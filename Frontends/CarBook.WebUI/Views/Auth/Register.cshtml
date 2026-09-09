@@ -1,0 +1,391 @@
+﻿@using CarBook.Dto.Dtos.AuthDtos
+@model RegisterDto
+@{
+    ViewData["Title"] = "Kayıt Ol";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CarBook | Kayıt Ol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+            :root {
+                --primary-blue: #4A90E2;
+                --primary-blue-dark: #3A7BC8;
+                --soft-blue-bg: #EAF2FB;
+                --cream-bg: #FBFAF7;
+                --light-gray: #F2F4F7;
+                --text-dark: #2E3A46;
+                --text-muted: #8A96A3;
+                --border-color: #E1E6EC;
+                --danger: #E74C3C;
+                --success: #2ECC71;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Poppins', sans-serif;
+                background: linear-gradient(135deg, var(--soft-blue-bg) 0%, var(--cream-bg) 55%, var(--light-gray) 100%);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
+            }
+
+            .page-wrapper {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .register-card {
+                background: #FFFFFF;
+                width: 100%;
+                max-width: 460px;
+                border-radius: 22px;
+                padding: 40px 36px 32px 36px;
+                box-shadow: 0 15px 45px rgba(74, 144, 226, 0.12), 0 4px 12px rgba(0,0,0,0.04);
+                border: 1px solid var(--border-color);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .register-card::before {
+                content: "";
+                position: absolute;
+                top: -60px;
+                right: -60px;
+                width: 160px;
+                height: 160px;
+                background: radial-gradient(circle, rgba(74,144,226,0.15) 0%, rgba(74,144,226,0) 70%);
+                border-radius: 50%;
+            }
+
+            .brand {
+                text-align: center;
+                margin-bottom: 8px;
+            }
+
+            .brand .logo-icon {
+                width: 62px;
+                height: 62px;
+                background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 14px auto;
+                box-shadow: 0 8px 18px rgba(74,144,226,0.35);
+            }
+
+            .brand .logo-icon i {
+                color: #fff;
+                font-size: 26px;
+            }
+
+            .brand h1 {
+                font-size: 22px;
+                font-weight: 700;
+                color: var(--text-dark);
+                margin: 0;
+            }
+
+            .brand p {
+                font-size: 13.5px;
+                color: var(--text-muted);
+                margin: 6px 0 0 0;
+            }
+
+            .divider {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 22px 0 18px 0;
+            }
+
+            .divider span {
+                font-size: 12px;
+                color: var(--text-muted);
+                white-space: nowrap;
+            }
+
+            .divider::before,
+            .divider::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--border-color);
+            }
+
+            .form-group {
+                margin-bottom: 16px;
+                position: relative;
+            }
+
+            .form-group label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--text-dark);
+                margin-bottom: 6px;
+            }
+
+            .input-wrapper {
+                position: relative;
+                display: flex;
+                align-items: center;
+            }
+
+            .input-wrapper i.field-icon {
+                position: absolute;
+                left: 14px;
+                color: var(--primary-blue);
+                font-size: 15px;
+                opacity: 0.85;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 12px 14px 12px 40px;
+                border-radius: 12px;
+                border: 1.5px solid var(--border-color);
+                background: var(--light-gray);
+                font-size: 14.5px;
+                font-family: inherit;
+                color: var(--text-dark);
+                transition: all 0.2s ease;
+                outline: none;
+            }
+
+            .form-control::placeholder {
+                color: #B4BEC9;
+            }
+
+            .form-control:focus {
+                border-color: var(--primary-blue);
+                background: #fff;
+                box-shadow: 0 0 0 4px rgba(74,144,226,0.12);
+            }
+
+            .toggle-password {
+                position: absolute;
+                right: 14px;
+                cursor: pointer;
+                color: var(--text-muted);
+                font-size: 15px;
+            }
+
+            .toggle-password:hover {
+                color: var(--primary-blue);
+            }
+
+            .field-validation-error,
+            .text-danger {
+                display: block;
+                font-size: 12px;
+                color: var(--danger);
+                margin-top: 5px;
+            }
+
+            .alert-danger {
+                background: #FDEDEC;
+                border: 1px solid #F5C6C0;
+                color: var(--danger);
+                border-radius: 12px;
+                padding: 12px 14px;
+                font-size: 13px;
+                margin-bottom: 18px;
+                list-style: none;
+            }
+
+            .alert-danger ul {
+                margin: 0;
+                padding-left: 18px;
+            }
+
+            .btn-register {
+                width: 100%;
+                padding: 13px;
+                border: none;
+                border-radius: 12px;
+                background: linear-gradient(135deg, var(--primary-blue), var(--primary-blue-dark));
+                color: #fff;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-top: 6px;
+                box-shadow: 0 8px 18px rgba(74,144,226,0.30);
+                transition: transform 0.15s ease, box-shadow 0.15s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .btn-register:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 22px rgba(74,144,226,0.38);
+            }
+
+            .btn-register:active {
+                transform: translateY(0);
+            }
+
+            .login-redirect {
+                text-align: center;
+                margin-top: 22px;
+                font-size: 13.5px;
+                color: var(--text-muted);
+            }
+
+            .login-redirect a {
+                color: var(--primary-blue);
+                font-weight: 600;
+                text-decoration: none;
+                margin-left: 4px;
+            }
+
+            .login-redirect a:hover {
+                text-decoration: underline;
+            }
+
+            .car-strip {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                margin-top: 4px;
+                color: var(--text-muted);
+                font-size: 12px;
+            }
+
+            .car-strip i {
+                color: var(--primary-blue);
+            }
+
+            @@media (max-width: 480px) {
+                .register-card {
+                    padding: 30px 22px 26px 22px;
+                    border-radius: 18px;
+                }
+
+                .brand h1 {
+                    font-size: 19px;
+                }
+            }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <div class="register-card">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-car-side"></i>
+                </div>
+                <h1>CarBook'a Katıl</h1>
+                <p>Hayalindeki araca birkaç adımda ulaş 🚗</p>
+            </div>
+
+            <div class="divider"><span>Hesap Bilgileri</span></div>
+
+            <div asp-validation-summary="ModelOnly" class="alert-danger"></div>
+
+            <form asp-controller="Auth" asp-action="Register" method="post" novalidate>
+
+                <div class="form-group">
+                    <label asp-for="Name">Ad</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-user field-icon"></i>
+                        <input asp-for="Name" class="form-control" placeholder="Adınızı girin" autocomplete="given-name" />
+                    </div>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Surname">Soyad</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-id-badge field-icon"></i>
+                        <input asp-for="Surname" class="form-control" placeholder="Soyadınızı girin" autocomplete="family-name" />
+                    </div>
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="UserName">Kullanıcı Adı</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at field-icon"></i>
+                        <input asp-for="UserName" class="form-control" placeholder="Bir kullanıcı adı seçin" autocomplete="username" />
+                    </div>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email">E-posta</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope field-icon"></i>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="ornek@eposta.com" autocomplete="email" />
+                    </div>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password">Şifre</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock field-icon"></i>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="Güçlü bir şifre oluşturun" autocomplete="new-password" id="passwordInput" />
+                        <i class="fa-solid fa-eye toggle-password" id="togglePasswordIcon"></i>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fa-solid fa-key"></i>
+                    Kayıt Ol
+                </button>
+            </form>
+
+            <div class="car-strip">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Bilgileriniz güvenle saklanır</span>
+            </div>
+
+            <div class="login-redirect">
+                Zaten bir hesabınız var mı?
+                <a asp-controller="Login" asp-action="Login">Giriş Yap</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            (function() {
+                var passwordInput = document.getElementById('passwordInput');
+                var toggleIcon = document.getElementById('togglePasswordIcon');
+
+                if (toggleIcon && passwordInput) {
+                    toggleIcon.addEventListener('click', function() {
+                        var isPassword = passwordInput.getAttribute('type') === 'password';
+                        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                        toggleIcon.classList.toggle('fa-eye');
+                        toggleIcon.classList.toggle('fa-eye-slash');
+                    });
+                }
+            })();
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+</body>
+</html>

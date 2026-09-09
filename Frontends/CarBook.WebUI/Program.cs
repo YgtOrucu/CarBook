@@ -24,10 +24,17 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "areas",
-    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area:exists}/{controller=HomePage}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Admin}/{controller=About}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapGet("/", context =>
+{
+    //context.Response.Redirect("/Admin/About/Index");
+    context.Response.Redirect("/Auth/Register");
+    return Task.CompletedTask;
+});
 
 app.Run();

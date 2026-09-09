@@ -8,6 +8,7 @@ using CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Read;
 using CarBook.Application.Features.CQRS.Handlers.CategoryHandles.Write;
 using CarBook.Application.Features.CQRS.Handlers.ContactHandle.Write;
 using ContactBook.Application.Features.CQRS.Handlers.ContactHandle.Read;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -19,6 +20,7 @@ public static class ServiceRegistrations
     {
 
         services.AddAutoMapper(src => src.AddMaps(Assembly.GetExecutingAssembly()));
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         services.AddScoped<CreateAboutCommandHandle>();
         services.AddScoped<GetAboutByIdQueryHandle>();
