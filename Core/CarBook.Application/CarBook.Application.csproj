@@ -24,8 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Mediator\AuthMediator\Results\" />
-    <Folder Include="Features\Mediator\AuthMediator\Queries\" />
     <Folder Include="Features\Mediator\Handlers\BlogTagHandlers\Write\" />
   </ItemGroup>
 

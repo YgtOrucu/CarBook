@@ -1,4 +1,6 @@
-﻿namespace CarBook.WebUI.Extensions
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+
+namespace CarBook.WebUI.Extensions
 {
     public static class ServiceRegistrations
     {
@@ -11,6 +13,32 @@
                     throw new Exception("The ApıAddress could not be found");
 
                 opt.BaseAddress = new Uri(address);
+            });
+
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+           .AddCookie(options =>
+           {
+               options.Cookie.Name = "CarBook.AuthCookie";
+               options.LoginPath = "/Auth/Login";
+               options.LogoutPath = "/Auth/Logout";
+               options.AccessDeniedPath = "/Auth/AccessDenied";
+
+               options.Cookie.HttpOnly = true;
+               options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+               options.Cookie.SameSite = SameSiteMode.Lax;
+
+               options.ExpireTimeSpan = TimeSpan.FromDays(7);
+               options.SlidingExpiration = true;
+           });
+
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
         }
     }

@@ -1,13 +1,21 @@
-using CarBook.Persistence.Extensions;
 using CarBook.Application.Extensions;
+using CarBook.Infrastructure.Extensions;
+using CarBook.Persistence.Extensions;
 using CarBook.WebAPI.Endpoints.RegisterEndpoints;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Null olan property'ler JSON çıktısına hiç dahil edilmez
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 builder.Services.AddPersistenceService(builder.Configuration);
+builder.Services.AppInfrastructureSetting(builder.Configuration);
 builder.Services.AddApplicationServices();
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -16,7 +16,17 @@ public class BaseResult<T>
     [JsonIgnore]
     public bool IsFailure => !IsSuccess;
 
-    public static BaseResult<T> Success (bool status,string message)
+    public static BaseResult<T> Success(T data)
+    {
+        return new BaseResult<T>
+        {
+            Data = data,
+            Status = true,
+            Message = "Operation successful."
+        };
+    }
+
+    public static BaseResult<T> Success(bool status, string message)
     {
         return new BaseResult<T>
         {
@@ -25,12 +35,20 @@ public class BaseResult<T>
         };
     }
 
+    public static BaseResult<T> Failure(string message)
+    {
+        return new BaseResult<T> { Errors = [new Error { ErrorMessage = message }] };
+    }
+
     public static BaseResult<T> Failure(IEnumerable<IdentityError> errors)
     {
-        return new BaseResult<T> { Errors = errors.Select(e => new Error { Code = e.Code, ErrorMessage = e.Description }) };
+        return new BaseResult<T>
+        {
+            Status = false,
+            Errors = errors.Select(e => new Error { Code = e.Code, ErrorMessage = e.Description })
+        };
     }
 }
-
 public class Error
 {
     public string? Code { get; set; }

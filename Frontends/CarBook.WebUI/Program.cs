@@ -33,7 +33,7 @@ app.MapControllerRoute(
 app.MapGet("/", context =>
 {
     //context.Response.Redirect("/Admin/About/Index");
-    context.Response.Redirect("/Auth/Register");
+    context.Response.Redirect("/Auth/Login");
     return Task.CompletedTask;
 });
 

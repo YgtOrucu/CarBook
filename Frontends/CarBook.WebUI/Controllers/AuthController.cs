@@ -1,7 +1,11 @@
 ﻿using CarBook.Application.Base;
 using CarBook.Dto.Dtos.AuthDtos;
 using CarBook.WebUI.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace CarBook.WebUI.Controllers
 {
@@ -26,6 +30,70 @@ namespace CarBook.WebUI.Controllers
             return View(dto);
         }
 
+
+        #endregion
+
+        #region Login
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginDto dto)
+        {
+            var response = await client.PostAsJsonAsync("auth/login", dto);
+            if (!response.IsSuccessStatusCode)
+            {
+                await GetErrorMessage(response);
+                return View(dto);
+            }
+
+
+            var result = await response.Content.ReadFromJsonAsync<GetJwtTokenInfo>();
+            if (result?.Data?.Token != null)
+            {
+                var tokenString = result.Data.Token;
+                var expirationTime = result.Data.ExpirationTime;
+                var handler = new JwtSecurityTokenHandler();
+                var jwtTokenDetails = handler.ReadJwtToken(tokenString);
+
+
+                var claims = jwtTokenDetails.Claims.ToList();
+
+                claims.Add(new Claim("AccessToken", tokenString));
+
+
+                var claimsIdentity = new ClaimsIdentity
+                (
+                    claims,
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    nameType: JwtRegisteredClaimNames.UniqueName,
+                    roleType: "role"
+                );
+
+                var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = expirationTime
+                };
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authProperties);
+
+                var userRole = claims.FirstOrDefault(x => x.Type == ClaimTypes.Role || x.Type == "role")?.Value;
+
+                if (userRole == "Admin")
+                    return RedirectToAction("Index", "About", new { Area = "Admin" });
+
+                return RedirectToAction("Index", "HomePage", new { Area = "Users" });
+            }
+            return View(dto);
+        }
+        #endregion
+
         private async Task GetErrorMessage(HttpResponseMessage response)
         {
             var result = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();
@@ -37,7 +105,5 @@ namespace CarBook.WebUI.Controllers
                 }
             }
         }
-
-        #endregion
     }
 }

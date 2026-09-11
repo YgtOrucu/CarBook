@@ -8,6 +8,7 @@
     <Project Path="Frontends/CarBook.WebUI/CarBook.WebUI.csproj" Id="c78da27e-1504-4c50-81dc-6d39e54e5f20" />
   </Folder>
   <Folder Name="/Infrastructure/">
+    <Project Path="Infrastructure/CarBook.Infrastructure/CarBook.Infrastructure.csproj" Id="c4e29f37-8602-4da2-a25c-a24396c835d4" />
     <Project Path="Infrastructure/CarBook.Persistence/CarBook.Persistence.csproj" />
   </Folder>
   <Folder Name="/Presantation/">

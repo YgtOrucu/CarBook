@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CarBook.Persistence.Repositories;
+namespace CarBook.Infrastructure.Repositories;
 
 public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory httpClientFactory) : IOpenAIRepository
 {

@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Frontends\CarBook.Dto\CarBook.Dto.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\CarBook.Infrastructure\CarBook.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\CarBook.Persistence\CarBook.Persistence.csproj" />
   </ItemGroup>
 
