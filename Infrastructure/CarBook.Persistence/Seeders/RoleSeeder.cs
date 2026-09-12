@@ -1,6 +1,8 @@
 ﻿using CarBook.Domain.Entities;
+using CarBook.Persistence.Options;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace CarBook.Persistence.Seeders;
 
@@ -10,7 +12,7 @@ public static class RoleSeeder
     {
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
         var userManager = serviceProvider.GetRequiredService<UserManager<AppUser>>();
-
+        var adminSettings = serviceProvider.GetRequiredService<IOptions<AutoCreateAdmin>>().Value;
 
         var roles = new[] { "Admin", "User" };
 
@@ -22,24 +24,20 @@ public static class RoleSeeder
             }
         }
 
-
-        string adminEmail = "orucuyigit@gmail.com";
-        string adminUserName = "Admin";
-
-        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+        var adminUser = await userManager.FindByEmailAsync(adminSettings.Email);
 
         if (adminUser == null)
         {
             var newAdmin = new AppUser
             {
-                UserName = adminUserName,
-                Email = adminEmail,
-                Name = "System",
-                Surname = "Admin",
-                EmailConfirmed = true,
+                UserName = adminSettings.UserName,
+                Email = adminSettings.Email,
+                Name = adminSettings.Name,
+                Surname = adminSettings.Surname,
+                EmailConfirmed = adminSettings.EmailConfirmed,
             };
 
-            var createResult = await userManager.CreateAsync(newAdmin, "Admin123!*");
+            var createResult = await userManager.CreateAsync(newAdmin, adminSettings.AdminPassword);
 
             if (createResult.Succeeded)
             {

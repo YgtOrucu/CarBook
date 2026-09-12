@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarBook.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class LocationController(IHttpClientFactory httpClientFactory) : Controller
+    public class LocationController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
         [HttpGet]
         public async Task<IActionResult> Index()

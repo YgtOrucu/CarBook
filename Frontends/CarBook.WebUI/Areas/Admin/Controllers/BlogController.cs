@@ -1,12 +1,10 @@
 ﻿using CarBook.Dto.Dtos.ForAdminPageDtos.BlogSectionDtos;
-using CarBook.Dto.Dtos.ForUsersPageDtos.BlogDetailSectionDtos;
-using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BlogController(IHttpClientFactory httpClientFactory) : Controller
+    public class BlogController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
         [HttpGet]
         public async Task<IActionResult> Index()

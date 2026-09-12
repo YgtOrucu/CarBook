@@ -1,5 +1,17 @@
-﻿@{
+﻿@using CarBook.Dto.Dtos.ForUsersPageDtos.NavbarDto
+@{
     Layout = null;
+    var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
+    var displayName = isAuthenticated ? (User.Identity.Name ?? "Kullanıcı") : null;
+    var userRoles = User?.FindFirst("Role")?.Value;
+    var initials = "?";
+    if (!string.IsNullOrWhiteSpace(displayName))
+    {
+        var parts = displayName.Split(new[] { ' ', '.', '_' }, StringSplitOptions.RemoveEmptyEntries);
+        initials = parts.Length >= 2
+            ? $"{parts[0][0]}{parts[1][0]}".ToUpper()
+            : displayName.Substring(0, Math.Min(2, displayName.Length)).ToUpper();
+    }
 }
 
 
@@ -7,7 +19,7 @@
 <html lang="en">
 @await Component.InvokeAsync("CarBookHead")
 <body>
-    @await Component.InvokeAsync("CarBookNavbar")
+    @await Component.InvokeAsync("CarBookNavbar", new CheckLoginUser { IsAuthenticated = isAuthenticated, DisplayName = displayName, Initials = initials, RoleName = userRoles })
     @RenderBody();
     @await Component.InvokeAsync("CarBookFooter")
     @await Component.InvokeAsync("CarBookScript")

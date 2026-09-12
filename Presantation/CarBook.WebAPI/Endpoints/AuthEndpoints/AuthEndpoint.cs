@@ -1,6 +1,7 @@
 ﻿using CarBook.Application.Features.Mediator.AuthMediator.Commands;
 using CarBook.Application.Features.Mediator.AuthMediator.Queries;
 using MediatR;
+using System.Security.Claims;
 
 namespace CarBook.WebAPI.Endpoints.AuthEndpoints
 {
@@ -12,6 +13,8 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
 
             auths.MapPost("register", CreateUserAsync).AllowAnonymous();
             auths.MapPost("login", LoginUserAsync).AllowAnonymous();
+            auths.MapPost("logout", LogoutAsync).AllowAnonymous();
+
         }
 
         private static async Task<IResult> CreateUserAsync(IMediator mediator, CreateRegisterCommand command)
@@ -24,6 +27,18 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
         {
             var result = await mediator.Send(getLogin);
             return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        }
+
+        private static async Task<IResult> LogoutAsync(IMediator mediator, ClaimsPrincipal user)
+        {
+            var userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+                return Results.Unauthorized();
+
+            var result = await mediator.Send(new LogoutCommand { UserId = userId });
+
+            return Results.Ok(new { Message = result });
         }
     }
 }

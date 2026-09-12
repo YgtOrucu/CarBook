@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using CarBook.WebUI.CustomMiddlewares;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace CarBook.WebUI.Extensions
 {
@@ -6,6 +7,9 @@ namespace CarBook.WebUI.Extensions
     {
         public static void UIServiceRegister(this IServiceCollection services, IConfiguration builder)
         {
+            services.AddHttpContextAccessor();
+            services.AddTransient<AuthTokenHandler>();
+
             services.AddHttpClient("CarBookAPI", opt =>
             {
                 var address = builder.GetSection("SwaggerApıAddress").Value;
@@ -13,7 +17,7 @@ namespace CarBook.WebUI.Extensions
                     throw new Exception("The ApıAddress could not be found");
 
                 opt.BaseAddress = new Uri(address);
-            });
+            }).AddHttpMessageHandler<AuthTokenHandler>();
 
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

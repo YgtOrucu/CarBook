@@ -94,6 +94,24 @@ namespace CarBook.WebUI.Controllers
         }
         #endregion
 
+        #region Logout
+
+        public async Task<IActionResult> Logout()
+        {
+            var token = User.FindFirst("AccessToken")?.Value;
+            if (!string.IsNullOrEmpty(token))
+            {
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            }
+
+            await client.PostAsync("auth/logout", null);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Login");
+        }
+
+        #endregion
         private async Task GetErrorMessage(HttpResponseMessage response)
         {
             var result = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();

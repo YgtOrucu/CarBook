@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CarBook.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class ServiceController(IHttpClientFactory httpClientFactory) : Controller
+    public class ServiceController(IHttpClientFactory httpClientFactory) : AdminBaseController
     {
 
         [HttpGet]
