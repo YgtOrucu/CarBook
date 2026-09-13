@@ -9,11 +9,11 @@ namespace CarBook.WebAPI.Endpoints.BlogTagEndpoints
         {
             var BlogTag = app.MapGroup("/blogTag").WithTags("BlogTag");
 
-            //BlogTag.MapPost(string.Empty, CreateBlogTagAsync);
-            //BlogTag.MapPut(string.Empty, UpdateBlogTagAsync);
-            //BlogTag.MapGet(string.Empty, GetBlogTagAsync);
-            BlogTag.MapGet("GetTag4Piece", GetTag4PieceForBlogDetailPageAsync);
-            BlogTag.MapGet("GetTagAll", GetTagAllForBlogDetailPageAsync);
+            //BlogTag.MapPost("", CreateBlogTagAsync);
+            //BlogTag.MapPut("", UpdateBlogTagAsync);
+            //BlogTag.MapGet("", GetBlogTagAsync);
+            BlogTag.MapGet("GetTag4Piece", GetTag4PieceForBlogDetailPageAsync).AllowAnonymous();
+            BlogTag.MapGet("GetTagAll", GetTagAllForBlogDetailPageAsync).AllowAnonymous();
             //BlogTag.MapDelete("{id}", RemoveBlogTagAsync);
         }
 

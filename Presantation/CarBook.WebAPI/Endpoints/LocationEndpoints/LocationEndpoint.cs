@@ -10,11 +10,14 @@ namespace CarBook.WebAPI.Endpoints.LocationEndpoints
         {
             var location = app.MapGroup("/location").WithTags("Location");
 
-            location.MapPost(string.Empty, CreateLocationAsync);
-            location.MapPut(string.Empty, UpdateLocationAsync);
-            location.MapGet(string.Empty, GetLocationAsync);
-            location.MapGet("{id}", GetLocationByIdAsync);
-            location.MapDelete("{id}", RemoveLocationAsync);
+            location.MapGet("", GetLocationAsync).AllowAnonymous();
+            location.MapGet("{id}", GetLocationByIdAsync).AllowAnonymous();
+            location.MapDelete("{id}", RemoveLocationAsync).AllowAnonymous();
+
+            var adminLocation = location.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminLocation.MapPost("", CreateLocationAsync);
+            adminLocation.MapPut("", UpdateLocationAsync);
         }
 
 

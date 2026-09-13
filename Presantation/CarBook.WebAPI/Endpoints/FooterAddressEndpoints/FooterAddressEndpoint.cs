@@ -10,12 +10,15 @@ namespace CarBook.WebAPI.Endpoints.FooterAddressEndpoints
         {
             var footeraddress = app.MapGroup("/footerAddress").WithTags("FooterAddress");
 
-            footeraddress.MapPost(string.Empty, CreateFooterAddressAsync);
-            footeraddress.MapPut(string.Empty, UpdateFooterAddressAsync);
-            footeraddress.MapGet(string.Empty, GetFooterAddressAsync);
-            footeraddress.MapGet("GetFooterAddressForPresantation", GetFooterAddressForPresantationAsync);
-            footeraddress.MapGet("{id}", GetFooterAddressByIdAsync);
-            footeraddress.MapDelete("{id}", RemoveFooterAddressAsync);
+            footeraddress.MapGet("", GetFooterAddressAsync).AllowAnonymous();
+            footeraddress.MapGet("GetFooterAddressForPresantation", GetFooterAddressForPresantationAsync).AllowAnonymous();
+            footeraddress.MapGet("{id}", GetFooterAddressByIdAsync).AllowAnonymous();
+            var adminFooterAddress = footeraddress.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+
+            adminFooterAddress.MapPost("", CreateFooterAddressAsync);
+            adminFooterAddress.MapPut("", UpdateFooterAddressAsync);
+            adminFooterAddress.MapDelete("{id}", RemoveFooterAddressAsync);
         }
 
 

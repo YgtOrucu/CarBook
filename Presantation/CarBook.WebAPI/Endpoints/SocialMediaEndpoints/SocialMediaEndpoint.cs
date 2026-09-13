@@ -10,11 +10,14 @@ namespace CarBook.WebAPI.Endpoints.SocialMediaEndpoints
         {
             var socialMedia = app.MapGroup("/socialMedia").WithTags("SocialMedia");
 
-            socialMedia.MapPost(string.Empty, CreateSocialMediaAsync);
-            socialMedia.MapPut(string.Empty, UpdateSocialMediaAsync);
-            socialMedia.MapGet(string.Empty, GetSocialMediaAsync);
-            socialMedia.MapGet("{id}", GetSocialMediaByIdAsync);
-            socialMedia.MapDelete("{id}", RemoveSocialMediaAsync);
+            socialMedia.MapGet("", GetSocialMediaAsync).AllowAnonymous();
+            socialMedia.MapGet("{id}", GetSocialMediaByIdAsync).AllowAnonymous();
+
+            var adminSocialMedia = socialMedia.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminSocialMedia.MapPost("", CreateSocialMediaAsync);
+            adminSocialMedia.MapPut("", UpdateSocialMediaAsync);
+            adminSocialMedia.MapDelete("{id}", RemoveSocialMediaAsync);
         }
 
 

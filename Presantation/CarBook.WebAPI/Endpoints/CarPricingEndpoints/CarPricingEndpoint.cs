@@ -1,6 +1,5 @@
 ﻿using CarBook.Application.Features.Mediator.Commands.CarPricingCommands;
 using CarBook.Application.Features.Mediator.Queries.CarPricingQueries;
-using CarBook.Domain.Entities;
 using MediatR;
 
 namespace CarBook.WebAPI.Endpoints.CarCarPricingEndpoints
@@ -11,12 +10,15 @@ namespace CarBook.WebAPI.Endpoints.CarCarPricingEndpoints
         {
             var carPricing = app.MapGroup("/carPricing").WithTags("CarPricing");
 
-            carPricing.MapGet(string.Empty, GetCarPricingAsync);
-            carPricing.MapGet("/timeperiod", GetCarPricingWithTimePeriodAsync);
-            carPricing.MapPost(string.Empty, CreateCarPricingAsync);
-            carPricing.MapPut(string.Empty, UpdateCarPricingAsync);
-            carPricing.MapDelete("{carId}", RemoveCarPricingAsync);
-            carPricing.MapGet("{carId}", GetCarPricingByCarIdAsync);
+            carPricing.MapGet("", GetCarPricingAsync).AllowAnonymous();
+            carPricing.MapGet("/timeperiod", GetCarPricingWithTimePeriodAsync).AllowAnonymous();
+            carPricing.MapGet("{carId}", GetCarPricingByCarIdAsync).AllowAnonymous();
+
+            var adminCarPricing = carPricing.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminCarPricing.MapPost("", CreateCarPricingAsync);
+            adminCarPricing.MapPut("", UpdateCarPricingAsync);
+            adminCarPricing.MapDelete("{carId}", RemoveCarPricingAsync);
         }
 
         private static async Task<IResult> GetCarPricingAsync(IMediator mediator)

@@ -10,13 +10,17 @@ namespace CarBook.WebAPI.Endpoints.CommentEndpoints
         {
             var comments = app.MapGroup("/comment").WithTags("Comments");
 
-            comments.MapGet(string.Empty, GetCommentAsync);
-            comments.MapGet("{id}", GetCommentByIdAsync);
-            comments.MapGet("GetCommentByBlogId", GetCommentByBlogIdAsync);
-            comments.MapGet("GetCommentWithBlogTitle", GetCommentWithBlogTitleAsync);
-            comments.MapPost(string.Empty, CreateCommentAsync);
-            comments.MapPut(string.Empty, UpdateCommentAsync);
-            comments.MapDelete("{id}", RemoveCommentAsync);
+            comments.MapGet("", GetCommentAsync).AllowAnonymous();
+            comments.MapGet("{id}", GetCommentByIdAsync).AllowAnonymous();
+            comments.MapGet("GetCommentByBlogId", GetCommentByBlogIdAsync).AllowAnonymous();
+            comments.MapGet("GetCommentWithBlogTitle", GetCommentWithBlogTitleAsync).AllowAnonymous();
+            comments.MapPost("", CreateCommentAsync).RequireAuthorization();
+
+
+            var adminComment = comments.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminComment.MapPut("", UpdateCommentAsync);
+            adminComment.MapDelete("{id}", RemoveCommentAsync);
         }
 
         private static async Task<IResult> GetCommentAsync(IMediator mediator)

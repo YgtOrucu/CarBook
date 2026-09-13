@@ -10,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Null olan property'ler JSON çıktısına hiç dahil edilmez
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 builder.Services.AddPersistenceService(builder.Configuration);
@@ -32,7 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-app.MapGroup("/api").AppRegisterEndpoint();
+app.MapGroup("/api").RequireAuthorization().AppRegisterEndpoint();
 app.MapControllers();
 
 app.Run();

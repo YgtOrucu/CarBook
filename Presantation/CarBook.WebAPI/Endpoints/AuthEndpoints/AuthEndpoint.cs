@@ -13,7 +13,7 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
 
             auths.MapPost("register", CreateUserAsync).AllowAnonymous();
             auths.MapPost("login", LoginUserAsync).AllowAnonymous();
-            auths.MapPost("logout", LogoutAsync).AllowAnonymous();
+            auths.MapPost("logout", LogoutAsync).RequireAuthorization();
 
         }
 

@@ -12,13 +12,16 @@ namespace CarBook.WebAPI.Endpoints.ContactEndpoints
         {
             var Contacts = builder.MapGroup("/contact").WithTags("Contacts");
 
-            Contacts.MapGet(string.Empty, GetContactAsync);
-            Contacts.MapGet("{id}", GetContactByIdAsync);
-            Contacts.MapGet("GetOpenAIAnswer", GetOpenAIAnswerAsync);
-            Contacts.MapPost(string.Empty, CreateContactAsync);
-            Contacts.MapPost("SendMessage", SendMessageAsync);
-            Contacts.MapPut(string.Empty, UpdateContactAsync);
-            Contacts.MapDelete("{id}", RemoveContactAsync);
+            Contacts.MapGet("", GetContactAsync).AllowAnonymous();
+            Contacts.MapGet("{id}", GetContactByIdAsync).AllowAnonymous();
+            Contacts.MapGet("GetOpenAIAnswer", GetOpenAIAnswerAsync).AllowAnonymous();
+
+            var adminContact = Contacts.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminContact.MapPost("", CreateContactAsync);
+            adminContact.MapPost("SendMessage", SendMessageAsync);
+            adminContact.MapPut("", UpdateContactAsync);
+            adminContact.MapDelete("{id}", RemoveContactAsync);
 
         }
 

@@ -21,7 +21,26 @@ namespace CarBook.WebUI.CustomMiddlewares
             {
                 var error = new BaseResult<GetApıErrors>
                 {
-                    Message = "Unauthorized access. Please check your credentials.",
+                    Errors = [new Error
+                    {
+                        Code = "401 Unauthorized",
+                        ErrorMessage = "Bu kaynağa erişim izniniz yok. Devam etmek için lütfen oturum açın."
+
+                    }]
+                };
+                response.Content = JsonContent.Create(error);
+            }
+
+            if (response.StatusCode == HttpStatusCode.Forbidden)
+            {
+                var error = new BaseResult<GetApıErrors>
+                {
+                    Errors = [new Error
+                    {
+                        Code = "403 Forbidden",
+                        ErrorMessage = "Bu kaynağa sadece yetkili kullanıcılar erişim iznine sahip."
+
+                    }]
                 };
                 response.Content = JsonContent.Create(error);
             }

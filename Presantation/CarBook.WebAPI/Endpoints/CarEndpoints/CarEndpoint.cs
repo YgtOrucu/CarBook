@@ -12,14 +12,17 @@ namespace CarBook.WebAPI.Endpoints.CarEndpoints
         {
             var cars = builder.MapGroup("/car").WithTags("Cars");
 
-            cars.MapGet(string.Empty, GetCarAsync);
-            cars.MapGet("{id}", GetCarByIdAsync);
-            cars.MapGet("getBrand", GetCarWithBrandAsync);
-            cars.MapGet("GetCarForPresantation", GetCarForPresantationPageAsync);
-            cars.MapGet("GetCarLastest5ForPresantation", GetCarLastest5ForPresantationPageAsync);
-            cars.MapPost(string.Empty, CreateCarAsync);
-            cars.MapPut(string.Empty, UpdateCarAsync);
-            cars.MapDelete("{id}", RemoveCarAsync);
+            cars.MapGet("", GetCarAsync).AllowAnonymous();
+            cars.MapGet("{id}", GetCarByIdAsync).AllowAnonymous();
+            cars.MapGet("getBrand", GetCarWithBrandAsync).AllowAnonymous();
+            cars.MapGet("GetCarForPresantation", GetCarForPresantationPageAsync).AllowAnonymous();
+            cars.MapGet("GetCarLastest5ForPresantation", GetCarLastest5ForPresantationPageAsync).AllowAnonymous();
+
+            var adminCar = cars.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminCar.MapPost("", CreateCarAsync);
+            adminCar.MapPut("", UpdateCarAsync);
+            adminCar.MapDelete("{id}", RemoveCarAsync);
         }
 
         private static async Task<IResult> GetCarForPresantationPageAsync(IMediator mediator)

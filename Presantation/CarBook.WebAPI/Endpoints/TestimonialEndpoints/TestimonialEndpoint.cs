@@ -10,11 +10,14 @@ namespace CarBook.WebAPI.Endpoints.TestimonialEndpoints
         {
             var testimonial = app.MapGroup("/testimonial").WithTags("Testimonial");
 
-            testimonial.MapPost(string.Empty, CreateTestimonialAsync);
-            testimonial.MapPut(string.Empty, UpdateTestimonialAsync);
-            testimonial.MapGet(string.Empty, GetTestimonialAsync);
-            testimonial.MapGet("{id}", GetTestimonialByIdAsync);
-            testimonial.MapDelete("{id}", RemoveTestimonialAsync);
+            testimonial.MapGet("", GetTestimonialAsync).AllowAnonymous();
+            testimonial.MapGet("{id}", GetTestimonialByIdAsync).AllowAnonymous();
+
+            var adminTestimonial = testimonial.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminTestimonial.MapPost("", CreateTestimonialAsync);
+            adminTestimonial.MapPut("", UpdateTestimonialAsync);
+            adminTestimonial.MapDelete("{id}", RemoveTestimonialAsync);
         }
 
 

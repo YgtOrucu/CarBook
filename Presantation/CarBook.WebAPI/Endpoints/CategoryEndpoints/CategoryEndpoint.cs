@@ -11,11 +11,13 @@ namespace CarBook.WebAPI.Endpoints.CategoryEndpoints
         {
             var Categorys = builder.MapGroup("/Category").WithTags("Categorys");
 
-            Categorys.MapGet(string.Empty, GetCategoryAsync);
-            Categorys.MapGet("{id}", GetCategoryByIdAsync);
-            Categorys.MapPost(string.Empty, CreateCategoryAsync);
-            Categorys.MapPut(string.Empty, UpdateCategoryAsync);
-            Categorys.MapDelete("{id}", RemoveCategoryAsync);
+            Categorys.MapGet("", GetCategoryAsync).AllowAnonymous();
+            Categorys.MapGet("{id}", GetCategoryByIdAsync).AllowAnonymous();
+
+            var adminCategory = Categorys.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+            adminCategory.MapPost("", CreateCategoryAsync);
+            adminCategory.MapPut("", UpdateCategoryAsync);
+            adminCategory.MapDelete("{id}", RemoveCategoryAsync);
 
         }
 

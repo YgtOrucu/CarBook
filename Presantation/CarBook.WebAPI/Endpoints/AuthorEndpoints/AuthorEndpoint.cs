@@ -10,11 +10,11 @@ namespace CarBook.WebAPI.Endpoints.AuthorEndpoints
         {
             var author = app.MapGroup("/author").WithTags("Author");
 
-            author.MapPost(string.Empty, CreateAuthorAsync);
-            author.MapPut(string.Empty, UpdateAuthorAsync);
-            author.MapGet(string.Empty, GetAuthorAsync);
-            author.MapGet("{id}", GetAuthorByIdAsync);
-            author.MapDelete("{id}", RemoveAuthorAsync);
+            author.MapPost("", CreateAuthorAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
+            author.MapPut("", UpdateAuthorAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
+            author.MapGet("", GetAuthorAsync).AllowAnonymous();
+            author.MapGet("{id}", GetAuthorByIdAsync).AllowAnonymous();
+            author.MapDelete("{id}", RemoveAuthorAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
         }
 
 

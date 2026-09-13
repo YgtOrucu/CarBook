@@ -2,7 +2,7 @@
 @{
     Layout = null;
     var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
-    var displayName = isAuthenticated ? (User.Identity.Name ?? "Kullanıcı") : null;
+    var displayName = isAuthenticated ? (User.FindFirst("FullName")?.Value ?? "Kullanıcı") : null;
     var userRoles = User?.FindFirst("Role")?.Value;
     var initials = "?";
     if (!string.IsNullOrWhiteSpace(displayName))

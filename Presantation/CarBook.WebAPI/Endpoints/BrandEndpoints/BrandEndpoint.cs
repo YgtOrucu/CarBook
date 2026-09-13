@@ -10,11 +10,15 @@ namespace CarBook.WebAPI.Endpoints.BrandEndpoints
         {
             var Brands = builder.MapGroup("/brand").WithTags("Brands");
 
-            Brands.MapGet(string.Empty, GetBrandAsync);
-            Brands.MapGet("{id}", GetBrandByIdAsync);
-            Brands.MapPost(string.Empty, CreateBrandAsync);
-            Brands.MapPut(string.Empty, UpdateBrandAsync);
-            Brands.MapDelete("{id}", RemoveBrandAsync);
+            Brands.MapGet("", GetBrandAsync).AllowAnonymous();
+            Brands.MapGet("{id}", GetBrandByIdAsync).AllowAnonymous();
+
+
+            var adminBrand = Brands.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminBrand.MapPost("", CreateBrandAsync);
+            adminBrand.MapPut("", UpdateBrandAsync);
+            adminBrand.MapDelete("{id}", RemoveBrandAsync);
 
         }
 

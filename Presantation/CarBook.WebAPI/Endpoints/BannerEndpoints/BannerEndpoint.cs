@@ -11,11 +11,11 @@ public static class BannerEndpoint
     {
         var banners = builder.MapGroup("/banner").WithTags("Banners");
 
-        banners.MapGet(string.Empty, GetBannerAsync);
-        banners.MapGet("{id}", GetBannerByIdAsync);
-        banners.MapPost(string.Empty, CreateBannerAsync);
-        banners.MapPut(string.Empty, UpdateBannerAsync);
-        banners.MapDelete("{id}", RemoveBannerAsync);
+        banners.MapGet("", GetBannerAsync).AllowAnonymous();
+        banners.MapGet("{id}", GetBannerByIdAsync).AllowAnonymous();
+        banners.MapPost("", CreateBannerAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        banners.MapPut("", UpdateBannerAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
+        banners.MapDelete("{id}", RemoveBannerAsync).RequireAuthorization(policy => policy.RequireRole("Admin"));
 
     }
 

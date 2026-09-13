@@ -10,11 +10,14 @@ namespace CarBook.WebAPI.Endpoints.PricingEndpoints
         {
             var pricing = app.MapGroup("/pricing").WithTags("Pricing");
 
-            pricing.MapPost(string.Empty, CreatePricingAsync);
-            pricing.MapPut(string.Empty, UpdatePricingAsync);
-            pricing.MapGet(string.Empty, GetPricingAsync);
-            pricing.MapGet("{id}", GetPricingByIdAsync);
-            pricing.MapDelete("{id}", RemovePricingAsync);
+            pricing.MapGet("", GetPricingAsync).AllowAnonymous();
+            pricing.MapGet("{id}", GetPricingByIdAsync).AllowAnonymous();
+            pricing.MapDelete("{id}", RemovePricingAsync).AllowAnonymous();
+
+            var adminPricing = pricing.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminPricing.MapPost("", CreatePricingAsync);
+            adminPricing.MapPut("", UpdatePricingAsync);
         }
 
 

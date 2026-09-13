@@ -10,12 +10,15 @@ namespace CarBook.WebAPI.Endpoints.ServicesEndpoints
         {
             var services = app.MapGroup("/services").WithTags("Services");
 
-            services.MapPost(string.Empty, CreateServicesAsync);
-            services.MapPut(string.Empty, UpdateServicesAsync);
-            services.MapGet(string.Empty, GetServicesAsync);
-            services.MapGet("Lastest5Services", GetServicesLastest5Async);
-            services.MapGet("{id}", GetServicesByIdAsync);
-            services.MapDelete("{id}", RemoveServicesAsync);
+            services.MapGet("", GetServicesAsync).AllowAnonymous();
+            services.MapGet("Lastest5Services", GetServicesLastest5Async).AllowAnonymous();
+            services.MapGet("{id}", GetServicesByIdAsync).AllowAnonymous();
+
+            var adminServices = services.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminServices.MapPost("", CreateServicesAsync);
+            adminServices.MapPut("", UpdateServicesAsync);
+            adminServices.MapDelete("{id}", RemoveServicesAsync);
         }
 
 

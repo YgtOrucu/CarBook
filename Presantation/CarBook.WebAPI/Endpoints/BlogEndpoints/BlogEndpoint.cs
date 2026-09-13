@@ -10,17 +10,20 @@ namespace CarBook.WebAPI.Endpoints.BlogEndpoints
         {
             var blog = app.MapGroup("/blog").WithTags("Blog");
 
-            blog.MapPost(string.Empty, CreateBlogAsync);
-            blog.MapPut(string.Empty, UpdateBlogAsync);
-            blog.MapGet(string.Empty, GetBlogAsync);
-            blog.MapGet("GetAuthorByBlogId", GetAuthorByBlogId);
-            blog.MapGet("GetBlogCountByCategory", GetBlogCountByCategoryAsync);
-            blog.MapGet("Lastest3ForPresantationPage", GetLastest3ForPresantationPageAsync);
-            blog.MapGet("Lastest5ForPresantationPage", GetLastest5ForPresantationPageAsync);
-            blog.MapGet("BlogsByCategoryId", GetBlogsByCategoryIdAsync);
-            blog.MapGet("AnswerOpenAI/{categoryName}", AnswerOpenAIForCreateBlogAsync);
-            blog.MapGet("{id}", GetBlogByIdAsync);
-            blog.MapDelete("{id}", RemoveBlogAsync);
+            blog.MapGet("", GetBlogAsync).AllowAnonymous();
+            blog.MapGet("{id:int}", GetBlogByIdAsync).AllowAnonymous();
+            blog.MapGet("GetAuthorByBlogId", GetAuthorByBlogId).AllowAnonymous();
+            blog.MapGet("GetBlogCountByCategory", GetBlogCountByCategoryAsync).AllowAnonymous();
+            blog.MapGet("Lastest3ForPresantationPage", GetLastest3ForPresantationPageAsync).AllowAnonymous();
+            blog.MapGet("Lastest5ForPresantationPage", GetLastest5ForPresantationPageAsync).AllowAnonymous();
+            blog.MapGet("BlogsByCategoryId", GetBlogsByCategoryIdAsync).AllowAnonymous();
+            blog.MapGet("AnswerOpenAI/{categoryName}", AnswerOpenAIForCreateBlogAsync).AllowAnonymous();
+
+            var adminBlog = blog.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminBlog.MapPost("", CreateBlogAsync);
+            adminBlog.MapPut("", UpdateBlogAsync);
+            adminBlog.MapDelete("{id:int}", RemoveBlogAsync);
         }
 
         private static async Task<IResult> AnswerOpenAIForCreateBlogAsync(string categoryName ,IMediator mediator)

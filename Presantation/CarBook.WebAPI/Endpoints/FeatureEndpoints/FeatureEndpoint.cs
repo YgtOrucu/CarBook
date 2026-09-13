@@ -10,11 +10,13 @@ namespace CarBook.WebAPI.Endpoints.FeatureEndpoints
         {
             var features = app.MapGroup("/feature").WithTags("Features");
 
-            features.MapGet(string.Empty, GetFeatureAsync);
-            features.MapGet("{id}", GetFeatureByIdAsync);
-            features.MapPost(string.Empty, CreateFeatureAsync);
-            features.MapPut(string.Empty, UpdateFeatureAsync);
-            features.MapDelete("{id}", RemoveFeatureAsync);
+            features.MapGet("", GetFeatureAsync).AllowAnonymous();
+            features.MapGet("{id}", GetFeatureByIdAsync).AllowAnonymous();
+            var adminFeature = features.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminFeature.MapPost("", CreateFeatureAsync);
+            adminFeature.MapPut("", UpdateFeatureAsync);
+            adminFeature.MapDelete("{id}", RemoveFeatureAsync);
         }
 
         private static async Task<IResult> GetFeatureAsync(IMediator mediator)

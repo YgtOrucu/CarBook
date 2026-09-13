@@ -1,4 +1,6 @@
-﻿using CarBook.Dto.Dtos.ForUsersPageDtos.CommentSectionDto;
+﻿using CarBook.Application.Base;
+using CarBook.Dto.Dtos.ForUsersPageDtos.CommentSectionDto;
+using CarBook.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.Areas.Users.Controllers
@@ -17,6 +19,18 @@ namespace CarBook.WebUI.Areas.Users.Controllers
                 TempData["SuccessMessage"] = "Mesajınız iletilmiştir.En yakın zaman da iletişime geçilecektir.";
                 return RedirectToAction("BlogDetail", "Blog", new { id = dto.BlogId });
             }
+
+            var errormessage = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();
+
+            if(errormessage != null)
+            {
+                foreach(var error in errormessage.Errors)
+                {
+                    TempData["ErrorMessage"] = error.ErrorMessage;
+                    return RedirectToAction("BlogDetail", "Blog", new { id = dto.BlogId });
+                }
+            }
+
             TempData["ErrorMessage"] = "Mesaj İletilmedi.Lütfen tekrar deneyiniz";
             return RedirectToAction("BlogDetail", "Blog", new { id = dto.BlogId });
         }

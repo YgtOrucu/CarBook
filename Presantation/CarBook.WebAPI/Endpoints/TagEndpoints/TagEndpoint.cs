@@ -10,11 +10,14 @@ namespace CarBook.WebAPI.Endpoints.TagEndpoints
         {
             var Tag = app.MapGroup("/tag").WithTags("Tag");
 
-            Tag.MapPost(string.Empty, CreateTagAsync);
-            Tag.MapPut(string.Empty, UpdateTagAsync);
-            Tag.MapGet(string.Empty, GetTagAsync);
-            Tag.MapGet("{id}", GetTagByIdAsync);
-            Tag.MapDelete("{id}", RemoveTagAsync);
+            Tag.MapGet("", GetTagAsync).AllowAnonymous();
+            Tag.MapGet("{id}", GetTagByIdAsync).AllowAnonymous();
+
+            var adminTag = Tag.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
+
+            adminTag.MapPost("", CreateTagAsync);
+            adminTag.MapPut("", UpdateTagAsync);
+            adminTag.MapDelete("{id}", RemoveTagAsync);
         }
 
 
