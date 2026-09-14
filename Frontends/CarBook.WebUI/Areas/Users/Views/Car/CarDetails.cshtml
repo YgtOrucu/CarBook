@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "Araba Detayları";
+    ViewData["PageTitle"] = "Araba Detayları";
+    ViewData["PageBreadcrumb"] = "Araçlar";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_1.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+@await Component.InvokeAsync("CarDetails", new { Id = ViewBag.Id })

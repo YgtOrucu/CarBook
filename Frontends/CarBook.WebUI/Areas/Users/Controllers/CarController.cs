@@ -9,5 +9,11 @@ namespace CarBook.WebUI.Areas.Users.Controllers
         {
             return View();
         }
+
+        public IActionResult CarDetails(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
     }
 }

@@ -13,4 +13,5 @@ public class ResultCarLastest5Dto
     public string? BigImageUrl { get; set; }
     public decimal CarAmount { get; set; }
     public string? CarPricingName { get; set; }
+    public bool IsDeleted { get; set; }
 }

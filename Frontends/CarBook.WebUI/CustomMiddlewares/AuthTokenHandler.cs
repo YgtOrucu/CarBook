@@ -7,7 +7,6 @@ namespace CarBook.WebUI.CustomMiddlewares
 {
     public class AuthTokenHandler(IHttpContextAccessor httpContextAccessor) : DelegatingHandler
     {
-
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var token = httpContextAccessor.HttpContext?.User.FindFirst("AccessToken")?.Value;
@@ -23,7 +22,7 @@ namespace CarBook.WebUI.CustomMiddlewares
                 {
                     Errors = [new Error
                     {
-                        Code = "401 Unauthorized",
+                        Code = "401",
                         ErrorMessage = "Bu kaynağa erişim izniniz yok. Devam etmek için lütfen oturum açın."
 
                     }]
@@ -37,7 +36,7 @@ namespace CarBook.WebUI.CustomMiddlewares
                 {
                     Errors = [new Error
                     {
-                        Code = "403 Forbidden",
+                        Code = "403",
                         ErrorMessage = "Bu kaynağa sadece yetkili kullanıcılar erişim iznine sahip."
 
                     }]

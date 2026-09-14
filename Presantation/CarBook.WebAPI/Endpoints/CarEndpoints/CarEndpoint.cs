@@ -17,6 +17,7 @@ namespace CarBook.WebAPI.Endpoints.CarEndpoints
             cars.MapGet("getBrand", GetCarWithBrandAsync).AllowAnonymous();
             cars.MapGet("GetCarForPresantation", GetCarForPresantationPageAsync).AllowAnonymous();
             cars.MapGet("GetCarLastest5ForPresantation", GetCarLastest5ForPresantationPageAsync).AllowAnonymous();
+            cars.MapGet("CarDetails/{id}", GetCarDetailByCarIdAsync).AllowAnonymous();
 
             var adminCar = cars.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
 
@@ -46,6 +47,12 @@ namespace CarBook.WebAPI.Endpoints.CarEndpoints
         {
             var result = await getCarByIdQueryHandle.Handle(new GetCarByIdQuery(id));
             return result != null ? Results.Ok(result) : Results.NotFound();
+        }
+
+        private static async Task<IResult> GetCarDetailByCarIdAsync(int Id, IMediator mediator)
+        {
+            var result = await mediator.Send(new GetCarDetailByCarIdQuery(Id));
+            return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
         }
 
         private static async Task<IResult> GetCarWithBrandAsync(GetCarWithBrandQueryHandle getCarWithBrandQueryHandle)

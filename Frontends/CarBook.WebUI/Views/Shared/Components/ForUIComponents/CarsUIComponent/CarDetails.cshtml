@@ -1,0 +1,178 @@
+﻿@model GetCarDetailByCarIdDto
+@{
+    string transmission = Model.CarDetail.Transmission switch
+    {
+        1 => "Otomatik",
+        2 => "Yarı Otomatik",
+        3 => "Manuel",
+        _ => "Bilinmiyor"
+    };
+}
+
+<section class="ftco-section ftco-car-details">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="car-details">
+                    <div class="img rounded" style="background-image: url(@Model.CarDetail.BigImageUrl);"></div>
+                    <div class="text text-center">
+                        <span class="subheading">@Model.CarDetail.BrandName</span>
+                        <h2>@Model.CarDetail.Model</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-dashboard"></span></div>
+                            <div class="text">
+                                <h3 class="heading mb-0 pl-3">
+                                    Kilometre
+                                    <span>@Model.CarDetail.CarKM</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-pistons"></span></div>
+                            <div class="text">
+                                <h3 class="heading mb-0 pl-3">
+                                    Şanzuman
+                                    <span>@transmission</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-car-seat"></span></div>
+                            <div class="text">
+                                <h3 class="heading mb-0 pl-3">
+                                    Koltuk
+                                    <span>@Model.CarDetail.SeatCount Koltuk</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-backpack"></span></div>
+                            <div class="text">
+                                <h3 class="heading mb-0 pl-3">
+                                    Bagaj
+                                    <span>@Model.CarDetail.LuggageCount Bagaj</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md d-flex align-self-stretch ftco-animate">
+                <div class="media block-6 services">
+                    <div class="media-body py-md-4">
+                        <div class="d-flex mb-3 align-items-center">
+                            <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-diesel"></span></div>
+                            <div class="text">
+                                <h3 class="heading mb-0 pl-3">
+                                    Yakıt
+                                    <span>@Model.CarDetail.Fuel</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 pills">
+                <div class="bd-example bd-example-tabs">
+                    <div class="d-flex justify-content-center">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                Özellikler
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-description" role="tabpanel" aria-labelledby="pills-description-tab">
+                            <div class="row">
+                                @{
+                                    var features = Model.CarFeatures.ToList();
+                                    int totalCount = features.Count;
+                                    int pageSize = (int)Math.Ceiling(totalCount / 3.0);
+                                }
+
+                                @for (int i = 0; i < 3; i++)
+                                {
+                                    <div class="col-md-4">
+                                        <ul class="features">
+                                            @foreach (var feature in features.Skip(i * pageSize).Take(pageSize))
+                                            {
+                                                string cssClass = feature.Available ? "check" : "remove";
+                                                string iconClass = feature.Available ? "ion-ios-checkmark" : "ion-ios-close";
+
+                                                <li class="@cssClass">
+                                                    <span class="@iconClass"></span>@feature.Name
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-no-pt">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 heading-section text-center ftco-animate mb-5">
+                <span class="subheading">Choose Car</span>
+                <h2 class="mb-2">Related Cars</h2>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var car in Model.Cars)
+            {
+                <div class="col-md-4">
+                    <div class="car-wrap rounded ftco-animate">
+                        <div class="img rounded d-flex align-items-end" style="background-image: url(@car.CoverImageUrl);">
+                        </div>
+                        <div class="text">
+                            <h2 class="mb-0"><a href="#">@car.Model</a></h2>
+                            <div class="d-flex mb-3">
+                                <span class="cat">@car.BrandName</span>
+                                <p class="price ml-auto">@car.CarAmount.ToString("N2") ₺ <span>/@car.CarPricingName</span></p>
+                            </div>
+                            <p class="d-flex mb-0 d-block">
+                                <a href="#" class="btn btn-primary py-2 mr-1">Hemen Kirala</a>
+                                <a asp-area="Users" asp-controller="Car" asp-action="CarDetails" asp-route-id="@car.Id" class="btn btn-secondary py-2 ml-1">Detaylar</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

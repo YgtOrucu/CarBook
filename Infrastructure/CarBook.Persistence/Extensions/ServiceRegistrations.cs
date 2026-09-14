@@ -50,6 +50,7 @@ public static class ServiceRegistrations
         services.AddScoped<IBlogRepository, BlogRepository>();
         services.AddScoped<ICarPricingRepository, CarPricingRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
+        services.AddScoped<ICarDetailRepository, CarDetailRepository>();
     }
 
     public static async Task UseDbSeederAsync(this WebApplication app)

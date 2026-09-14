@@ -1,5 +1,7 @@
-﻿namespace CarBook.Application.Features.CQRS.Results.CarResult;
-public class GetCarForPresantationPageResult
+﻿using CarBook.Application.Base;
+
+namespace CarBook.Application.Features.CQRS.Results.CarResult;
+public class GetCarForPresantationPageResult : BaseDto
 {
     public string? BrandName { get; set; }
     public string? Model { get; set; }
