@@ -4,7 +4,7 @@
     ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
     Layout = "~/Views/UILayout/Index.cshtml";
     var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
-    var username = isAuthenticated ? (User.Identity.Name ?? "Kullanıcı") : null;
+    var username = isAuthenticated ? (User?.FindFirst("FullName")?.Value ?? "Kullanıcı") : null;
 }
 
 <partial name="_PageHeaderPartial" />

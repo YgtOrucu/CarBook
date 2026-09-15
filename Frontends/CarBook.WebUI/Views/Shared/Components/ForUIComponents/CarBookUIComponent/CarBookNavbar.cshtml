@@ -17,21 +17,23 @@
 
                 @if (Model.IsAuthenticated)
                 {
-                    <li class="nav-item dropdown ml-md-3">
-                        <a href="#" class="profile-chip nav-link d-flex align-items-center py-1 dropdown-toggle" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <li class="nav-item ml-md-3 d-flex align-items-center">
+                        <div class="profile-chip d-flex align-items-center py-1 pr-2">
                             <div class="profile-avatar text-white font-weight-bold d-flex align-items-center justify-content-center bg-primary rounded-circle mr-2" style="width: 36px; height: 36px; font-size: 14px;">
                                 @Model.Initials
                             </div>
-                            <div class="d-none d-lg-block text-left" style="line-height: 1.2;">
+                            <div id="userInfo" class="d-none d-lg-block text-left" style="line-height: 1.2;">
                                 <div class="name text-white font-weight-bold" style="font-size: 13px;">@Model.DisplayName</div>
-                                <div class="role text-muted" style="font-size: 11px;">@Model.RoleName</div>
+                                <div class="role text-white" style="font-size: 13px;">@Model.RoleName</div>
                             </div>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow border-0 bg-dark py-2" aria-labelledby="profileDropdown">    
-                            <a class="dropdown-item text-danger py-2 px-3" asp-area="" asp-controller="Auth" asp-action="Logout">
-                                <span class="icon-sign-out mr-2"></span> Çıkış Yap
-                            </a>
                         </div>
+
+                        <a class="btn btn-link p-0 ml-2 d-flex align-items-center justify-content-center logout-btn"
+                           asp-area="" asp-controller="Auth" asp-action="Logout"
+                           title="Çıkış Yap"
+                           style="width: 32px; height: 32px; transition: all 0.2s ease; text-decoration: none;">
+                            <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                        </a>
                     </li>
                 }
                 else

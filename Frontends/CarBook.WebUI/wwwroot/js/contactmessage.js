@@ -4,7 +4,7 @@
         cardModal.style.opacity = '0';
         cardModal.style.transition = 'opacity 0.2s ease';
         setTimeout(function () {
-            cardModal.style.display = 'none';
+            cardModal.remove();
         }, 200);
     }
 }
@@ -15,7 +15,7 @@ function closeErrorCard() {
         cardModal.style.opacity = '0';
         cardModal.style.transition = 'opacity 0.2s ease';
         setTimeout(function () {
-            cardModal.style.display = 'none';
+            cardModal.remove();
         }, 200);
     }
 }

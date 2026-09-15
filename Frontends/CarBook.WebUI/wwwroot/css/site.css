@@ -1,22 +1,43 @@
-html {
-  font-size: 14px;
+.avatar-initials {
+    width: 50px;
+    height: 50px;
+    background-color: #0084ff; 
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700; 
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: Arial, sans-serif;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+
+.avatar-initials-admin {
+    width: 38px;
+    height: 38px;
+    background-color: #0084ff;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+.avatar-initials-modal {
+    width: 50px;
+    height: 50px;
+    background-color: #0084ff;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    text-transform: uppercase;
 }

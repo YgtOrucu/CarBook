@@ -31,6 +31,7 @@ public class CarPricingRepository(CarBookContext context) : ICarPricingRepositor
             .Include(x => x.Car)
             .ThenInclude(x => x.Brand)
             .Include(x => x.Pricing)
+            .Where(x => !x.Car.IsDeleted)
             .GroupBy(x => new { x.CarId, x.Car.Brand.Name, x.Car.Model, x.Car.CoverImageUrl })
             .Select(g => new GetCarPricingWithTimePeriodQueryResult
             {
@@ -41,7 +42,7 @@ public class CarPricingRepository(CarBookContext context) : ICarPricingRepositor
                 HourlyAmount = g.Where(x => x.Pricing.Name == "Saatlik").Select(x => x.Amount).FirstOrDefault(),
                 DailyAmount = g.Where(x => x.Pricing.Name == "Günlük").Select(x => x.Amount).FirstOrDefault(),
                 WeeklyAmount = g.Where(x => x.Pricing.Name == "Haftalık").Select(x => x.Amount).FirstOrDefault(),
-                MonthlyAmount = g.Where(x => x.Pricing.Name == "Aylık").Select(x => x.Amount).FirstOrDefault()
+                MonthlyAmount = g.Where(x => x.Pricing.Name == "Aylık").Select(x => x.Amount).FirstOrDefault(),
             }).ToListAsync();
 
         return values;

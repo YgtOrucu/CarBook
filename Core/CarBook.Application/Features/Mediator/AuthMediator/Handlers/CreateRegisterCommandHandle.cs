@@ -17,9 +17,17 @@ public class CreateRegisterCommandHandle(UserManager<AppUser> userManager, IMapp
         var result = await userManager.CreateAsync(mappedUser, request.Password);
 
         if (!result.Succeeded)
+        {
             return BaseResult<object>.Failure(result.Errors);
+        }
+
+        var roleResult = await userManager.AddToRoleAsync(mappedUser, "User");
+
+        if (!roleResult.Succeeded)
+        {
+            return BaseResult<object>.Failure(roleResult.Errors);
+        }
 
         return BaseResult<object>.Success(true, "User created successfully");
-
     }
 }

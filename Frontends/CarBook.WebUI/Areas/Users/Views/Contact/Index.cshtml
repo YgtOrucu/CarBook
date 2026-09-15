@@ -1,9 +1,13 @@
-﻿@{
+﻿@using System.IdentityModel.Tokens.Jwt
+@{
     ViewData["Title"] = "İletişim";
     ViewData["PageTitle"] = "Bize Ulaşın";
     ViewData["PageBreadcrumb"] = "İletişim";
     ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
     Layout = "~/Views/UILayout/Index.cshtml";
+    var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
+    var Name = isAuthenticated ? (User?.FindFirst("FullName")?.Value ?? "Kullanıcı") : null;
+    var Email = isAuthenticated ? (User?.FindFirst(JwtRegisteredClaimNames.Email)?.Value ?? null) : null;
 }
 <partial name="_PageHeaderPartial" />
 @await Component.InvokeAsync("SuccessAndErrorMessages")
@@ -13,7 +17,7 @@
             <div class="col-md-4">
                 @await Component.InvokeAsync("AddressSectionInContact")
             </div>
-            @await Component.InvokeAsync("SendMessage")
+            @await Component.InvokeAsync("SendMessage", new { Name = Name, Email = Email })
         </div>
         <div class="row justify-content-center">
             <div class="col-md-12">

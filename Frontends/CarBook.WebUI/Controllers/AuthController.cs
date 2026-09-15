@@ -108,7 +108,7 @@ namespace CarBook.WebUI.Controllers
             await client.PostAsync("auth/logout", null);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "HomePage", new { Area = "Users" });
         }
 
         #endregion

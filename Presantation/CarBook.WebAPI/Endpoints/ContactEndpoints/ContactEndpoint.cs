@@ -15,10 +15,10 @@ namespace CarBook.WebAPI.Endpoints.ContactEndpoints
             Contacts.MapGet("", GetContactAsync).AllowAnonymous();
             Contacts.MapGet("{id}", GetContactByIdAsync).AllowAnonymous();
             Contacts.MapGet("GetOpenAIAnswer", GetOpenAIAnswerAsync).AllowAnonymous();
+            Contacts.MapPost("", CreateContactAsync).RequireAuthorization();
 
             var adminContact = Contacts.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
 
-            adminContact.MapPost("", CreateContactAsync);
             adminContact.MapPost("SendMessage", SendMessageAsync);
             adminContact.MapPut("", UpdateContactAsync);
             adminContact.MapDelete("{id}", RemoveContactAsync);

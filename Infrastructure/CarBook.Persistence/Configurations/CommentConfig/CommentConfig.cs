@@ -13,7 +13,6 @@ public class CommentConfig : IEntityTypeConfiguration<Comment>
 
         builder.Property(x=> x.NameSurname).HasColumnType("nvarchar(100)").IsRequired(true);
         builder.Property(x=> x.MessageBody).HasColumnType("nvarchar(700)").IsRequired(true);
-        builder.Property(x => x.ImageUrl).HasColumnType("nvarchar(300)").IsRequired(false);
 
         builder.HasOne(x=>x.Blog)
             .WithMany(x=>x.Comments)
