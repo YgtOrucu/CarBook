@@ -1,0 +1,200 @@
+﻿@model List<ResultReservationDto>
+@{
+    ViewData["PageTitle"] = "Rezervasyon Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<partial name="_PageHeaderAdminPartial" />
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+        <i class="mdi mdi-check-all-circle mr-2 font-size-16 align-middle"></i>
+        <strong>Başarılı!</strong> @TempData["SuccessMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-3" role="alert">
+        <i class="mdi mdi-alert-circle-outline mr-2 font-size-16 align-middle"></i>
+        <strong>Hata!</strong> @TempData["ErrorMessage"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card shadow-sm border-0 rounded-lg">
+            <div class="card-header bg-white py-3 d-flex align-items-center justify-content-between border-bottom-0">
+                <h5 class="card-title font-weight-bold text-dark m-0">
+                    <i class="feather-calendar text-primary mr-2"></i>Aktif Rezervasyonlar Listesi
+                </h5>
+                <span class="badge badge-soft-info p-2 font-size-13">
+                    <i class="feather-info mr-1"></i> Toplam Rezervasyon: @(Model?.Count ?? 0)
+                </span>
+            </div>
+
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover table-centered table-nowrap mb-0">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="text-center" style="width: 50px;">#</th>
+                                <th>Kullanıcı / İletişim</th>
+                                <th>Araç</th>
+                                <th>Alış - İade Lokasyon</th>
+                                <th>Alış Tarih & Saat</th>
+                                <th>İade Tarih & Saat</th>
+                                <th class="text-center" style="width: 100px;">İşlemler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var item in Model.Where(x => !x.IsDeleted))
+                                {
+                                    count++;
+                                    <tr>
+                                        <td class="text-center font-weight-bold">@count</td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="font-weight-semibold text-dark">@item.FullName</span>
+                                                <small class="text-muted">@item.Email</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="font-weight-medium text-primary">@item.CarName</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <small class="text-dark"><strong class="text-muted">Alış:</strong> @item.PickUpLocationName</small>
+                                                <small class="text-dark"><strong class="text-muted">İade:</strong> @item.DropOffLocationName</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">@item.PickUpDate</span>
+                                                <small class="text-muted">@item.PickUpTime</small>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex flex-column">
+                                                <span class="text-dark">@item.DropOffDate</span>
+                                                <small class="text-muted">@item.DropOffTime</small>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button"
+                                                    class="btn btn-sm btn-soft-info waves-effect waves-light open-reservation-modal"
+                                                    data-toggle="modal"
+                                                    data-target="#reservationDetailModal"
+                                                    data-fullname="@item.FullName"
+                                                    data-email="@item.Email"
+                                                    data-car="@item.CarName"
+                                                    data-pickup-location="@item.PickUpLocationName"
+                                                    data-dropoff-location="@item.DropOffLocationName"
+                                                    data-pickup-date="@item.PickUpDate"
+                                                    data-pickup-time="@item.PickUpTime"
+                                                    data-dropoff-date="@item.DropOffDate"
+                                                    data-dropoff-time="@item.DropOffTime"
+                                                    title="Rezervasyon Detayı">
+                                                <i class="mdi mdi-eye font-size-16"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">
+                                        <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Henüz oluşturulmuş bir rezervasyon bulunmuyor.
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rezervasyon Detay Modalı -->
+<div class="modal fade" id="reservationDetailModal" tabindex="-1" role="dialog" aria-labelledby="reservationDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <!-- Genişliği modal-lg yaptık ki mesaj alanı rahat sığsın -->
+        <div class="modal-content border-0 shadow-lg rounded-lg">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title font-weight-bold text-dark" id="reservationDetailModalLabel">
+                    <i class="feather-calendar text-primary mr-2"></i>Rezervasyon Detayları ve Yönetimi
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex align-items-center mb-3 pb-2 border-bottom">
+                    <div>
+                        <h6 id="modalFullName" class="mb-0 font-weight-bold text-dark font-size-16"></h6>
+                        <small id="modalEmail" class="text-muted"></small>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12 mb-2">
+                        <small class="text-uppercase text-muted font-weight-bold d-block mb-1" style="font-size: 10px; letter-spacing: 0.5px;">Seçilen Araç</small>
+                        <span id="modalCarName" class="font-weight-semibold text-primary font-size-14"></span>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="p-2 bg-soft-primary rounded h-100">
+                            <small class="text-uppercase text-primary font-weight-bold d-block mb-1" style="font-size: 10px; letter-spacing: 0.5px;">Alış Bilgileri</small>
+                            <span id="modalPickUpLocation" class="font-weight-semibold text-dark d-block font-size-13"></span>
+                            <small id="modalPickUpDateTime" class="text-muted"></small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-2 bg-soft-warning rounded h-100">
+                            <small class="text-uppercase text-warning font-weight-bold d-block mb-1" style="font-size: 10px; letter-spacing: 0.5px;">İade Bilgileri</small>
+                            <span id="modalDropOffLocation" class="font-weight-semibold text-dark d-block font-size-13"></span>
+                            <small id="modalDropOffDateTime" class="text-muted"></small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-top pt-3 mt-3">
+                    <div class="form-group mb-2 d-flex justify-content-between align-items-center">
+                        <label for="aiMessageContent" class="font-weight-bold text-dark mb-0">
+                            <i class="feather-cpu text-purple mr-1"></i> Müşteriye Gönderilecek Bilgilendirme Mesajı
+                        </label>
+                        <button type="button" id="generateAiMessageBtn" class="btn btn-sm btn-soft-purple waves-effect">
+                            <i class="mdi mdi-robot mr-1"></i> AI ile Mesaj Oluştur
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="aiMessageContent" class="form-control" rows="4" placeholder="AI tarafından oluşturulan mesaj burada görünecek. İsterseniz göndermeden önce düzenleyebilirsiniz..."></textarea>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer bg-light py-2 justify-content-between">
+                <button type="button" class="btn btn-secondary btn-sm waves-effect" data-dismiss="modal">Kapat</button>
+
+                <button type="button" id="sendEmailBtn" class="btn btn-success btn-sm waves-effect">
+                    <i class="mdi mdi-email-send mr-1"></i> Mail Gönder
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

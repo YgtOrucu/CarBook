@@ -1,0 +1,130 @@
+﻿@model CreateReservationDto
+<style>
+    .request-form select option {
+        color: #000 !important;
+        background-color: #fff !important;
+    }
+    .request-form select {
+        color: #fff;
+    }
+</style>
+<section class="ftco-section ftco-no-pt bg-light">
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-md-12 featured-top">
+                <div class="row no-gutters">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <form asp-controller="Car" asp-action="RentACar" method="post" class="request-form ftco-animate bg-primary">
+                            <h2>Yolculuğunuzu Planlayın</h2>
+
+                            <div class="form-group">
+                                <label for="PickUpLocation" class="label">Alış Yeri</label>
+                                <select asp-for="PickUpLocationId" class="form-control form-select" required>
+                                    <option value="">-- Alış Yeri Seçiniz --</option>
+                                    @if (ViewBag.PickUpLocation != null)
+                                    {
+                                        @foreach (var location in (List<ResultLocationDto>)ViewBag.PickUpLocation)
+                                        {
+                                            <option value="@location.Id">@location.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="DropOffLocation" class="label">İade Yeri</label>
+                                <select asp-for="DropOffLocationId" class="form-control form-select" required>
+                                    <option value="">-- İade Yeri Seçiniz --</option>
+                                    @if (ViewBag.DropOffLocation != null)
+                                    {
+                                        @foreach (var location in (List<ResultLocationDto>)ViewBag.DropOffLocation)
+                                        {
+                                            <option value="@location.Id">@location.Name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="CarId" class="label">Araç Seçimi</label>
+                                <select asp-for="CarId" id="carSelect" class="form-control form-select" style="color:white" required>
+                                    <option value="" data-image="">-- Araç ve Model Seçiniz --</option>
+                                    @if (ViewBag.Car != null)
+                                    {
+                                        @foreach (var car in (List<ResultCarDtoForReservation>)ViewBag.Car)
+                                        {
+                                            <option value="@car.Id" data-image="@car.CoverImageUrl">
+                                                @car.BrandName - @car.Model
+                                            </option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+
+                            <div class="form-group text-center my-3" id="carImageContainer" style="display:none;">
+                                <img id="selectedCarImage" src="" alt="Seçilen Araç" class="img-fluid rounded shadow-sm" style="max-height: 150px; object-fit: cover;" />
+                            </div>
+
+
+                            <div class="d-flex">
+                                <div class="form-group mr-2">
+                                    <label asp-for="PickUpDate" class="label">Alış Tarihi</label>
+                                    <input type="text" asp-for="PickUpDate" class="form-control" id="book_pick_date" placeholder="Tarih">
+                                </div>
+                                <div class="form-group ml-2">
+                                    <label asp-for="DropOffDate" class="label">İade Tarihi</label>
+                                    <input type="text" asp-for="DropOffDate" class="form-control" id="book_off_date" placeholder="Tarih">
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="form-group mr-2 w-50">
+                                    <label asp-for="PickUpTime" class="label">Alış Saati</label>
+                                    <input type="text" asp-for="PickUpTime" class="form-control time_pick" placeholder="Saat">
+                                </div>
+                                <div class="form-group ml-2 w-50">
+                                    <label asp-for="DropOffTime" class="label">İade Saati</label>
+                                    <input type="text" asp-for="DropOffTime" class="form-control time_pick" placeholder="Saat">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Hemen Araç Kirala" class="btn btn-secondary py-3 px-4">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-8 d-flex align-items-center">
+                        <div class="services-wrap rounded-right w-100">
+                            <h3 class="heading-section mb-4">Mükemmel Aracınızı Kiralamanın En İyi Yolu</h3>
+                            <div class="row d-flex mb-4">
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">Alış Noktanızı Seçin</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-handshake"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">En İyi Teklifi Seçin</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-self-stretch ftco-animate">
+                                    <div class="services w-100 text-center">
+                                        <div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-rent"></span></div>
+                                        <div class="text w-100">
+                                            <h3 class="heading mb-2">Kiralık Aracınızı Ayırın</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p><a href="#" class="btn btn-primary py-3 px-4">Mükemmel Aracınızı Ayırın</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -14,6 +14,7 @@ public class Car : AuditableEntity
     public string? Fuel { get; set; }
     public string? BigImageUrl { get; set; }
     public ICollection<CarFeature> CarFeatures { get; set; } = new List<CarFeature>();
+    public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     public CarDescription? CarDescription { get; set; }
     public ICollection<CarPricing> CarPricings { get; set; } = new List<CarPricing>();
 }

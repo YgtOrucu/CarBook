@@ -35,3 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#modalDate').text(date);
     });
 });
+
+$('#carSelect').change(function () {
+    var imageUrl = $(this).find(':selected').attr('data-image');
+
+    if (imageUrl) {
+        $('#selectedCarImage').attr('src', imageUrl);
+        $('#carImageContainer').fadeIn();
+    } else {
+        $('#selectedCarImage').attr('src', '');
+        $('#carImageContainer').fadeOut();
+    }
+});

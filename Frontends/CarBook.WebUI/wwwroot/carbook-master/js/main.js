@@ -315,12 +315,16 @@
 
 
 	$('#book_pick_date,#book_off_date').datepicker({
-	  'format': 'm/d/yyyy',
+	  'format': 'dd/mm/yyyy',
 	  'autoclose': true
 	});
-	$('#time_pick').timepicker();
-
-
-
+	$('.time_pick').timepicker({
+		'timeFormat': 'H:i',    
+		'minTime': '09:00',      
+		'maxTime': '23:45',       
+		'autoclose': true,
+		'step': 15,
+		'forceRoundTime': true
+	});
 })(jQuery);
 

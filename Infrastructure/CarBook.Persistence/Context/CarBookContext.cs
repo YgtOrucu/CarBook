@@ -33,4 +33,5 @@ public class CarBookContext(DbContextOptions<CarBookContext> options) : Identity
     public DbSet<BlogDetail> BlogDetails { get; set; }
     public DbSet<Tag> Tags { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Reservation> Reservations { get; set; }
 }
