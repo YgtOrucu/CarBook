@@ -1,15 +1,13 @@
-﻿using CarBook.Domain.Entities.Comman;
+﻿using CarBook.Application.Base;
+using MediatR;
 
-namespace CarBook.Domain.Entities;
+namespace CarBook.Application.Features.Mediator.Commands.ReservationCommand;
 
-public class Reservation : AuditableEntity
+public class CreateReservationCommand : IRequest<BaseResult<object>>
 {
     public int CarId { get; set; }
-    public Car? Car { get; set; }
     public int PickUpLocationId { get; set; }
-    public Location? PickUpLocation { get; set; }
     public int DropOffLocationId { get; set; }
-    public Location? DropOffLocation { get; set; }
     public string PickUpDate { get; set; }
     public string DropOffDate { get; set; }
     public string PickUpTime { get; set; }

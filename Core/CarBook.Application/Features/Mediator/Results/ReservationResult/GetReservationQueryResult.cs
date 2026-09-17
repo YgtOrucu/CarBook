@@ -1,6 +1,5 @@
-﻿namespace CarBook.Dto.Dtos.ForAdminPageDtos.ReservationDto;
-
-public class ResultReservationDto
+﻿namespace CarBook.Application.Features.Mediator.Results.ReservationResult;
+public class GetReservationQueryResult
 {
     public string CarName { get; set; }
     public string PickUpLocationName { get; set; }
@@ -11,5 +10,4 @@ public class ResultReservationDto
     public string DropOffTime { get; set; }
     public string FullName { get; set; }
     public string Email { get; set; }
-    public bool IsDeleted { get; set; }
 }

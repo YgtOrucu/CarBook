@@ -1,6 +1,7 @@
 using CarBook.Application.Extensions;
 using CarBook.Infrastructure.Extensions;
 using CarBook.Persistence.Extensions;
+using CarBook.WebAPI.CustomMiddlewares;
 using CarBook.WebAPI.Endpoints.RegisterEndpoints;
 using System.Text.Json.Serialization;
 
@@ -27,11 +28,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<CustomExceptionHandlingMiddleware>();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
-app.MapGroup("/api").RequireAuthorization().AppRegisterEndpoint();
 app.MapControllers();
+app.MapGroup("/api").RequireAuthorization().AppRegisterEndpoint();
 
 app.Run();

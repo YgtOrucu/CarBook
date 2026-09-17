@@ -2,6 +2,7 @@
 using CarBook.Application.Interfaces.BlogInterfaces;
 using CarBook.Application.Interfaces.CarInterfaces;
 using CarBook.Application.Interfaces.CarPricingInterfaces;
+using CarBook.Application.Interfaces.ReservationInterfaces;
 using CarBook.Domain.Entities;
 using CarBook.Persistence.Context;
 using CarBook.Persistence.IdentityErrors;
@@ -11,6 +12,7 @@ using CarBook.Persistence.Repositories;
 using CarBook.Persistence.Repositories.BlogRepositories;
 using CarBook.Persistence.Repositories.CarPricingRepositories;
 using CarBook.Persistence.Repositories.CarRepositories;
+using CarBook.Persistence.Repositories.ReservationRepositories;
 using CarBook.Persistence.Seeders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -51,6 +53,7 @@ public static class ServiceRegistrations
         services.AddScoped<ICarPricingRepository, CarPricingRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkRepository>();
         services.AddScoped<ICarDetailRepository, CarDetailRepository>();
+        services.AddScoped<IReservationService, ReservationRepository>();
     }
 
     public static async Task UseDbSeederAsync(this WebApplication app)

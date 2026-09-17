@@ -1,4 +1,5 @@
-﻿using CarBook.Application.Features.CQRS.Handlers.AboutHandler;
+﻿using CarBook.Application.Behavior;
+using CarBook.Application.Features.CQRS.Handlers.AboutHandler;
 using CarBook.Application.Features.CQRS.Handlers.BannerHandler.Read;
 using CarBook.Application.Features.CQRS.Handlers.BannerHandler.Write;
 using CarBook.Application.Features.CQRS.Handlers.BrandHandler;
@@ -18,10 +19,6 @@ public static class ServiceRegistrations
 {
     public static void AddApplicationServices(this IServiceCollection services)
     {
-
-        services.AddAutoMapper(src => src.AddMaps(Assembly.GetExecutingAssembly()));
-        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-
         services.AddScoped<CreateAboutCommandHandle>();
         services.AddScoped<GetAboutByIdQueryHandle>();
         services.AddScoped<GetAboutQueryHandle>();
@@ -60,9 +57,15 @@ public static class ServiceRegistrations
         services.AddScoped<UpdateContactCommandHandle>();
         services.AddScoped<RemoveContactCommandHandle>();
 
+
+        services.AddAutoMapper(src => src.AddMaps(Assembly.GetExecutingAssembly()));
+
         services.AddMediatR(config =>
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }

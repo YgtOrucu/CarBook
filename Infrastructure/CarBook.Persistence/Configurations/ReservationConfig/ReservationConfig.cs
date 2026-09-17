@@ -22,5 +22,16 @@ public class ReservationConfig : IEntityTypeConfiguration<Reservation>
         .WithMany(x => x.Reservations)
         .HasForeignKey(x => x.CarId)
         .OnDelete(DeleteBehavior.Cascade);
+
+
+        builder.HasOne(r => r.PickUpLocation)
+        .WithMany(l => l.PickUpReservations)
+        .HasForeignKey(r => r.PickUpLocationId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(r => r.DropOffLocation)
+        .WithMany(l => l.DropOffReservations)
+        .HasForeignKey(r => r.DropOffLocationId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
 }

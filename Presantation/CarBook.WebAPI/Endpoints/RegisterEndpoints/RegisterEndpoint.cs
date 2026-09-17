@@ -15,6 +15,7 @@ using CarBook.WebAPI.Endpoints.FeatureEndpoints;
 using CarBook.WebAPI.Endpoints.FooterAddressEndpoints;
 using CarBook.WebAPI.Endpoints.LocationEndpoints;
 using CarBook.WebAPI.Endpoints.PricingEndpoints;
+using CarBook.WebAPI.Endpoints.ReservationEndpoints;
 using CarBook.WebAPI.Endpoints.ServicesEndpoints;
 using CarBook.WebAPI.Endpoints.SocialMediaEndpoints;
 using CarBook.WebAPI.Endpoints.TagEndpoints;
@@ -47,6 +48,7 @@ namespace CarBook.WebAPI.Endpoints.RegisterEndpoints
             app.AppCommentEndpoint();
             app.AppCarPricingEndpoint();
             app.AppAuthsEndpoint();
+            app.AppReservationEndpoint();
         }
     }
 }
