@@ -1,13 +1,53 @@
 ﻿@model CreateReservationDto
+
 <style>
     .request-form select option {
         color: #000 !important;
         background-color: #fff !important;
     }
+
     .request-form select {
         color: #fff;
     }
 </style>
+
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null)
+{
+    <div class="modal fade show" id="customAlertModal" tabindex="-1" role="dialog" style="display: block; background-color: rgba(0, 0, 0, 0.5); z-index: 99999;" aria-modal="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-center p-4 shadow-lg" style="border-radius: 16px; border: none;">
+                <div class="modal-body p-3">
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="mb-3">
+                            <div style="width: 70px; height: 70px; background-color: #e8f5e9; color: #28a745; font-size: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;">
+                                ✓
+                            </div>
+                        </div>
+                        <h4 class="font-weight-bold mb-3" style="color: #222;">İşlem Başarılı!</h4>
+                        <p class="text-muted mb-4" style="font-size: 15px;">@TempData["SuccessMessage"]</p>
+                        <button type="button" class="btn btn-success px-5 py-2 font-weight-bold" style="border-radius: 25px; background-color: #28a745; border: none;" onclick="closeModal()">Tamam</button>
+                    }
+                    else if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="mb-3">
+                            <div style="width: 70px; height: 70px; background-color: #ffebee; color: #dc3545; font-size: 30px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%;">
+                                ✕
+                            </div>
+                        </div>
+                        <h4 class="font-weight-bold mb-3" style="color: #222;">Hata Oluştu!</h4>
+                        <p class="text-muted mb-4" style="font-size: 15px;">@TempData["ErrorMessage"]</p>
+                        <button type="button" class="btn btn-danger px-5 py-2 font-weight-bold" style="border-radius: 25px; background-color: #dc3545; border: none;" onclick="closeModal()">Tekrar Deneyin</button>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
 <section class="ftco-section ftco-no-pt bg-light">
     <div class="container">
         <div class="row no-gutters">
@@ -16,14 +56,13 @@
                     <div class="col-md-4 d-flex align-items-center">
                         <form asp-controller="Car" asp-action="RentACar" method="post" class="request-form ftco-animate bg-primary">
                             <h2>Yolculuğunuzu Planlayın</h2>
-
                             <div class="form-group">
                                 <label for="PickUpLocation" class="label">Alış Yeri</label>
                                 <select asp-for="PickUpLocationId" class="form-control form-select" required>
                                     <option value="">-- Alış Yeri Seçiniz --</option>
                                     @if (ViewBag.PickUpLocation != null)
                                     {
-                                        @foreach (var location in (List<ResultLocationDto>)ViewBag.PickUpLocation)
+                                        @foreach (var location in (List<GetLocationDropdownDto>)ViewBag.PickUpLocation)
                                         {
                                             <option value="@location.Id">@location.Name</option>
                                         }
@@ -37,7 +76,7 @@
                                     <option value="">-- İade Yeri Seçiniz --</option>
                                     @if (ViewBag.DropOffLocation != null)
                                     {
-                                        @foreach (var location in (List<ResultLocationDto>)ViewBag.DropOffLocation)
+                                        @foreach (var location in (List<GetLocationDropdownDto>)ViewBag.DropOffLocation)
                                         {
                                             <option value="@location.Id">@location.Name</option>
                                         }
@@ -51,20 +90,15 @@
                                     <option value="" data-image="">-- Araç ve Model Seçiniz --</option>
                                     @if (ViewBag.Car != null)
                                     {
-                                        @foreach (var car in (List<ResultCarDtoForReservation>)ViewBag.Car)
+                                        @foreach (var car in (List<GetCarDropdownDto>)ViewBag.Car)
                                         {
-                                            <option value="@car.Id" data-image="@car.CoverImageUrl">
+                                            <option value="@car.Id">
                                                 @car.BrandName - @car.Model
                                             </option>
                                         }
                                     }
                                 </select>
                             </div>
-
-                            <div class="form-group text-center my-3" id="carImageContainer" style="display:none;">
-                                <img id="selectedCarImage" src="" alt="Seçilen Araç" class="img-fluid rounded shadow-sm" style="max-height: 150px; object-fit: cover;" />
-                            </div>
-
 
                             <div class="d-flex">
                                 <div class="form-group mr-2">
@@ -76,6 +110,7 @@
                                     <input type="text" asp-for="DropOffDate" class="form-control" id="book_off_date" placeholder="Tarih">
                                 </div>
                             </div>
+
                             <div class="d-flex">
                                 <div class="form-group mr-2 w-50">
                                     <label asp-for="PickUpTime" class="label">Alış Saati</label>
@@ -86,11 +121,13 @@
                                     <input type="text" asp-for="DropOffTime" class="form-control time_pick" placeholder="Saat">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <input type="submit" value="Hemen Araç Kirala" class="btn btn-secondary py-3 px-4">
                             </div>
                         </form>
                     </div>
+
                     <div class="col-md-8 d-flex align-items-center">
                         <div class="services-wrap rounded-right w-100">
                             <h3 class="heading-section mb-4">Mükemmel Aracınızı Kiralamanın En İyi Yolu</h3>
@@ -128,3 +165,12 @@
         </div>
     </div>
 </section>
+
+<script>
+    function closeModal() {
+        var modal = document.getElementById('customAlertModal');
+        if (modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>

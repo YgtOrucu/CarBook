@@ -4,4 +4,5 @@ namespace CarBook.Application.Interfaces.ReservationInterfaces;
 public interface IReservationService
 {
     Task<List<GetReservationQueryResult>> GetAllListReservationAsync();
+    Task<GetReservationFormValuesQueryResult> GetReservationFormValuesAsync();
 }

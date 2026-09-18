@@ -22,4 +22,28 @@ public class ReservationRepository(CarBookContext context) : IReservationService
             Email = y.Email
         }).ToListAsync();
     }
+
+    public async Task<GetReservationFormValuesQueryResult> GetReservationFormValuesAsync()
+    {
+        var cars = await context.Cars.Where(x => !x.IsDeleted).Select(y => new GetCarDropdownDto
+        {
+            Id = y.Id,
+            BrandName = y.Brand.Name,
+            Model = y.Model
+        }).ToListAsync();
+
+
+        var locations = await context.Locations.Select(y => new GetLocationDropdownDto
+        {
+            Id = y.Id,
+            Name = y.Name
+        }).ToListAsync();
+
+        return new GetReservationFormValuesQueryResult
+        {
+            Cars = cars,
+            PickUpLocations = locations,
+            DropOffLocations = locations
+        };
+    }
 }

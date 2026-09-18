@@ -58,6 +58,6 @@ public class CreateReservationCommandHandle(
         await repository.CreateAsync(value);
         var result = await unitOfWork.SaveChangeAsync();
 
-        return BaseResult<object>.Success(result, "Rezervasyon başarıyla oluşturuldu.");
+        return BaseResult<object>.Success(result, "Rezervasyon başarıyla oluşturuldu.En Kısa zamanda sizinle iletişime geçilecektir.");
     }
 }

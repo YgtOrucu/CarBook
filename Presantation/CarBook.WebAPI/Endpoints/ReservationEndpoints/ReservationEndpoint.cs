@@ -10,9 +10,9 @@ namespace CarBook.WebAPI.Endpoints.ReservationEndpoints
         {
             var reservation = app.MapGroup("/reservation").WithTags("Reservation");
 
-            //reservation.MapGet("{id}", GetReservationByIdAsync).AllowAnonymous();
+            reservation.MapGet("ReservationFormValues", GetReservationFormValues).AllowAnonymous();
             //reservation.MapDelete("{id}", RemoveReservationAsync).AllowAnonymous();
-            reservation.MapPost("", CreateReservationAsync).AllowAnonymous();
+            reservation.MapPost("", CreateReservationAsync).RequireAuthorization();
             reservation.MapGet("", GetListReservationAsync).AllowAnonymous();
 
             var adminReservation = reservation.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
@@ -37,13 +37,13 @@ namespace CarBook.WebAPI.Endpoints.ReservationEndpoints
             var response = await mediator.Send(new GetReservationQuery());
             return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
-        //
-        //private static async Task<IResult> GetPricingByIdAsync(int id, IMediator mediator)
-        //{
-        //    var response = await mediator.Send(new GetPricingByIdQuery(id));
-        //    return response != null ? Results.Ok(response) : Results.BadRequest(response);
-        //}
-        //
+
+        private static async Task<IResult> GetReservationFormValues(IMediator mediator)
+        {
+            var response = await mediator.Send(new GetReservationFormValuesQuery());
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
         //private static async Task<IResult> RemovePricingAsync(int id, IMediator mediator)
         //{
         //    var response = await mediator.Send(new RemovePricingCommand(id));
