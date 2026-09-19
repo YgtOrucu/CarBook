@@ -11,12 +11,11 @@ public class ReservationConfig : IEntityTypeConfiguration<Reservation>
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).UseIdentityColumn();
 
-        builder.Property(x => x.PickUpDate).HasMaxLength(15);
-        builder.Property(x => x.DropOffDate).HasMaxLength(15);
-        builder.Property(x => x.PickUpTime).HasMaxLength(15);
-        builder.Property(x => x.DropOffTime).HasMaxLength(15);
-        builder.Property(x => x.FullName).HasMaxLength(50);
-        builder.Property(x => x.Email).HasMaxLength(50);
+        builder.Property(x => x.FullName).HasColumnType("varchar(50)");
+        builder.Property(x => x.Email).HasColumnType("varchar(50)");
+        builder.Property(x => x.Phone).HasColumnType("varchar(50)");
+        builder.Property(x => x.Status).HasConversion<string>();
+        builder.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
 
         builder.HasOne(x => x.Car)
         .WithMany(x => x.Reservations)

@@ -314,16 +314,18 @@
   });
 
 
-	$('#book_pick_date,#book_off_date').datepicker({
-	  'format': 'dd/mm/yyyy',
-	  'autoclose': true
-	});
-	$('.time_pick').timepicker({
-		'timeFormat': 'H:i',    
-		'minTime': '09:00',      
-		'maxTime': '23:45',       
+	$('#book_pick_date, #book_off_date').datepicker({
+		'format': 'yyyy-mm-dd', 
 		'autoclose': true,
-		'step': 15,
+		'startDate': 'today' 
+	});
+
+	$('.time_pick').timepicker({
+		'timeFormat': 'H:i:s',
+		'minTime': '09:00',
+		'maxTime': '23:45',
+		'autoclose': true,
+		'step': 60,
 		'forceRoundTime': true
 	});
 })(jQuery);

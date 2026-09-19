@@ -1,4 +1,5 @@
-﻿using CarBook.Dto.Dtos.ForAdminPageDtos.ReservationDto;
+﻿using CarBook.Application.Base;
+using CarBook.Dto.Dtos.ForAdminPageDtos.ReservationDto;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarBook.WebUI.Areas.Admin.Controllers
@@ -14,8 +15,8 @@ namespace CarBook.WebUI.Areas.Admin.Controllers
             var response = await client.GetAsync($"Reservation");
             if (response.IsSuccessStatusCode)
             {
-                var value = await response.Content.ReadFromJsonAsync<List<ResultReservationDto>>();
-                return View(value);
+                var value = await response.Content.ReadFromJsonAsync<BaseResult<List<ResultReservationDto>>>();
+                return View(value!.Data);
             }
             return View();
         }

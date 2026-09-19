@@ -32,6 +32,7 @@ public class JwtRepository(IOptions<JwtTokenOption> options, UserManager<AppUser
             new(JwtRegisteredClaimNames.UniqueName,user.UserName!),
             new(JwtRegisteredClaimNames.Sub,user.Id.ToString()!),
             new(JwtRegisteredClaimNames.Email, user.Email!),
+            new(JwtRegisteredClaimNames.PhoneNumber, user.PhoneNumber!),
             new("FullName",string.Join(" ",user.Name,user.Surname)),
             new("FirstAndLastLetter",string.Join("",user.Name.Substring(0,1),user.Surname.Substring(0,1))),
             new("security_stamp", user.SecurityStamp!),

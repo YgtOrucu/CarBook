@@ -1,7 +1,9 @@
 ﻿$(document).ready(function () {
     $(document).on("click", ".open-reservation-modal", function () {
+        let reservationId = $(this).data("id");
         let fullName = $(this).data("fullname");
         let email = $(this).data("email");
+        let phone = $(this).data("phone");
         let car = $(this).data("car");
         let pickUpLoc = $(this).data("pickup-location");
         let dropOffLoc = $(this).data("dropoff-location");
@@ -12,11 +14,16 @@
 
         $("#modalFullName").text(fullName);
         $("#modalEmail").text(email);
+        $("#modalPhone").text(phone);
         $("#modalCarName").text(car);
         $("#modalPickUpLocation").text(pickUpLoc);
         $("#modalPickUpDateTime").text(pickUpDate + " - " + pickUpTime);
         $("#modalDropOffLocation").text(dropOffLoc);
         $("#modalDropOffDateTime").text(dropOffDate + " - " + dropOffTime);
+
+        if (reservationId) {
+            $("#modalDeleteBtn").attr("href", "/Admin/Reservation/DeleteReservation/" + reservationId);
+        }
 
         $('#aiMessageContent').val('');
     });
@@ -24,6 +31,7 @@
     $('#generateAiMessageBtn').on('click', function () {
         let fullName = $('#modalFullName').text().trim();
         let email = $('#modalEmail').text().trim();
+        let phone = $('#modalPhone').text().trim();
         let carName = $('#modalCarName').text().trim();
         let pickUpLoc = $('#modalPickUpLocation').text().trim();
         let dropOffLoc = $('#modalDropOffLocation').text().trim();
@@ -48,6 +56,7 @@
             data: JSON.stringify({
                 fullName: fullName,
                 email: email,
+                phone: phone,
                 carName: carName,
                 pickUpLocation: pickUpLoc,
                 dropOffLocation: dropOffLoc,

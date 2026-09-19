@@ -26,44 +26,45 @@ namespace CarBook.WebUI.Areas.Users.Controllers
         {
             var FullName = User.FindFirst("FullName")?.Value;
             var Email = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
+            var Phone = User.FindFirst(JwtRegisteredClaimNames.PhoneNumber)?.Value;
             model.FullName = FullName;
             model.Email = Email;
+            model.PhoneNumber = Phone;
 
             var response = await client.PostAsJsonAsync("reservation", model);
 
             if (response.IsSuccessStatusCode)
             {
                 var successResult = await response.Content.ReadFromJsonAsync<BaseResult<object>>();
-                TempData["SuccessMessage"] = successResult?.Message ?? "Rezervasyonunuz alınmıştır. En kısa zamanda bilgilendirileceksiniz.";
+                TempData["SuccessMessage"] = successResult?.Message ?? "Rezervasyon başarıyla oluşturuldu. En kısa zamanda sizinle iletişime geçilecektir.";
             }
-            else
-            {          
+            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
                 try
                 {
-                    var errormessage = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();
+                    var errorMessage = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();
 
-                    if (errormessage?.Errors != null && errormessage.Errors.Any())
+                    if (errorMessage?.Errors != null && errorMessage.Errors.Any())
                     {
-                        foreach (var error in errormessage.Errors)
-                        {
-                            TempData["ErrorMessage"] = error.ErrorMessage;
-                            break;
-                        }
+                        TempData["ErrorMessage"] = errorMessage.Errors.First().ErrorMessage;
                     }
-                    else if (!string.IsNullOrEmpty(errormessage?.Message))
+                    else if (!string.IsNullOrWhiteSpace(errorMessage?.Message))
                     {
-                        TempData["ErrorMessage"] = errormessage.Message;
+                        TempData["ErrorMessage"] = errorMessage.Message;
                     }
                     else
                     {
-                        TempData["ErrorMessage"] = "Seçilen araç, belirtilen tarih ve saat aralığında dolu veya bir hata oluştu.";
+                        TempData["ErrorMessage"] = "Girdiğiniz bilgileri lütfen kontrol ediniz.";
                     }
                 }
                 catch
                 {
-                    var rawError = await response.Content.ReadAsStringAsync();
-                    TempData["ErrorMessage"] = !string.IsNullOrEmpty(rawError) ? rawError : "Rezervasyon yapılırken beklenmeyen bir hata oluştu.";
+                    TempData["ErrorMessage"] = "Lütfen form alanlarını kontrol edip tekrar deneyiniz.";
                 }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "İşlem sırasında teknik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.";
             }
 
             return RedirectToAction("Index", "HomePage", new { Area = "Users" });
