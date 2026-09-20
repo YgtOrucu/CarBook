@@ -17,33 +17,81 @@
 
                 @if (Model.IsAuthenticated)
                 {
-                    <li class="nav-item ml-md-3 d-flex align-items-center">
-                        <div class="profile-chip d-flex align-items-center py-1 pr-2">
-                            <div class="profile-avatar text-white font-weight-bold d-flex align-items-center justify-content-center bg-primary rounded-circle mr-2" style="width: 36px; height: 36px; font-size: 14px;">
-                                @Model.Initials
-                            </div>
-                            <div id="userInfo" class="d-none d-lg-block text-left" style="line-height: 1.2;">
-                                <div class="name text-white font-weight-bold" style="font-size: 13px;">@Model.DisplayName</div>
-                                <div class="role text-white" style="font-size: 13px;">@Model.RoleName</div>
-                            </div>
-                        </div>
+                    <li class="nav-item ml-md-3 dropdown d-flex align-items-center">
+                        <a class="profile-chip d-flex align-items-center py-1 pl-1 pr-3 rounded-pill text-decoration-none dropdown-toggle-no-caret"
+                           href="#"
+                           id="userProfileDropdown"
+                           role="button"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
 
-                        <a class="btn btn-link p-0 ml-2 d-flex align-items-center justify-content-center logout-btn"
-                           asp-area="" asp-controller="Auth" asp-action="Logout"
-                           title="Çıkış Yap"
-                           style="width: 32px; height: 32px; transition: all 0.2s ease; text-decoration: none;">
-                            <i class="fas fa-sign-out-alt" style="font-size: 16px;"></i>
+                            <div class="profile-avatar-wrapper mr-2">
+                                <div class="profile-avatar text-white font-weight-bold d-flex align-items-center justify-content-center rounded-circle">
+                                    @Model.Initials
+                                </div>
+                                <span class="status-dot"></span>
+                            </div>
+
+                            <div id="userInfo" class="d-none d-lg-block text-left mr-2">
+                                <div class="name">@Model.DisplayName</div>
+                                <div class="role">@Model.RoleName</div>
+                            </div>
+
+                            <i class="fas fa-chevron-down chevron-icon"></i>
                         </a>
+
+                        <div class="dropdown-menu dropdown-menu-right custom-dropdown-menu mt-3 p-2"
+                             aria-labelledby="userProfileDropdown">
+
+                            <div class="dropdown-header d-lg-none">
+                                <div class="header-avatar">@Model.Initials</div>
+                                <div>
+                                    <div class="name">@Model.DisplayName</div>
+                                    <small class="role">@Model.RoleName</small>
+                                </div>
+                            </div>
+
+                            <a class="dropdown-item custom-dropdown-item"
+                               asp-area="Users" asp-controller="Account" asp-action="MyReservations">
+                                <span class="item-icon icon-blue"><i class="fas fa-car"></i></span>
+                                <span>Rezervasyonlarım</span>
+                                <i class="fas fa-chevron-right item-arrow"></i>
+                            </a>
+
+                            <a class="dropdown-item custom-dropdown-item"
+                               asp-area="Users" asp-controller="Account" asp-action="MyReviews">
+                                <span class="item-icon icon-amber"><i class="fas fa-star"></i></span>
+                                <span>Yorumlarım</span>
+                                <i class="fas fa-chevron-right item-arrow"></i>
+                            </a>
+
+                            <a class="dropdown-item custom-dropdown-item"
+                               asp-area="Users" asp-controller="Account" asp-action="MyProfile">
+                                <span class="item-icon icon-cyan"><i class="fas fa-user-cog"></i></span>
+                                <span>Hesabım</span>
+                                <i class="fas fa-chevron-right item-arrow"></i>
+                            </a>
+
+                            <div class="custom-dropdown-divider"></div>
+
+                            <a class="dropdown-item custom-dropdown-item logout-item"
+                               asp-area="" asp-controller="Auth" asp-action="Logout">
+                                <span class="item-icon icon-red"><i class="fas fa-sign-out-alt"></i></span>
+                                <span>Çıkış Yap</span>
+                            </a>
+                        </div>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item cta ml-md-2">
-                        <a asp-area="" asp-controller="Auth" asp-action="Login" class="nav-link btn btn-primary px-3 py-2 rounded text-white">
-                            <span class="icon-user mr-1"></span> Giriş Yap
+                        <a asp-area="" asp-controller="Auth" asp-action="Login" class="nav-link btn btn-login-cta px-4 py-2 rounded-pill text-white">
+                            <i class="fas fa-user mr-2"></i> Giriş Yap
                         </a>
                     </li>
                 }
+
             </ul>
         </div>
     </div>

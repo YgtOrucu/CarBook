@@ -1,0 +1,947 @@
+﻿@model List<GetLoginUsersReservation>
+@{
+    ViewData["PageTitle"] = "Rezervasyonlarım";
+    ViewData["PageBreadcrumb"] = "Rezervasyonlarım";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+
+<style>
+    .res-section {
+        padding: 70px 0;
+        background: #F7F9FC;
+    }
+
+    .res-container {
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .res-layout {
+        display: flex;
+        align-items: flex-start;
+        gap: 26px;
+    }
+
+    /* ===== Sol Bar (Filtre Menüsü) ===== */
+    .res-sidebar {
+        width: 240px;
+        flex-shrink: 0;
+        background: #fff;
+        border-radius: 16px;
+        padding: 18px 14px;
+        box-shadow: 0 8px 26px rgba(20, 40, 70, 0.06);
+        border: 1px solid #EEF1F5;
+        position: sticky;
+        top: 100px;
+    }
+
+    .res-sidebar-title {
+        font-size: 11.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        color: #8A96A3;
+        font-weight: 700;
+        padding: 4px 10px 14px 10px;
+    }
+
+    .res-sidebar-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: transparent;
+        border: none;
+        text-align: left;
+        padding: 10px 12px;
+        border-radius: 10px;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: #5B6675;
+        cursor: pointer;
+        margin-bottom: 4px;
+        transition: all 0.18s ease;
+    }
+
+        .res-sidebar-item i {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: #F2F4F7;
+            color: #8A96A3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+            transition: all 0.18s ease;
+        }
+
+        .res-sidebar-item .res-count {
+            margin-left: auto;
+            background: #F2F4F7;
+            color: #8A96A3;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 20px;
+            transition: all 0.18s ease;
+        }
+
+        .res-sidebar-item:hover {
+            background: #F7F9FC;
+            color: #2E3A46;
+        }
+
+        .res-sidebar-item.active {
+            background: #EAF2FB;
+            color: #3A7BC8;
+        }
+
+            .res-sidebar-item.active i {
+                background: #4A90E2;
+                color: #fff;
+            }
+
+            .res-sidebar-item.active .res-count {
+                background: #4A90E2;
+                color: #fff;
+            }
+
+    .res-main {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .res-empty-filtered {
+        text-align: center;
+        padding: 60px 20px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(20, 40, 70, 0.06);
+        color: #8A96A3;
+    }
+
+        .res-empty-filtered i {
+            font-size: 38px;
+            color: #C9D4E0;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+    @@media (max-width: 860px) {
+        .res-layout {
+            flex-direction: column;
+        }
+
+        .res-sidebar {
+            position: static;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            overflow-x: auto;
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .res-sidebar-title {
+            display: none;
+        }
+
+        .res-sidebar-item {
+            flex: 0 0 auto;
+            white-space: nowrap;
+            margin-bottom: 0;
+        }
+    }
+
+    .res-empty {
+        text-align: center;
+        padding: 70px 20px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(20, 40, 70, 0.06);
+    }
+
+        .res-empty i {
+            font-size: 46px;
+            color: #C9D4E0;
+            margin-bottom: 16px;
+        }
+
+        .res-empty h4 {
+            color: #2E3A46;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .res-empty p {
+            color: #8A96A3;
+            margin-bottom: 22px;
+        }
+
+        .res-empty a {
+            display: inline-block;
+            padding: 11px 26px;
+            background: linear-gradient(135deg, #4A90E2, #3A7BC8);
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 8px 18px rgba(74,144,226,0.30);
+        }
+
+    .res-card {
+        background: #fff;
+        border-radius: 18px;
+        padding: 26px 26px 22px 26px;
+        margin-bottom: 22px;
+        box-shadow: 0 8px 26px rgba(20, 40, 70, 0.06);
+        border: 1px solid #EEF1F5;
+        transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+        .res-card:hover {
+            box-shadow: 0 14px 34px rgba(20, 40, 70, 0.10);
+            transform: translateY(-2px);
+        }
+
+    .res-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 18px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid #F0F2F6;
+    }
+
+    .res-car-info {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .res-car-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #EAF2FB, #F2F4F7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #4A90E2;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .res-car-info h5 {
+        margin: 0;
+        font-weight: 700;
+        color: #2E3A46;
+        font-size: 16.5px;
+    }
+
+    .res-car-info span {
+        font-size: 12.5px;
+        color: #8A96A3;
+    }
+
+    .res-status-badge {
+        padding: 6px 16px;
+        border-radius: 30px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+
+    .status-pending {
+        background: #FEF3D6;
+        color: #B7791F;
+    }
+
+    .status-approved {
+        background: #DFF6E4;
+        color: #1E8A4C;
+    }
+
+    .status-cancelled {
+        background: #FDEDEC;
+        color: #C0392B;
+    }
+
+    .status-completed {
+        background: #E7ECF3;
+        color: #445068;
+    }
+
+    .status-rejected {
+        background: #FDEDEC;
+        color: #C0392B;
+    }
+
+    .res-card-body {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px 24px;
+        margin-bottom: 20px;
+    }
+
+    .res-info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+        .res-info-item i {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #F2F4F7;
+            color: #4A90E2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13.5px;
+            flex-shrink: 0;
+        }
+
+        .res-info-item .label {
+            font-size: 11.5px;
+            color: #8A96A3;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .res-info-item .value {
+            font-size: 13.5px;
+            color: #2E3A46;
+            font-weight: 600;
+        }
+
+    .res-card-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-res {
+        border: none;
+        border-radius: 10px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        transition: all 0.18s ease;
+    }
+
+    .btn-res-update {
+        background: #EAF2FB;
+        color: #3A7BC8;
+    }
+
+        .btn-res-update:hover {
+            background: #4A90E2;
+            color: #fff;
+        }
+
+    .btn-res-cancel {
+        background: #FDEDEC;
+        color: #C0392B;
+    }
+
+        .btn-res-cancel:hover {
+            background: #E74C3C;
+            color: #fff;
+        }
+
+    .btn-res-disabled {
+        background: #F2F4F7;
+        color: #B4BEC9;
+        cursor: not-allowed;
+    }
+
+    @@media (max-width: 576px) {
+        .res-card-body {
+            grid-template-columns: 1fr;
+        }
+
+        .res-card-top {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+
+    /* ===== Modallar ===== */
+    .res-modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(20, 30, 45, 0.55);
+        z-index: 1050;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+        .res-modal-overlay.active {
+            display: flex;
+        }
+
+    .res-modal {
+        background: #fff;
+        border-radius: 18px;
+        width: 100%;
+        max-width: 460px;
+        padding: 28px 26px 24px 26px;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+        animation: modalPop 0.18s ease;
+    }
+
+    @@keyframes modalPop {
+        from {
+            opacity: 0;
+            transform: scale(0.96);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .res-modal h4 {
+        font-weight: 700;
+        color: #2E3A46;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .res-modal p.res-modal-sub {
+        color: #8A96A3;
+        font-size: 13px;
+        margin-bottom: 20px;
+    }
+
+    .res-form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-bottom: 14px;
+    }
+
+    .res-form-group label {
+        display: block;
+        font-size: 12.5px;
+        font-weight: 600;
+        color: #2E3A46;
+        margin-bottom: 6px;
+    }
+
+    .res-form-group input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1.5px solid #E1E6EC;
+        background: #F7F9FC;
+        font-size: 13.5px;
+        font-family: inherit;
+        outline: none;
+        transition: all 0.18s ease;
+    }
+
+        .res-form-group input:focus {
+            border-color: #4A90E2;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(74,144,226,0.12);
+        }
+
+    .res-modal-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+        .res-modal-actions button {
+            flex: 1;
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+    .btn-modal-confirm {
+        background: linear-gradient(135deg, #4A90E2, #3A7BC8);
+        color: #fff;
+    }
+
+        .btn-modal-confirm:hover {
+            opacity: 0.92;
+        }
+
+        .btn-modal-confirm.danger {
+            background: linear-gradient(135deg, #E74C3C, #C0392B);
+        }
+
+    .btn-modal-cancel {
+        background: #F2F4F7;
+        color: #2E3A46;
+    }
+
+        .btn-modal-cancel:hover {
+            background: #E6E9ED;
+        }
+
+    .res-toast {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1100;
+        background: #2E3A46;
+        color: #fff;
+        padding: 13px 20px;
+        border-radius: 12px;
+        font-size: 13.5px;
+        font-weight: 500;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transform: translateX(120%);
+        transition: transform 0.25s ease;
+    }
+
+        .res-toast.show {
+            transform: translateX(0);
+        }
+
+        .res-toast.success i {
+            color: #2ECC71;
+        }
+
+        .res-toast.error i {
+            color: #E74C3C;
+        }
+</style>
+
+<section class="res-section">
+    <div class="res-container">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="res-empty">
+                <i class="fas fa-car-side"></i>
+                <h4>Henüz bir rezervasyonunuz yok</h4>
+                <p>Hemen bir araç seçin, yolculuğunuza bugün başlayın.</p>
+                <a asp-area="Users" asp-controller="HomePage" asp-action="Index">Araçları İncele</a>
+            </div>
+        }
+        else
+        {
+            var items = Model.Select(r =>
+            {
+                var statusText = r.Status.ToString();
+                string statusClass = "status-pending";
+                string statusLabel = "Beklemede";
+                string category = "ongoing";
+                bool canUpdate = false;
+                bool canCancel = false;
+
+                switch (statusText)
+                {
+                    case "Pending":
+                        statusClass = "status-pending";
+                        statusLabel = "Beklemede";
+                        canUpdate = true;
+                        canCancel = true;
+                        category = r.DropOffDate.Date < DateTime.Today ? "past" : "ongoing";
+                        break;
+                    case "Approved":
+                        statusClass = "status-approved";
+                        statusLabel = "Onaylandı";
+                        canUpdate = true;
+                        canCancel = true;
+                        category = r.DropOffDate.Date < DateTime.Today ? "past" : "ongoing";
+                        break;
+                    case "Cancelled":
+                        statusClass = "status-cancelled";
+                        statusLabel = "İptal Edildi";
+                        category = "cancelled";
+                        break;
+                    case "Completed":
+                        statusClass = "status-completed";
+                        statusLabel = "Tamamlandı";
+                        category = "completed";
+                        break;
+                    case "Rejected":
+                        statusClass = "status-rejected";
+                        statusLabel = "Reddedildi";
+                        category = "cancelled";
+                        break;
+                }
+
+                return new
+                {
+                    Reservation = r,
+                    StatusClass = statusClass,
+                    StatusLabel = statusLabel,
+                    CanUpdate = canUpdate,
+                    CanCancel = canCancel,
+                    Category = category
+                };
+            }).ToList();
+
+            var countAll = items.Count;
+            var countOngoing = items.Count(x => x.Category == "ongoing");
+            var countPast = items.Count(x => x.Category == "past");
+            var countCompleted = items.Count(x => x.Category == "completed");
+            var countCancelled = items.Count(x => x.Category == "cancelled");
+
+            <div class="res-layout">
+                <aside class="res-sidebar">
+                    <div class="res-sidebar-title">Rezervasyonlarım</div>
+
+                    <button type="button" class="res-sidebar-item active" data-filter="all">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Tümü</span>
+                        <span class="res-count">@countAll</span>
+                    </button>
+
+                    <button type="button" class="res-sidebar-item" data-filter="ongoing">
+                        <i class="fas fa-hourglass-half"></i>
+                        <span>Devam Eden</span>
+                        <span class="res-count">@countOngoing</span>
+                    </button>
+
+                    <button type="button" class="res-sidebar-item" data-filter="past">
+                        <i class="fas fa-history"></i>
+                        <span>Geçmiş</span>
+                        <span class="res-count">@countPast</span>
+                    </button>
+                    
+                    <button type="button" class="res-sidebar-item" data-filter="completed">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Gerçekleşen</span>
+                        <span class="res-count">@countCompleted</span>
+                    </button>
+
+                    <button type="button" class="res-sidebar-item" data-filter="cancelled">
+                        <i class="fas fa-ban"></i>
+                        <span>İptal Edilen</span>
+                        <span class="res-count">@countCancelled</span>
+                    </button>
+                </aside>
+
+                <div class="res-main">
+                    @foreach (var item in items)
+                    {
+                        var reservation = item.Reservation;
+                        var statusClass = item.StatusClass;
+                        var statusLabel = item.StatusLabel;
+                        var canUpdate = item.CanUpdate;
+                        var canCancel = item.CanCancel;
+
+                        <div class="res-card"
+                             data-category="@item.Category"
+                             data-id="@reservation.Id"
+                             data-carname="@reservation.CarName"
+                             data-pickuplocation="@reservation.PickUpLocationName"
+                             data-dropofflocation="@reservation.DropOffLocationName"
+                             data-pickupdate="@reservation.PickUpDate.ToString("yyyy-MM-dd")"
+                             data-dropoffdate="@reservation.DropOffDate.ToString("yyyy-MM-dd")"
+                             data-pickuptime="@reservation.PickUpTime.ToString(@"hh\:mm")"
+                             data-dropofftime="@reservation.DropOffTime.ToString(@"hh\:mm")">
+
+                            <div class="res-card-top">
+                                <div class="res-car-info">
+                                    <div class="res-car-icon"><i class="fas fa-car"></i></div>
+                                    <div>
+                                        <h5>@reservation.CarName</h5>
+                                        <span>Rezervasyon #@reservation.Id</span>
+                                    </div>
+                                </div>
+                                <span class="res-status-badge @statusClass">@statusLabel</span>
+                            </div>
+
+                            <div class="res-card-body">
+                                <div class="res-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <div class="label">Alış Noktası</div>
+                                        <div class="value">@reservation.PickUpLocationName</div>
+                                    </div>
+                                </div>
+                                <div class="res-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div>
+                                        <div class="label">Bırakış Noktası</div>
+                                        <div class="value">@reservation.DropOffLocationName</div>
+                                    </div>
+                                </div>
+                                <div class="res-info-item">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <div>
+                                        <div class="label">Alış Tarihi &amp; Saati</div>
+                                        <div class="value">@reservation.PickUpDate.ToString("dd.MM.yyyy") &middot; @reservation.PickUpTime.ToString(@"hh\:mm")</div>
+                                    </div>
+                                </div>
+                                <div class="res-info-item">
+                                    <i class="fas fa-calendar-times"></i>
+                                    <div>
+                                        <div class="label">Bırakış Tarihi &amp; Saati</div>
+                                        <div class="value">@reservation.DropOffDate.ToString("dd.MM.yyyy") &middot; @reservation.DropOffTime.ToString(@"hh\:mm")</div>
+                                    </div>
+                                </div>
+                                <div class="res-info-item">
+                                    <i class="fas fa-money-bill-wave"></i>
+                                    <div>
+                                        <div class="label">Toplam Fiyat</div>
+                                        <div class="value">@reservation.Price.ToString("N0") ₺</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="res-card-actions">
+                                @if (canUpdate)
+                                {
+                                    <button type="button" class="btn-res btn-res-update" onclick="openUpdateModal(this)">
+                                        <i class="fas fa-pen"></i> Güncelle
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn-res btn-res-disabled" disabled title="Bu rezervasyon artık güncellenemez">
+                                        <i class="fas fa-pen"></i> Güncelle
+                                    </button>
+                                }
+
+                                @if (canCancel)
+                                {
+                                    <button type="button" class="btn-res btn-res-cancel" onclick="openCancelModal(@reservation.Id)">
+                                        <i class="fas fa-times"></i> İptal Et
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    <div class="res-empty-filtered" id="resEmptyFiltered" style="display:none;">
+                        <i class="fas fa-folder-open"></i>
+                        <h4 style="color:#2E3A46; font-weight:700; margin-bottom:6px;">Bu kategoride rezervasyon bulunamadı</h4>
+                        <p style="margin:0;">Farklı bir filtre seçerek diğer rezervasyonlarınıza göz atabilirsiniz.</p>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</section>
+
+<!-- Güncelleme Modalı -->
+<div class="res-modal-overlay" id="updateModalOverlay">
+    <div class="res-modal">
+        <h4><i class="fas fa-pen text-primary"></i> Rezervasyonu Güncelle</h4>
+        <p class="res-modal-sub" id="updateModalCarName">Araç bilgisi</p>
+
+        <form id="updateReservationForm">
+            <input type="hidden" id="updateResId" name="Id" />
+
+            <div class="res-form-row">
+                <div class="res-form-group">
+                    <label>Alış Tarihi</label>
+                    <input type="date" id="updatePickUpDate" name="PickUpDate" required />
+                </div>
+                <div class="res-form-group">
+                    <label>Alış Saati</label>
+                    <input type="time" id="updatePickUpTime" name="PickUpTime" required />
+                </div>
+            </div>
+
+            <div class="res-form-row">
+                <div class="res-form-group">
+                    <label>Bırakış Tarihi</label>
+                    <input type="date" id="updateDropOffDate" name="DropOffDate" required />
+                </div>
+                <div class="res-form-group">
+                    <label>Bırakış Saati</label>
+                    <input type="time" id="updateDropOffTime" name="DropOffTime" required />
+                </div>
+            </div>
+
+            <div class="res-modal-actions">
+                <button type="button" class="btn-modal-cancel" onclick="closeUpdateModal()">Vazgeç</button>
+                <button type="submit" class="btn-modal-confirm">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- İptal Onay Modalı -->
+<div class="res-modal-overlay" id="cancelModalOverlay">
+    <div class="res-modal">
+        <h4><i class="fas fa-triangle-exclamation text-danger"></i> Rezervasyonu İptal Et</h4>
+        <p class="res-modal-sub">Bu rezervasyonu iptal etmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+
+        <div class="res-modal-actions">
+            <button type="button" class="btn-modal-cancel" onclick="closeCancelModal()">Vazgeç</button>
+            <button type="button" class="btn-modal-confirm danger" id="confirmCancelBtn">Evet, İptal Et</button>
+        </div>
+    </div>
+</div>
+
+<div class="res-toast" id="resToast">
+    <i class="fas fa-check-circle"></i>
+    <span id="resToastText">İşlem başarılı</span>
+</div>
+
+<script>
+    var reservationToCancelId = null;
+
+    function showToast(message, type) {
+        var toast = document.getElementById('resToast');
+        var toastText = document.getElementById('resToastText');
+        var icon = toast.querySelector('i');
+
+        toastText.textContent = message;
+        toast.className = 'res-toast show ' + (type || 'success');
+        icon.className = type === 'error' ? 'fas fa-circle-exclamation' : 'fas fa-check-circle';
+
+        setTimeout(function () {
+            toast.classList.remove('show');
+        }, 3500);
+    }
+
+    /* ===== Güncelleme Modalı ===== */
+    function openUpdateModal(btn) {
+        var card = btn.closest('.res-card');
+
+        document.getElementById('updateResId').value = card.dataset.id;
+        document.getElementById('updateModalCarName').textContent = card.dataset.carname + ' için tarih/saat bilgilerini güncelleyin';
+        document.getElementById('updatePickUpDate').value = card.dataset.pickupdate;
+        document.getElementById('updatePickUpTime').value = card.dataset.pickuptime;
+        document.getElementById('updateDropOffDate').value = card.dataset.dropoffdate;
+        document.getElementById('updateDropOffTime').value = card.dataset.dropofftime;
+
+        document.getElementById('updateModalOverlay').classList.add('active');
+    }
+
+    function closeUpdateModal() {
+        document.getElementById('updateModalOverlay').classList.remove('active');
+    }
+
+    document.getElementById('updateReservationForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var payload = {
+            Id: parseInt(document.getElementById('updateResId').value, 10),
+            PickUpDate: document.getElementById('updatePickUpDate').value,
+            PickUpTime: document.getElementById('updatePickUpTime').value,
+            DropOffDate: document.getElementById('updateDropOffDate').value,
+            DropOffTime: document.getElementById('updateDropOffTime').value
+        };
+
+        fetch('/Users/Account/UpdateReservation', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+            .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+            .then(function (result) {
+                closeUpdateModal();
+                if (result.ok) {
+                    showToast('Rezervasyon başarıyla güncellendi.', 'success');
+                    setTimeout(function () { location.reload(); }, 900);
+                } else {
+                    var msg = (result.data && result.data.message) ? result.data.message : 'Güncelleme sırasında bir hata oluştu.';
+                    showToast(msg, 'error');
+                }
+            })
+            .catch(function () {
+                closeUpdateModal();
+                showToast('Sunucuya ulaşılamadı, lütfen tekrar deneyin.', 'error');
+            });
+    });
+
+    /* ===== İptal Modalı ===== */
+    function openCancelModal(id) {
+        reservationToCancelId = id;
+        document.getElementById('cancelModalOverlay').classList.add('active');
+    }
+
+    function closeCancelModal() {
+        reservationToCancelId = null;
+        document.getElementById('cancelModalOverlay').classList.remove('active');
+    }
+
+    document.getElementById('confirmCancelBtn').addEventListener('click', function () {
+        if (!reservationToCancelId) return;
+
+        fetch('/Users/Account/CancelReservation/' + reservationToCancelId, {
+            method: 'POST'
+        })
+            .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+            .then(function (result) {
+                closeCancelModal();
+                if (result.ok) {
+                    showToast('Rezervasyon iptal edildi.', 'success');
+                    setTimeout(function () { location.reload(); }, 900);
+                } else {
+                    var msg = (result.data && result.data.message) ? result.data.message : 'İptal sırasında bir hata oluştu.';
+                    showToast(msg, 'error');
+                }
+            })
+            .catch(function () {
+                closeCancelModal();
+                showToast('Sunucuya ulaşılamadı, lütfen tekrar deneyin.', 'error');
+            });
+    });
+
+    /* Overlay dışına tıklayınca kapatma */
+    document.querySelectorAll('.res-modal-overlay').forEach(function (overlay) {
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+            }
+        });
+    });
+
+    /* ===== Sol Bar Filtreleme ===== */
+    document.querySelectorAll('.res-sidebar-item').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            document.querySelectorAll('.res-sidebar-item').forEach(function (b) {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+
+            var filter = btn.dataset.filter;
+            var cards = document.querySelectorAll('.res-card');
+            var visibleCount = 0;
+
+            cards.forEach(function (card) {
+                var show = filter === 'all' || card.dataset.category === filter;
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            var emptyFiltered = document.getElementById('resEmptyFiltered');
+            if (emptyFiltered) {
+                emptyFiltered.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        });
+    });
+</script>

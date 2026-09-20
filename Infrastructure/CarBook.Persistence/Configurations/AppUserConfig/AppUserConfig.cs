@@ -11,6 +11,7 @@ public class AppUserConfig : IEntityTypeConfiguration<AppUser>
         builder.Property(x => x.Name).HasColumnType("varchar(50)").IsRequired(true);
         builder.Property(x => x.Surname).HasColumnType("varchar(50)").IsRequired(true);
         builder.Property(x => x.AvatarUrl).HasColumnType("varchar(255)").IsRequired(false);
+        builder.Property(x => x.PasswordResetCode).HasColumnType("varchar(6)").IsRequired(false);
 
         builder.Property(x => x.UserName).HasColumnType("varchar(80)");
         builder.Property(x => x.Email).HasColumnType("varchar(50)");

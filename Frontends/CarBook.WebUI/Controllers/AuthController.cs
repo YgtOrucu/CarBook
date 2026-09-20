@@ -94,6 +94,47 @@ namespace CarBook.WebUI.Controllers
         }
         #endregion
 
+        #region ForgotPassword
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDto dto)
+        {
+            TempData["Email"] = dto.Email;
+            var response = await client.PostAsJsonAsync("auth/forgotpassword", dto);
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("ResetPassword");
+
+            await GetErrorMessage(response);
+            return View(dto);
+        }
+        #endregion
+
+        #region ResetPassword
+        [HttpGet]
+        public IActionResult ResetPassword()
+        {
+            if (TempData["Email"] != null)
+                ViewBag.Email = TempData["Email"];
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDto dto)
+        {
+            var response = await client.PostAsJsonAsync("auth/resetpassword", dto);
+            if (response.IsSuccessStatusCode)
+                return RedirectToAction("Login");
+
+            await GetErrorMessage(response);
+            return View(dto);
+        }
+        #endregion
+
         #region Logout
 
         public async Task<IActionResult> Logout()
@@ -112,6 +153,7 @@ namespace CarBook.WebUI.Controllers
         }
 
         #endregion
+
         private async Task GetErrorMessage(HttpResponseMessage response)
         {
             var result = await response.Content.ReadFromJsonAsync<BaseResult<GetApıErrors>>();

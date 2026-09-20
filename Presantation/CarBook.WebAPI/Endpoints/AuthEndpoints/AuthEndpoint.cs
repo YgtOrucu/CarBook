@@ -13,6 +13,8 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
 
             auths.MapPost("register", CreateUserAsync).AllowAnonymous();
             auths.MapPost("login", LoginUserAsync).AllowAnonymous();
+            auths.MapPost("forgotpassword", ForgotPasswordAsync).AllowAnonymous();
+            auths.MapPost("resetpassword", ResetPasswordAsync).AllowAnonymous();
             auths.MapPost("logout", LogoutAsync).RequireAuthorization();
 
         }
@@ -39,6 +41,17 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
             var result = await mediator.Send(new LogoutCommand { UserId = userId });
 
             return Results.Ok(new { Message = result });
+        }
+
+        private static async Task<IResult> ForgotPasswordAsync(IMediator mediator, ForgotPasswordCommand command)
+        {
+            var result = await mediator.Send(command);
+            return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
+        }
+        private static async Task<IResult> ResetPasswordAsync(IMediator mediator, ResetPasswordCommand command)
+        {
+            var result = await mediator.Send(command);
+            return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
         }
     }
 }

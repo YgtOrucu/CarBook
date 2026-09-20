@@ -81,4 +81,21 @@ public class ReservationRepository(CarBookContext context) : IReservationService
         return await context.Reservations
             .AnyAsync(x => x.Email == Email && activeStatuses.Contains(x.Status));
     }
+
+    public async Task<List<GetLoginUsersReservationQueryResult>> GetLoginUsersReservationAsync(string Email)
+    {
+        return await context.Reservations.Include(c => c.Car).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation).Where(x => !x.IsDeleted && x.Email == Email).Select(y => new GetLoginUsersReservationQueryResult
+        {
+            Id = y.Id,
+            CarName = y.Car.Brand.Name + " " + y.Car.Model,
+            PickUpLocationName = y.PickUpLocation.Name,
+            DropOffLocationName = y.DropOffLocation.Name,
+            PickUpDate = y.PickUpDate,
+            DropOffDate = y.DropOffDate,
+            PickUpTime = y.PickUpTime,
+            DropOffTime = y.DropOffTime,
+            Status = y.Status,
+            Price = y.TotalPrice
+        }).ToListAsync();
+    }
 }
