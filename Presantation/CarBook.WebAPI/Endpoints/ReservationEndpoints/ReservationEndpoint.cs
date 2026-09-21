@@ -1,4 +1,5 @@
-﻿using CarBook.Application.Features.Mediator.Commands.ReservationCommand;
+﻿using CarBook.Application.Features.Mediator.Commands.FeatureCommands;
+using CarBook.Application.Features.Mediator.Commands.ReservationCommand;
 using CarBook.Application.Features.Mediator.Queries.ReservationQueries;
 using MediatR;
 
@@ -13,10 +14,24 @@ namespace CarBook.WebAPI.Endpoints.ReservationEndpoints
             reservation.MapGet("ReservationFormValues", GetReservationFormValues).AllowAnonymous();
             reservation.MapPost("", CreateReservationAsync).RequireAuthorization();
             reservation.MapGet("GetLoginUsersReservation/{email}", GetLoginUsersReservationAsync).RequireAuthorization();
+            reservation.MapDelete("{Id}", RemoveReservationAsync).RequireAuthorization();
+            reservation.MapPut("UpdateReservation", UpdateReservationAsync).RequireAuthorization();
 
             var adminReservation = reservation.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
 
             adminReservation.MapGet("", GetListReservationAsync);
+        }
+
+        private static async Task<IResult> UpdateReservationAsync(IMediator mediator, UpdateReservationCommand command)
+        {
+            var response = await mediator.Send(command);
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        public static async Task<IResult> RemoveReservationAsync(int Id, IMediator mediator)
+        {
+            var response = await mediator.Send(new DeleteReservationCommand(Id));
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 
         private static async Task<IResult> GetLoginUsersReservationAsync(string email, IMediator mediator)

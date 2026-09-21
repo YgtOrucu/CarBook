@@ -84,7 +84,7 @@ public class ReservationRepository(CarBookContext context) : IReservationService
 
     public async Task<List<GetLoginUsersReservationQueryResult>> GetLoginUsersReservationAsync(string Email)
     {
-        return await context.Reservations.Include(c => c.Car).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation).Where(x => !x.IsDeleted && x.Email == Email).Select(y => new GetLoginUsersReservationQueryResult
+        return await context.Reservations.Include(c => c.Car).Include(l => l.PickUpLocation).Include(l => l.DropOffLocation).Where(x => x.Email == Email).Select(y => new GetLoginUsersReservationQueryResult
         {
             Id = y.Id,
             CarName = y.Car.Brand.Name + " " + y.Car.Model,

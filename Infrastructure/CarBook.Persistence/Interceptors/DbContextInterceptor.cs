@@ -26,7 +26,6 @@ public class DbContextInterceptor : SaveChangesInterceptor
     {
         entity.UpdatedDate = DateTime.Now;
         entity.IsDeleted = false;
-
         context.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
         context.Entry(entity).Property(x => x.DeletedDate).IsModified = false;
     }

@@ -9,5 +9,6 @@ public class ReservationMappingProfile : Profile
     public ReservationMappingProfile()
     {
         CreateMap<CreateReservationCommand, Reservation>().ForMember(opt => opt.Phone, desc => desc.MapFrom(src => src.PhoneNumber));
+        CreateMap<UpdateReservationCommand, Reservation>();
     }
 }

@@ -1,0 +1,527 @@
+﻿.res-section {
+    padding: 70px 0;
+    background: #F7F9FC;
+}
+
+.res-container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.res-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 26px;
+}
+
+.res-sidebar {
+    width: 240px;
+    flex-shrink: 0;
+    background: #fff;
+    border-radius: 16px;
+    padding: 18px 14px;
+    box-shadow: 0 8px 26px rgba(20, 40, 70, 0.06);
+    border: 1px solid #EEF1F5;
+    position: sticky;
+    top: 100px;
+}
+
+.res-sidebar-title {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: #8A96A3;
+    font-weight: 700;
+    padding: 4px 10px 14px 10px;
+}
+
+.res-sidebar-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #5B6675;
+    cursor: pointer;
+    margin-bottom: 4px;
+    transition: all 0.18s ease;
+}
+
+    .res-sidebar-item i {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        background: #F2F4F7;
+        color: #8A96A3;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        flex-shrink: 0;
+        transition: all 0.18s ease;
+    }
+
+    .res-sidebar-item .res-count {
+        margin-left: auto;
+        background: #F2F4F7;
+        color: #8A96A3;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 2px 9px;
+        border-radius: 20px;
+        transition: all 0.18s ease;
+    }
+
+    .res-sidebar-item:hover {
+        background: #F7F9FC;
+        color: #2E3A46;
+    }
+
+    .res-sidebar-item.active {
+        background: #EAF2FB;
+        color: #3A7BC8;
+    }
+
+        .res-sidebar-item.active i {
+            background: #4A90E2;
+            color: #fff;
+        }
+
+        .res-sidebar-item.active .res-count {
+            background: #4A90E2;
+            color: #fff;
+        }
+
+.res-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.res-empty-filtered {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(20, 40, 70, 0.06);
+    color: #8A96A3;
+}
+
+    .res-empty-filtered i {
+        font-size: 38px;
+        color: #C9D4E0;
+        margin-bottom: 14px;
+        display: block;
+    }
+
+@media (max-width: 860px) {
+    .res-layout {
+        flex-direction: column;
+    }
+
+    .res-sidebar {
+        position: static;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .res-sidebar-title {
+        display: none;
+    }
+
+    .res-sidebar-item {
+        flex: 0 0 auto;
+        white-space: nowrap;
+        margin-bottom: 0;
+    }
+}
+
+.res-empty {
+    text-align: center;
+    padding: 70px 20px;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(20, 40, 70, 0.06);
+}
+
+    .res-empty i {
+        font-size: 46px;
+        color: #C9D4E0;
+        margin-bottom: 16px;
+    }
+
+    .res-empty h4 {
+        color: #2E3A46;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .res-empty p {
+        color: #8A96A3;
+        margin-bottom: 22px;
+    }
+
+    .res-empty a {
+        display: inline-block;
+        padding: 11px 26px;
+        background: linear-gradient(135deg, #4A90E2, #3A7BC8);
+        color: #fff;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        box-shadow: 0 8px 18px rgba(74,144,226,0.30);
+    }
+
+.res-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 26px 26px 22px 26px;
+    margin-bottom: 22px;
+    box-shadow: 0 8px 26px rgba(20, 40, 70, 0.06);
+    border: 1px solid #EEF1F5;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+    .res-card:hover {
+        box-shadow: 0 14px 34px rgba(20, 40, 70, 0.10);
+        transform: translateY(-2px);
+    }
+
+.res-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F0F2F6;
+}
+
+.res-car-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.res-car-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #EAF2FB, #F2F4F7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4A90E2;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.res-car-info h5 {
+    margin: 0;
+    font-weight: 700;
+    color: #2E3A46;
+    font-size: 16.5px;
+}
+
+.res-car-info span {
+    font-size: 12.5px;
+    color: #8A96A3;
+}
+
+.res-status-badge {
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+
+.status-pending {
+    background: #FEF3D6;
+    color: #B7791F;
+}
+
+.status-approved {
+    background: #DFF6E4;
+    color: #1E8A4C;
+}
+
+.status-cancelled {
+    background: #FDEDEC;
+    color: #C0392B;
+}
+
+.status-completed {
+    background: #E7ECF3;
+    color: #445068;
+}
+
+.status-rejected {
+    background: #FDEDEC;
+    color: #C0392B;
+}
+
+.res-card-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px 24px;
+    margin-bottom: 20px;
+}
+
+.res-info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+    .res-info-item i {
+        width: 34px;
+        height: 34px;
+        border-radius: 10px;
+        background: #F2F4F7;
+        color: #4A90E2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13.5px;
+        flex-shrink: 0;
+    }
+
+    .res-info-item .label {
+        font-size: 11.5px;
+        color: #8A96A3;
+        margin-bottom: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+    }
+
+    .res-info-item .value {
+        font-size: 13.5px;
+        color: #2E3A46;
+        font-weight: 600;
+    }
+
+.res-card-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-res {
+    border: none;
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    transition: all 0.18s ease;
+}
+
+.btn-res-update {
+    background: #EAF2FB;
+    color: #3A7BC8;
+}
+
+    .btn-res-update:hover {
+        background: #4A90E2;
+        color: #fff;
+    }
+
+.btn-res-cancel {
+    background: #FDEDEC;
+    color: #C0392B;
+}
+
+    .btn-res-cancel:hover {
+        background: #E74C3C;
+        color: #fff;
+    }
+
+.btn-res-disabled {
+    background: #F2F4F7;
+    color: #B4BEC9;
+    cursor: not-allowed;
+}
+
+@media (max-width: 576px) {
+    .res-card-body {
+        grid-template-columns: 1fr;
+    }
+
+    .res-card-top {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ===== Modallar ===== */
+.res-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 30, 45, 0.55);
+    z-index: 1050;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+    .res-modal-overlay.active {
+        display: flex;
+    }
+
+.res-modal {
+    background: #fff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 460px;
+    padding: 28px 26px 24px 26px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+    animation: modalPop 0.18s ease;
+}
+
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.res-modal h4 {
+    font-weight: 700;
+    color: #2E3A46;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.res-modal p.res-modal-sub {
+    color: #8A96A3;
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.res-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.res-form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #2E3A46;
+    margin-bottom: 6px;
+}
+
+.res-form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1.5px solid #E1E6EC;
+    background: #F7F9FC;
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.18s ease;
+}
+
+    .res-form-group input:focus {
+        border-color: #4A90E2;
+        background: #fff;
+        box-shadow: 0 0 0 4px rgba(74,144,226,0.12);
+    }
+
+.res-modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+    .res-modal-actions button {
+        flex: 1;
+        padding: 11px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        font-size: 13.5px;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+
+.btn-modal-confirm {
+    background: linear-gradient(135deg, #4A90E2, #3A7BC8);
+    color: #fff;
+}
+
+    .btn-modal-confirm:hover {
+        opacity: 0.92;
+    }
+
+    .btn-modal-confirm.danger {
+        background: linear-gradient(135deg, #E74C3C, #C0392B);
+    }
+
+.btn-modal-cancel {
+    background: #F2F4F7;
+    color: #2E3A46;
+}
+
+    .btn-modal-cancel:hover {
+        background: #E6E9ED;
+    }
+
+.res-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1100;
+    background: #2E3A46;
+    color: #fff;
+    padding: 13px 20px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(120%);
+    transition: transform 0.25s ease;
+}
+
+    .res-toast.show {
+        transform: translateX(0);
+    }
+
+    .res-toast.success i {
+        color: #2ECC71;
+    }
+
+    .res-toast.error i {
+        color: #E74C3C;
+    }

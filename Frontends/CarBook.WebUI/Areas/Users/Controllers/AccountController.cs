@@ -10,6 +10,8 @@ namespace CarBook.WebUI.Areas.Users.Controllers
     public class AccountController(IHttpClientFactory clientFactory) : Controller
     {
         private readonly HttpClient client = clientFactory.CreateClient("CarBookAPI");
+
+        #region MyReservationProcess
         public async Task<IActionResult> MyReservations()
         {
             var userEmail = User.FindFirst(JwtRegisteredClaimNames.Email)?.Value;
@@ -31,5 +33,30 @@ namespace CarBook.WebUI.Areas.Users.Controllers
             }
             return RedirectToAction("Index", "HomePage", new { Area = "Users" });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CancelReservation(int Id)
+        {
+            var response = await client.DeleteAsync($"reservation/{Id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return Json(new { isSuccess = true, message = "Rezervasyon başarıyla iptal edildi." });
+            }
+
+            return BadRequest(new { isSuccess = false, message = "Rezervasyon iptal edilirken bir hata oluştu." });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateReservation([FromBody] UpdateReservationDto model)
+        {
+            var response = await client.PutAsJsonAsync($"reservation/UpdateReservation", model);
+            if (response.IsSuccessStatusCode)
+                return Ok(new { message = "Rezervasyon başarıyla güncellendi." });
+
+            return StatusCode(500, new { message = "Güncelleme sırasında sunucu hatası oluştu:" });
+        }
+
+        #endregion
     }
 }
