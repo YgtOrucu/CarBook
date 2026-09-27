@@ -1,4 +1,5 @@
 ﻿using CarBook.Application.Features.CQRS.Results.ContactResult;
+using CarBook.Application.Features.Mediator.Commands.AskAssistantCommands;
 using CarBook.Application.Features.Mediator.Results.BlogResults;
 using CarBook.Application.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -12,10 +13,22 @@ namespace CarBook.Infrastructure.Repositories;
 public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory httpClientFactory) : IOpenAIRepository
 {
     private string _APIKEY => configuration["ApiKey"]!;
+    private readonly HttpClient client = httpClientFactory.CreateClient("OpenAIAddress");
+
+    string systemPrompt =
+    "Sen CarBook araç kiralama platformunun yapay zeka danışmanısın. " +
+    "Kullanıcılara rezervasyon, araç seçimi, fiyatlandırma ve kiralama süreçleri hakkında " +
+    "kısa, net, samimi ve Türkçe yanıtlar ver. " +
+    "Eğer kullanıcı selamlaşma (merhaba, naber, nasılsın vb.) veya genel bir sohbet başlatırsa; " +
+    "sıcak bir şekilde karşılık ver, CarBook ailesine hoş geldin de ve hemen ardından " +
+    "\"Sana nasıl bir araç bulmamı istersin?\" veya \"Tatil ya da iş gezisi için mi araç arıyorsun?\" " +
+    "şeklinde konuyu nazikçe araç kiralama süreçlerine bağla. " +
+    "CarBook platformu dışındaki konularda (teknoloji, genel kültür vb.) çok kısa bir cümleyle " +
+    "nazikçe kibarca reddedip tekrar araç kiralama konularına yönlendir.";
+
+
     public async Task<AnswerOpenAI> AnswerOpenAIAsync(string Message, string Name)
     {
-        var client = httpClientFactory.CreateClient("OpenAIAddress");
-
         var requestBody = new
         {
             model = "gpt-4o-mini",
@@ -65,7 +78,6 @@ public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory h
 
     public async Task<AnswerAIQueryResult> AnswerOpenAIForCreateBlogAsync(string CategoryName)
     {
-        var client = httpClientFactory.CreateClient("OpenAIAddress");
 
         var requestBody = new
         {
@@ -109,6 +121,36 @@ public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory h
             }
         }
         return new AnswerAIQueryResult();
+    }
+
+    public async Task<string> GetAnswerAsync(string message, List<ChatMessageDto> history)
+    {
+        var messages = new List<object> { new { role = "system", content = systemPrompt } };
+        messages.AddRange(history.Select(h => (object)new { role = h.Role, content = h.Content }));
+        messages.Add(new { role = "user", content = message });
+
+
+        var payload = new
+        {
+            model = "gpt-4o-mini",
+            messages,
+            max_tokens = 500
+        };
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _APIKEY);
+        var response = await client.PostAsJsonAsync("chat/completions", payload);
+
+        if (response.IsSuccessStatusCode)
+        {
+            var result = await response.Content.ReadFromJsonAsync<OpenAiResponseDto>();
+            return result?.Choice?.FirstOrDefault()?.Message?.Content?.Trim()
+                ?? "Şu anda bir yanıt üretemedim, lütfen tekrar deneyin.";
+        }
+        else
+        {
+            return "Şu anda bir yanıt üretemedim, lütfen tekrar deneyin.";
+        }
+
     }
 
     public class OpenAiResponseDto

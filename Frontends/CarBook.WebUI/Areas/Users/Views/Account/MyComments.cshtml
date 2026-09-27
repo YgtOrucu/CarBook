@@ -1,0 +1,109 @@
+﻿@model List<GetLoginUsersComments>
+@{
+    ViewData["PageTitle"] = "Yorumlarım";
+    ViewData["PageBreadcrumb"] = "Yorumlar";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+
+<section class="cm-section">
+    <div class="cm-container">
+
+        @if (Model == null || !Model.Any())
+        {
+            <div class="cm-empty">
+                <i class="fas fa-comment-slash"></i>
+                <h4>Henüz bir yorumunuz yok</h4>
+                <p>Kiraladığınız araçlar veya okuduğunuz blog yazıları hakkında görüşlerinizi paylaşın.</p>
+                <a asp-area="Users" asp-controller="Blog" asp-action="Index">Blog Yazılarına Göz At</a>
+            </div>
+        }
+        else
+        {
+            foreach (var comment in Model)
+            {
+                var initials = string.Join("", (comment.NameSurname ?? "").Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(p => p[0])).ToUpper();
+                if (string.IsNullOrEmpty(initials)) { initials = "?"; }
+                if (initials.Length > 2) { initials = initials.Substring(0, 2); }
+
+                <div class="cm-card"
+                     data-id="@comment.Id"
+                     data-blogtitle="@comment.BlogTitle"
+                     data-message="@comment.MessageBody">
+
+                    <div class="cm-card-top">
+                        <div class="cm-author-info">
+                            <div class="cm-avatar">@initials</div>
+                            <div>
+                                <h6>@comment.NameSurname</h6>
+                                <span>Yorum #@comment.Id</span>
+                            </div>
+                        </div>
+                        <div class="cm-blog-badge">
+                            <i class="fas fa-newspaper"></i>
+                            <span>@comment.BlogTitle</span>
+                        </div>
+                    </div>
+
+                    <p class="cm-message">@comment.MessageBody</p>
+
+                    <div class="cm-card-actions">
+                        <button type="button" class="btn-cm btn-cm-update" onclick="openUpdateModal(this)">
+                            <i class="fas fa-pen"></i> Güncelle
+                        </button>
+                        <button type="button" class="btn-cm btn-cm-delete" onclick="openDeleteModal(@comment.Id)">
+                            <i class="fas fa-trash"></i> Sil
+                        </button>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</section>
+
+<div class="cm-modal-overlay" id="cmUpdateModalOverlay">
+    <div class="cm-modal">
+        <h4><i class="fas fa-pen text-primary"></i> Yorumu Güncelle</h4>
+        <p class="cm-modal-sub">Sadece yorum metnini düzenleyebilirsiniz.</p>
+
+        <form id="cmUpdateForm">
+            <input type="hidden" id="cmUpdateId" name="Id" />
+
+            <div class="cm-form-group">
+                <label>Blog Başlığı</label>
+                <div class="cm-readonly-title" id="cmUpdateBlogTitle"></div>
+            </div>
+
+            <div class="cm-form-group">
+                <label>Yorumunuz</label>
+                <textarea id="cmUpdateMessage" name="MessageBody" maxlength="500" required oninput="updateCharCount()"></textarea>
+                <div class="cm-char-count"><span id="cmCharCount">0</span>/500</div>
+            </div>
+
+            <div class="cm-modal-actions">
+                <button type="button" class="btn-cm-modal-cancel" onclick="closeUpdateModal()">Vazgeç</button>
+                <button type="submit" class="btn-cm-modal-confirm">Kaydet</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="cm-modal-overlay" id="cmDeleteModalOverlay">
+    <div class="cm-modal">
+        <h4><i class="fas fa-triangle-exclamation text-danger"></i> Yorumu Sil</h4>
+        <p class="cm-modal-sub">Bu yorumu silmek istediğinize emin misiniz? Bu işlem geri alınamaz.</p>
+
+        <div class="cm-modal-actions">
+            <button type="button" class="btn-cm-modal-cancel" onclick="closeDeleteModal()">Vazgeç</button>
+            <button type="button" class="btn-cm-modal-confirm danger" id="cmConfirmDeleteBtn">Evet, Sil</button>
+        </div>
+    </div>
+</div>
+
+<div class="cm-toast" id="cmToast">
+    <i class="fas fa-check-circle"></i>
+    <span id="cmToastText">İşlem başarılı</span>
+</div>

@@ -12,7 +12,7 @@
 
                 <div class="pt-5 mt-5">
                     @await Component.InvokeAsync("GetCommentByBlogId", new { Id = Model.Id })
-                    @await Component.InvokeAsync("AddComment", new { Id = Model.Id, UserName = Model.UserName })
+                    @await Component.InvokeAsync("AddComment", new { Id = Model.Id, UserName = Model.UserName, Email = Model.Email })
                 </div>
 
             </div>

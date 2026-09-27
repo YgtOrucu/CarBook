@@ -15,12 +15,21 @@ namespace CarBook.WebAPI.Endpoints.CommentEndpoints
             comments.MapGet("GetCommentByBlogId", GetCommentByBlogIdAsync).AllowAnonymous();
             comments.MapGet("GetCommentWithBlogTitle", GetCommentWithBlogTitleAsync).AllowAnonymous();
             comments.MapPost("", CreateCommentAsync).RequireAuthorization();
+            comments.MapGet("GetLoginUsersComments/{userEmail}", GetLoginUsersCommentAsync).RequireAuthorization();
+            comments.MapDelete("DeleteCommentForUser/{Id}", DeleteCommentForUserAsync).RequireAuthorization();
+            comments.MapPut("UpdateCommentForUser", UpdateCommentForUserAsync).RequireAuthorization();
 
 
             var adminComment = comments.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
 
             adminComment.MapPut("", UpdateCommentAsync);
             adminComment.MapDelete("{id}", RemoveCommentAsync);
+        }
+
+        private static async Task<IResult> GetLoginUsersCommentAsync(string userEmail, IMediator mediator)
+        {
+            var response = await mediator.Send(new GetLoginUsersCommentQuery(userEmail));
+            return response != null ? Results.Ok(response) : Results.NotFound("Kullanıcıya ait yorum bulunamadı.");
         }
 
         private static async Task<IResult> GetCommentAsync(IMediator mediator)
@@ -51,6 +60,18 @@ namespace CarBook.WebAPI.Endpoints.CommentEndpoints
         {
             await mediator.Send(command);
             return Results.Ok("Comment is succesfully added");
+        }
+
+        private static async Task<IResult> UpdateCommentForUserAsync(IMediator mediator, UpdateCommentForUserCommand command)
+        {
+            var result = await mediator.Send(command);
+            return result != null ? Results.Ok(result) : Results.NotFound();
+        }
+
+        public static async Task<IResult> DeleteCommentForUserAsync(int Id, IMediator mediator)
+        {
+            await mediator.Send(new RemoveCommentCommand(Id));
+            return Results.Ok("Comment is succesfully deleted.");
         }
 
         private static async Task<IResult> UpdateCommentAsync(IMediator mediator, UpdateCommentCommand command)

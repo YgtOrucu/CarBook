@@ -5,12 +5,13 @@ namespace CarBook.WebUI.ViewComponents.ForUIComponents.BlogUIComponent
 {
     public class BlogDetail() : ViewComponent
     {
-        public IViewComponentResult Invoke(int Id, string UserName)
+        public IViewComponentResult Invoke(int Id, string UserName, string Email)
         {
             var model = new ForCommentInBlogDetailPageDto
             {
                 Id = Id,
-                UserName = UserName
+                UserName = UserName,
+                Email = Email
             };
 
             return View("~/Views/Shared/Components/ForUIComponents/BlogUIComponent/BlogDetail.cshtml", model);

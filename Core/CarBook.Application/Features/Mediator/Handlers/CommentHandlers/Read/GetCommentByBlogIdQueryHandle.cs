@@ -12,7 +12,7 @@ public class GetCommentByBlogIdQueryHandler(IRepository<Comment> repository)
     public async Task<List<GetCommentByBlogIdQueryResult>> Handle(GetCommentByBlogIdQuery request, CancellationToken cancellationToken)
     {
         var values = repository.GetByQuery()
-            .Where(x => x.BlogId == request.BlogId)
+            .Where(x => x.BlogId == request.BlogId && x.IsDeleted == false)
             .Select(g => new GetCommentByBlogIdQueryResult
             {
                 NameSurname = g.NameSurname,

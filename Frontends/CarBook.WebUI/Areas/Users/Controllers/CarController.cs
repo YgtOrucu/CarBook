@@ -38,7 +38,7 @@ namespace CarBook.WebUI.Areas.Users.Controllers
                 var successResult = await response.Content.ReadFromJsonAsync<BaseResult<object>>();
                 TempData["SuccessMessage"] = successResult?.Message ?? "Rezervasyon başarıyla oluşturuldu. En kısa zamanda sizinle iletişime geçilecektir.";
             }
-            else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || response.StatusCode == System.Net.HttpStatusCode.BadRequest)
             {
                 try
                 {
@@ -64,7 +64,7 @@ namespace CarBook.WebUI.Areas.Users.Controllers
             }
             else
             {
-                TempData["ErrorMessage"] = "İşlem sırasında teknik bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.";
+                TempData["ErrorMessage"] = "İşlem sırasında teknik bir hata oluştu.Tüm alanları doldurduğunuzdan veya oturum açtığınızdan emin olunuz.";
             }
 
             return RedirectToAction("Index", "HomePage", new { Area = "Users" });

@@ -11,9 +11,11 @@ public class CommentMappingProfile : Profile
     {
         CreateMap<CreateCommentCommand, Comment>();
         CreateMap<UpdateCommentCommand, Comment>();
+        CreateMap<UpdateCommentForUserCommand, Comment>();
         CreateMap<Comment, GetCommentQueryResult>();
         CreateMap<Comment, GetCommentByIdQueryResult>();
         CreateMap<Comment, GetCommentByBlogIdQueryResult>();
+        CreateMap<Comment, GetLoginUsersCommentQueryResult>().ForMember(opt => opt.BlogTitle, desc => desc.MapFrom(src => src.Blog.Title));
 
         CreateMap<Comment, GetCommentWithBlogTitleQueryResult>()
             .ForMember(opt => opt.BlogTitle, desc => desc.MapFrom(src => src.Blog.Title));

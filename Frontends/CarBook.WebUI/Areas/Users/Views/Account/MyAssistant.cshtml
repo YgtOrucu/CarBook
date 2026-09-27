@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["PageTitle"] = "Yapay Zeka Danışmanım";
+    ViewData["PageBreadcrumb"] = "Yapay Zeka Danışmanı";
+    ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
+    Layout = "~/Views/UILayout/Index.cshtml";
+}
+
+<partial name="_PageHeaderPartial" />
+
+<section class="ai-section">
+    <div class="ai-container">
+
+        <div class="ai-card">
+            <div class="ai-header">
+                <div class="ai-header-icon"><i class="fas fa-robot"></i></div>
+                <div>
+                    <h5>CarBook Yapay Zeka Danışmanı</h5>
+                    <div class="ai-status"><span class="dot"></span> Çevrimiçi &middot; Anında yanıt verir</div>
+                </div>
+            </div>
+
+            <div class="ai-messages" id="aiMessages">
+                <div class="ai-msg-row assistant">
+                    <div class="ai-msg-avatar"><i class="fas fa-robot"></i></div>
+                    <div>
+                        <div class="ai-msg-bubble">
+                            Merhaba! 👋 Ben CarBook yapay zeka danışmanınızım. Araç kiralama süreci, rezervasyonlarınız, fiyatlandırma veya aklınıza takılan her konuda size yardımcı olabilirim. Nasıl yardımcı olabilirim?
+                        </div>
+                        <div class="ai-msg-time">Şimdi</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-suggestions">
+                <button type="button" class="ai-chip" onclick="fillSuggestion(this)">Rezervasyonumu nasıl iptal ederim?</button>
+                <button type="button" class="ai-chip" onclick="fillSuggestion(this)">Hangi araçlar müsait?</button>
+                <button type="button" class="ai-chip" onclick="fillSuggestion(this)">Ek sürücü eklenebilir mi?</button>
+            </div>
+
+            <div class="ai-input-bar">
+                <textarea id="aiInput" placeholder="Bir soru yazın... (Enter ile gönder, Shift+Enter ile yeni satır)" rows="1"></textarea>
+                <button type="button" class="ai-send-btn" id="aiSendBtn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <p class="ai-disclaimer">Yapay zeka danışmanı yanlış bilgi verebilir, önemli kararlar için lütfen destek ekibimizle teyit edin.</p>
+
+    </div>
+</section>

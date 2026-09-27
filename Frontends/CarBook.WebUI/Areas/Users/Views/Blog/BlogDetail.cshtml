@@ -1,12 +1,14 @@
-﻿@{
+﻿@using System.IdentityModel.Tokens.Jwt
+@{
     ViewData["PageTitle"] = "Blog Detay";
     ViewData["PageBreadcrumb"] = "Blog";
     ViewData["PageBgUrl"] = "/carbook-master/images/bg_3.jpg";
     Layout = "~/Views/UILayout/Index.cshtml";
     var isAuthenticated = User?.Identity != null && User.Identity.IsAuthenticated;
     var username = isAuthenticated ? (User?.FindFirst("FullName")?.Value ?? "Kullanıcı") : null;
+    var email = isAuthenticated ? (User?.FindFirst(JwtRegisteredClaimNames.Email)?.Value ?? "Email") : null;
 }
 
 <partial name="_PageHeaderPartial" />
 @await Component.InvokeAsync("SuccessAndErrorMessages")
-@await Component.InvokeAsync("BlogDetail", new { Id = ViewBag.Id, UserName = username })
+@await Component.InvokeAsync("BlogDetail", new { Id = ViewBag.Id, UserName = username, Email = email })
