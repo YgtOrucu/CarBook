@@ -7,5 +7,6 @@ public interface IOpenAIRepository
 {
     Task<AnswerOpenAI> AnswerOpenAIAsync(string Message, string Name);
     Task<AnswerAIQueryResult> AnswerOpenAIForCreateBlogAsync(string CategoryName);
-    Task<string> GetAnswerAsync(string message, List<ChatMessageDto> history);
+    Task<string> GetAnswerAsync(string message, List<ChatMessageDto> history, string? systemPrompt = null);
+    Task<string> GenerateReservationReplyAsync(string userPrompt, string? systemPrompt = null);
 }

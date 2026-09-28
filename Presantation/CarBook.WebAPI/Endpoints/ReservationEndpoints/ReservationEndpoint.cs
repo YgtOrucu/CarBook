@@ -1,5 +1,4 @@
-﻿using CarBook.Application.Features.Mediator.Commands.FeatureCommands;
-using CarBook.Application.Features.Mediator.Commands.ReservationCommand;
+﻿using CarBook.Application.Features.Mediator.Commands.ReservationCommand;
 using CarBook.Application.Features.Mediator.Queries.ReservationQueries;
 using MediatR;
 
@@ -20,6 +19,20 @@ namespace CarBook.WebAPI.Endpoints.ReservationEndpoints
             var adminReservation = reservation.MapGroup("").RequireAuthorization(policy => policy.RequireRole("Admin"));
 
             adminReservation.MapGet("", GetListReservationAsync);
+            adminReservation.MapPost("GenerateMessage", GenerateReservationMessageAsync);
+            adminReservation.MapPost("SendEmail", SendEmailMessageAsync);
+        }
+
+        private static async Task<IResult> SendEmailMessageAsync(IMediator mediator, SendReservationEmailCommand command)
+        {
+            var response = await mediator.Send(command);
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
+        }
+
+        private static async Task<IResult> GenerateReservationMessageAsync(IMediator mediator, GenerateReservationMessageCommand command)
+        {
+            var response = await mediator.Send(command);
+            return response != null ? Results.Ok(response) : Results.BadRequest(response);
         }
 
         private static async Task<IResult> UpdateReservationAsync(IMediator mediator, UpdateReservationCommand command)

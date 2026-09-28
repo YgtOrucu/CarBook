@@ -5,31 +5,45 @@
         let email = $(this).data("email");
         let phone = $(this).data("phone");
         let car = $(this).data("car");
+        var isActionActive = $(this).data('is-action-active');
         let pickUpLoc = $(this).data("pickup-location");
         let dropOffLoc = $(this).data("dropoff-location");
         let pickUpDate = $(this).data("pickup-date");
         let pickUpTime = $(this).data("pickup-time");
         let dropOffDate = $(this).data("dropoff-date");
         let dropOffTime = $(this).data("dropoff-time");
+        let price = $(this).data("price");
+        let status = $(this).data("modalStatus");
 
         $("#modalFullName").text(fullName);
+        $("#reservationId").text(reservationId);
         $("#modalEmail").text(email);
         $("#modalPhone").text(phone);
         $("#modalCarName").text(car);
+        $("#price").text(price);
+        $("#modalStatus").text(status);
         $("#modalPickUpLocation").text(pickUpLoc);
         $("#modalPickUpDateTime").text(pickUpDate + " - " + pickUpTime);
         $("#modalDropOffLocation").text(dropOffLoc);
         $("#modalDropOffDateTime").text(dropOffDate + " - " + dropOffTime);
 
-        if (reservationId) {
-            $("#modalDeleteBtn").attr("href", "/Admin/Reservation/DeleteReservation/" + reservationId);
-        }
+        var $deleteBtn = $('#modalDeleteBtn');
+        var $sendMailBtn = $('#sendEmailBtn');
 
+        if (isActionActive === true || isActionActive === "true") {
+            $deleteBtn.removeClass('disabled pointer-events-none').attr('href', '/Admin/Reservation/DeleteReservation/' + reservationId).show();
+            $sendMailBtn.prop('disabled', false).removeClass('pointer-events-none');
+        } else {
+            $deleteBtn.addClass('disabled pointer-events-none').attr('href', '#');
+            $sendMailBtn.prop('disabled', true).addClass('pointer-events-none');
+        }
         $('#aiMessageContent').val('');
     });
 
     $('#generateAiMessageBtn').on('click', function () {
         let fullName = $('#modalFullName').text().trim();
+        let reservationId = $('#reservationId').text().trim();
+        let price = $('#price').text().trim();
         let email = $('#modalEmail').text().trim();
         let phone = $('#modalPhone').text().trim();
         let carName = $('#modalCarName').text().trim();
@@ -61,7 +75,8 @@
                 pickUpLocation: pickUpLoc,
                 dropOffLocation: dropOffLoc,
                 pickUpDateTime: pickUpDateTime,
-                dropOffDateTime: dropOffDateTime
+                dropOffDateTime: dropOffDateTime,
+                price : price
             }),
             success: function (response) {
                 if (response.success) {
@@ -84,6 +99,8 @@
     $('#sendEmailBtn').on('click', function () {
         let email = $('#modalEmail').text().trim();
         let message = $('#aiMessageContent').val().trim();
+        let reservationId = $('#reservationId').text().trim();
+        let status = $('#modalStatus').text().trim();
 
         if (!message) {
             alert("Lütfen gönderilecek bir mesaj içeriği oluşturun veya yazın.");
@@ -98,7 +115,9 @@
             type: 'POST',
             data: {
                 email: email,
-                message: message
+                message: message,
+                Id: reservationId,
+                Status : status
             },
             success: function (response) {
                 if (response.success) {

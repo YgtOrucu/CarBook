@@ -23,6 +23,8 @@ public class ReservationRepository(CarBookContext context) : IReservationService
             FullName = y.FullName,
             Email = y.Email,
             Phone = y.Phone,
+            Price = y.TotalPrice,
+            Status = y.Status
         }).ToListAsync();
     }
 

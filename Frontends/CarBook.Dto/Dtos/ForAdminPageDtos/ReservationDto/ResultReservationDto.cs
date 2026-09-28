@@ -1,4 +1,6 @@
-﻿namespace CarBook.Dto.Dtos.ForAdminPageDtos.ReservationDto;
+﻿using CarBook.Domain.Entities.Enums;
+
+namespace CarBook.Dto.Dtos.ForAdminPageDtos.ReservationDto;
 
 public class ResultReservationDto
 {
@@ -13,5 +15,8 @@ public class ResultReservationDto
     public string FullName { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
+    public decimal Price { get; set; }
+    public ReservationStatus Status { get; set; }
+    public bool IsActionActive => Status == ReservationStatus.Pending;
     public bool IsDeleted { get; set; }
 }

@@ -52,6 +52,7 @@
                                 <th>Alış - İade Lokasyon</th>
                                 <th>Alış Tarih & Saat</th>
                                 <th>İade Tarih & Saat</th>
+                                <th class="text-center">Durum</th>
                                 <th class="text-center" style="width: 120px;">İşlemler</th>
                             </tr>
                         </thead>
@@ -92,6 +93,26 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
+                                            @switch (item.Status)
+                                            {
+                                                case CarBook.Domain.Entities.Enums.ReservationStatus.Pending:
+                                                    <span class="badge badge-soft-warning font-size-12 px-2 py-1">Onay Bekliyor</span>
+                                                    break;
+                                                case CarBook.Domain.Entities.Enums.ReservationStatus.Approved:
+                                                    <span class="badge badge-soft-success font-size-12 px-2 py-1">Onaylandı</span>
+                                                    break;
+                                                case CarBook.Domain.Entities.Enums.ReservationStatus.Completed:
+                                                    <span class="badge badge-soft-primary font-size-12 px-2 py-1">Tamamlandı</span>
+                                                    break;
+                                                case CarBook.Domain.Entities.Enums.ReservationStatus.Cancelled:
+                                                    <span class="badge badge-soft-danger font-size-12 px-2 py-1">İptal Edildi</span>
+                                                    break;
+                                                default:
+                                                    <span class="badge badge-soft-secondary font-size-12 px-2 py-1">Bilinmiyor</span>
+                                                    break;
+                                            }
+                                        </td>
+                                        <td class="text-center">
                                             <button type="button"
                                                     class="btn btn-sm btn-soft-info waves-effect waves-light open-reservation-modal"
                                                     data-toggle="modal"
@@ -101,6 +122,9 @@
                                                     data-email="@item.Email"
                                                     data-phone="@item.Phone"
                                                     data-car="@item.CarName"
+                                                    data-price="@item.Price.ToString("n0")"
+                                                    data-status="@item.Status"
+                                                    data-is-action-active="@item.IsActionActive.ToString().ToLower()"
                                                     data-pickup-location="@item.PickUpLocationName"
                                                     data-dropoff-location="@item.DropOffLocationName"
                                                     data-pickup-date="@item.PickUpDate.ToString("d")"
@@ -110,9 +134,9 @@
                                                     title="Rezervasyon Detayı">
                                                 <i class="mdi mdi-eye font-size-16"></i>
                                             </button>
-                                            <a href="/Admin/Reservation/DeleteReservation/@item.Id"
-                                               class="btn btn-sm btn-soft-danger waves-effect waves-light ml-1"
-                                               onclick="return confirm('Bu rezervasyonu silmek istediğinize emin misiniz?');"
+                                            <a href="@(item.IsActionActive ? $"/Admin/Reservation/DeleteReservation/{item.Id}" : "#")"
+                                               class="btn btn-sm btn-soft-danger waves-effect waves-light ml-1 @(item.IsActionActive ? "" : "disabled pointer-events-none")"
+                                                @(item.IsActionActive ? "onclick=\"return confirm('Bu rezervasyonu silmek istediğinize emin misiniz?');\"" : "tabindex=\"-1\" aria-disabled=\"true\"")
                                                title="Rezervasyonu Sil">
                                                 <i class="mdi mdi-trash-can-outline font-size-16"></i>
                                             </a>
@@ -123,7 +147,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">
+                                    <td colspan="8" class="text-center py-4 text-muted">
                                         <i class="mdi mdi-alert-circle-outline font-size-20 mr-1 align-middle"></i> Henüz oluşturulmuş bir rezervasyon bulunmuyor.
                                     </td>
                                 </tr>
@@ -136,7 +160,6 @@
     </div>
 </div>
 
-<!-- Rezervasyon Detay Modalı -->
 <div class="modal fade" id="reservationDetailModal" tabindex="-1" role="dialog" aria-labelledby="reservationDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg rounded-lg">
@@ -159,6 +182,9 @@
                             <span>
                                 <i class="mdi mdi-phone-outline mr-1"></i><span id="modalPhone"></span>
                             </span>
+                            <span id="reservationId" class="d-none"></span>
+                            <span id="price" class="d-none"></span>
+                            <span id="modalStatus" class="d-none"></span>
                         </div>
                     </div>
                 </div>
@@ -198,7 +224,7 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea id="aiMessageContent" class="form-control" rows="4" placeholder="AI tarafından oluşturulan mesaj burada görünecek. İsterseniz göndermeden önce düzenleyebilirsiniz..."></textarea>
+                        <textarea id="aiMessageContent" class="form-control" rows="10" placeholder="AI tarafından oluşturulan mesaj burada görünecek. İsterseniz göndermeden önce düzenleyebilirsiniz..."></textarea>
                     </div>
                 </div>
 

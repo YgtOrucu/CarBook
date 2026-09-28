@@ -1,4 +1,6 @@
-﻿namespace CarBook.Application.Features.Mediator.Results.ReservationResult;
+﻿using CarBook.Domain.Entities.Enums;
+
+namespace CarBook.Application.Features.Mediator.Results.ReservationResult;
 public class GetReservationQueryResult
 {
     public int Id { get; set; }
@@ -12,4 +14,6 @@ public class GetReservationQueryResult
     public string FullName { get; set; }
     public string Email { get; set; }
     public string Phone { get; set; }
+    public decimal Price { get; set; }
+    public ReservationStatus Status { get; set; }
 }
