@@ -188,7 +188,7 @@
                             <div class="res-card-actions">
                                 @if (canUpdate)
                                 {
-                                    <button type="button" class="btn-res btn-res-update" onclick="openUpdateModal(this)">
+                                    <button type="button" class="btn-res btn-res-update" onclick="resOpenUpdateModal(this)">
                                         <i class="fas fa-pen"></i> Güncelle
                                     </button>
                                 }
@@ -252,7 +252,7 @@
             </div>
 
             <div class="res-modal-actions">
-                <button type="button" class="btn-modal-cancel" onclick="closeUpdateModal()">Vazgeç</button>
+                <button type="button" class="btn-modal-cancel" onclick="resCloseUpdateModal()">Vazgeç</button>
                 <button type="submit" class="btn-modal-confirm">Kaydet</button>
             </div>
         </form>
