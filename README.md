@@ -1,13 +1,23 @@
 # 🚗 CarBook - Araç Kiralama ve Yönetim Sistemi
 
-CarBook, modern web teknolojileri ve **Clean Architecture (Temiz Mimari)** ilkeleriyle geliştirilmiş, kapsamlı bir araç kiralama, blog ve yapay zeka entegre yönetim platformudur. Kullanıcılar sistem üzerinden araç kiralayabilir, blog yazgılarını inceleyip yorum yapabilir, admin ile iletişime geçebilir ve dahili **Yapay Zeka Asistanı** ile sohbet edebilirler.
+![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?logo=dotnet)
+![C#](https://img.shields.io/badge/C%23-239120?logo=csharp&logoColor=white)
+![EF Core](https://img.shields.io/badge/EF%20Core-8.0-512BD4)
+![SQL Server](https://img.shields.io/badge/MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens)
+![OpenAI](httphttps://github.com/YgtOrucus://img.shields.io/badge/AI-OpenAI-412991?logo=openai&logoColor=white)
+![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-blue)
+
+CarBook, modern web teknolojileri ve **Clean Architecture (Temiz Mimari)** ilkeleriyle geliştirilmiş; araç kiralama, blog ve yapay zeka entegrasyonunu tek çatı altında toplayan kapsamlı bir yönetim platformudur.
+
+Kullanıcılar sistem üzerinden araç kiralayabilir, blog yazılarını inceleyip yorum yapabilir, admin ile iletişime geçebilir ve **OpenAI destekli Yapay Zeka Asistanı** ile sohbet edebilir. Admin tarafında ise yapay zeka; rezervasyon onay mesajlarını ve iletişim mesajlarına verilecek cevapları otomatik olarak hazırlar.
 
 ---
 
 ## 📸 Ekran Görüntüleri (Screenshots)
 
 <details>
-<summary><b>👤 Kullanıcı Arayüzü (User Interface) - Görselleri Görmek İçin Tıklayın</b></summary>
+<summary><b>👤 Kullanıcı Arayüzü (User Interface) - Login, Register ve Kullanıcı Sayfaları - Görselleri Görmek İçin Tıklayın</b></summary>
 <br>
 
 ---
@@ -119,31 +129,199 @@ Solution 'CarBook'
 │
 └── Presentation
     └── CarBook.WebApi         # Web API katmanı (Endpoints, Controllers, Custom Middlewares)
-
 ```
 
 ---
 
-## 🚀 Kullanılan Teknolojiler & Teknik Detaylar
+## 🔀 Katmanlar Arası Bağımlılık
 
-- **Backend** — .NET / C# ile geliştirilmiş robust ve ölçeklenebilir altyapı.
-- **ASP.NET Core Web API & MVC (WebUI)** — Sunucu tarafında servis yönetimi (API) ve kullanıcı etkileşimi için modern MVC mimarisi.
-- **Entity Framework Core (ORM)** — Veritabanı işlemleri ve nesne-ilişkisel eşleme için güçlü ORM desteği.
-- **CQRS (Command Query Responsibility Segregation)** — Okuma ve yazma işlemlerinin birbirinden ayrılarak performansın ve yönetilebilirliğin artırıldığı tasarım deseni.
-- **MediatR Kütüphanesi** — Katmanlar arası gevşek bağlı (loosely coupled) iletişim ve CQRS handler'larının yönetimi.
-- **Clean Architecture** — Bağımlılıkların dışarıdan içeriye doğru olduğu, sürdürülebilir ve test edilebilir katmanlı mimari prensibi.
-- **FluentValidation & Custom Exception Handling** — Gelen verilerin güçlü kurallarla doğrulanması ve hataların özel middleware mekanizmalarıyla merkezi olarak yönetilmesi.
+Bağımlılıklar her zaman **dıştan içe** doğrudur. `Domain` katmanı hiçbir katmana bağımlı değildir.
+
+```mermaid
+flowchart LR
+    WebUI[CarBook.WebUI<br/>MVC] -->|HTTP + JWT| WebApi[CarBook.WebApi]
+    WebUI --> Dto[CarBook.Dto]
+    WebApi --> Application[CarBook.Application]
+    WebApi --> Infrastructure[CarBook.Infrastructure]
+    WebApi --> Persistence[CarBook.Persistence]
+    Infrastructure --> Application
+    Persistence --> Application
+    Application --> Domain[CarBook.Domain]
+    Persistence --> Domain
+
+    style Domain fill:#512BD4,color:#fff
+    style Application fill:#7B5CE0,color:#fff
+```
+
+---
+
+## 🚀 Kullanılan Teknolojiler
+
+| Alan | Teknoloji | Amaç |
+|---|---|---|
+| Platform | **.NET 8 / C#** | Ölçeklenebilir ve sürdürülebilir backend altyapısı |
+| Web API | **ASP.NET Core Web API** | Servis katmanı ve endpoint yönetimi |
+| Kullanıcı Arayüzü | **ASP.NET Core MVC (Razor Views)** | Kullanıcı ve admin arayüzleri |
+| ORM | **Entity Framework Core 8** | Nesne-ilişkisel eşleme, migration yönetimi |
+| Veritabanı | **Microsoft SQL Server (MSSQL)** | İlişkisel veri depolama |
+| Tasarım Deseni | **CQRS + MediatR** | Okuma/yazma ayrımı, gevşek bağlı handler yapısı |
+| Mimari | **Clean Architecture** | Test edilebilir, bağımlılığı yönetilen katmanlı yapı |
+| Doğrulama | **FluentValidation** | Gelen verinin kurallarla doğrulanması |
+| Hata Yönetimi | **Custom Exception Middleware** | Hataların merkezi olarak yönetilmesi |
+| Kimlik Doğrulama | **JWT (JSON Web Token)** | Token tabanlı login ve claim bazlı yetkilendirme |
+| Yapay Zeka | **OpenAI API** | Asistan sohbeti, otomatik mesaj ve cevap üretimi |
+| E-posta | **SMTP (MailSettings)** | Sistem e-postaları |
 
 ---
 
 ## 🚘 Öne Çıkan Özellikler
 
-- **Araç Kiralama Modülü** — Gelişmiş araç listeleme, filtreleme ve esnek rezervasyon yönetimi.
-- **Blog Sistemi** — Kullanıcıların blog yazılarını okuyabildiği, detay inceleyebildiği ve interaktif yorum yapabildiği alanlar.
-- **İletişim & Destek** — Son kullanıcılar ile admin arasında güçlü mesajlaşma ve iletişim yönetimi.
-- **Yapay Zeka Asistanı** — Kullanıcıların sistem içerisinde doğrudan etkileşime geçebileceği akıllı asistan modülü.
-- **Kullanıcı Paneli** — Kullanıcıların kendi rezervasyonlarını, profillerini ve yaptıkları yorumları kolayca düzenleyebileceği yetkilendirilmiş güvenli alanlar.
+### 🚗 Araç Kiralama Modülü
+Gelişmiş araç listeleme, filtreleme ve esnek rezervasyon yönetimi. Kullanıcılar uygun araçları inceleyip rezervasyon oluşturabilir; admin rezervasyonları panelden yönetir.
 
+### 📝 Blog Sistemi
+Kullanıcıların blog yazılarını okuyabildiği, detay inceleyebildiği ve yorum yapabildiği interaktif alanlar.
 
+### 📬 İletişim & Destek
+Son kullanıcılar ile admin arasında mesajlaşma ve iletişim yönetimi. Admin, gelen mesajlara yapay zeka yardımıyla hazırlanan cevap metniyle hızlıca dönüş yapabilir.
 
+### 🤖 Yapay Zeka Asistanı
+Giriş yapan kullanıcıların sistem içerisinde doğrudan sohbet edebildiği, OpenAI destekli akıllı asistan modülü.
 
+### 👤 Kullanıcı Paneli
+Kullanıcıların kendi rezervasyonlarını, profillerini ve yaptıkları yorumları düzenleyebildiği, yetkilendirilmiş güvenli alanlar.
+
+### 👨‍💼 Admin Paneli
+Araç, rezervasyon, blog, yorum ve iletişim mesajlarının tek yerden yönetilmesi.
+
+---
+
+## 🔐 Kimlik Doğrulama Akışı
+
+Sistem **JWT tabanlı** kimlik doğrulama kullanır:
+
+1. Kullanıcı login olduğunda ilgili **CQRS Handler** içinde JWT token üretilir.
+2. Kullanıcıya ait bazı bilgiler (kullanıcı adı, rol, id vb.) **claim** olarak token'a yüklenir.
+3. `WebUI` tarafında, controller aşamasında token'a **ek claim'ler** dahil edilir.
+4. Sonraki isteklerde token ile yetkilendirme yapılır.
+
+---
+
+## 🧠 Yapay Zeka Entegrasyonu
+
+Projede **OpenAI API** üç farklı senaryoda kullanılır:
+
+| Senaryo | Kullanıcı | Açıklama |
+|---|---|---|
+| **Rezervasyon onay mesajı** | Admin | Onaylanan rezervasyon için müşteriye gidecek mesaj otomatik üretilir |
+| **İletişim mesajı cevabı** | Admin | Gelen iletişim mesajları için cevap metni taslağı hazırlanır |
+| **Yapay Zeka Asistanı** | Giriş yapmış kullanıcı | Kullanıcı asistanla sohbet ederek soru sorabilir |
+
+---
+
+## ⚙️ Kurulum ve Çalıştırma
+
+### Ön Gereksinimler
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- Microsoft SQL Server (LocalDB, Express veya tam sürüm)
+- [OpenAI API Key](https://platform.openai.com/api-keys)
+- SMTP bilgileri (e-posta gönderimi için)
+- (Opsiyonel) Visual Studio 2022 / JetBrains Rider / VS Code
+
+### 1. Repoyu klonlayın
+
+```bash
+git clone https://github.com/<kullanici-adi>/CarBook.git
+cd CarBook
+```
+
+### 2. Gizli bilgileri tanımlayın (User Secrets)
+
+Bu projede hassas bilgiler **`appsettings.json` içinde tutulmaz** ve repoda **yer almaz**. Geliştirme ortamında [.NET User Secrets](https://learn.microsoft.com/aspnet/core/security/app-secrets) (`secrets.json`) kullanılır.
+
+Aşağıdaki komutları `CarBook.WebApi` (ve gerekiyorsa `CarBook.WebUI`) proje klasöründe çalıştırın:
+
+```bash
+dotnet user-secrets init
+
+# Veritabanı
+dotnet user-secrets set "ConnectionStrings:SqlConnection" "Server=localhost;Database=CarBookDb;Trusted_Connection=True;TrustServerCertificate=True;"
+
+# JWT
+dotnet user-secrets set "JwtTokenOptions:Issuer" "<issuer>"
+dotnet user-secrets set "JwtTokenOptions:Audience" "<audience>"
+dotnet user-secrets set "JwtTokenOptions:Key" "<en-az-32-karakterlik-gizli-anahtar>"
+dotnet user-secrets set "JwtTokenOptions:ExpireMinutes" "60"
+
+# OpenAI
+dotnet user-secrets set "OpenAI:ApiKey" "<openai-api-key>"
+
+# Mail
+dotnet user-secrets set "MailSettings:Server" "<smtp-server>"
+dotnet user-secrets set "MailSettings:Port" "587"
+dotnet user-secrets set "MailSettings:SenderMail" "<gonderen-mail>"
+dotnet user-secrets set "MailSettings:Password" "<mail-sifresi>"
+```
+
+> ⚠️ Anahtar isimleri (`JwtTokenOptions`, `OpenAI`, `MailSettings` vb.) projedeki **Options** sınıflarıyla birebir eşleşmelidir. Kendi projenizdeki isimlere göre düzenleyin.
+
+Alternatif olarak Visual Studio'da proje üzerine sağ tıklayıp **Manage User Secrets** seçeneğiyle `secrets.json` dosyasını doğrudan düzenleyebilirsiniz:
+
+```json
+{
+  "ConnectionStrings": {
+    "SqlConnection": "..."
+  },
+  "JwtTokenOptions": {
+    "Issuer": "...",
+    "Audience": "...",
+    "Key": "..."
+  },
+  "OpenAI": {
+    "ApiKey": "..."
+  },
+  "MailSettings": {
+    "Server": "...",
+    "Port": 587,
+    "SenderMail": "...",
+    "Password": "..."
+  }
+}
+```
+
+### 3. Veritabanını oluşturun
+
+```bash
+dotnet ef database update --project CarBook.Persistence --startup-project CarBook.WebApi
+```
+
+### 4. Projeyi çalıştırın
+
+Önce API'yi, ardından arayüzü başlatın (iki ayrı terminalde):
+
+```bash
+dotnet run --project CarBook.WebApi
+dotnet run --project CarBook.WebUI
+```
+
+Visual Studio kullanıyorsanız **Solution → Configure Startup Projects → Multiple startup projects** ile `WebApi` ve `WebUI` projelerini birlikte başlatabilirsiniz.
+
+---
+
+## 🛡️ Güvenlik Notları
+
+- API anahtarları, connection string ve JWT ayarları **GitHub'a yüklenmez**; yerel geliştirmede `secrets.json` içinde tutulur.
+- Canlı ortamda bu değerler **ortam değişkenleri (environment variables)** veya bir secret manager (Azure Key Vault vb.) ile sağlanmalıdır.
+- Gelen tüm istekler **FluentValidation** ile doğrulanır.
+- Hatalar, özel middleware ile merkezi olarak yakalanır ve istemciye güvenli biçimde döndürülür.
+
+---
+
+## 📬 İletişim
+
+- **GitHub:** [Yiğit Örücü](https://github.com/YgtOrucu)
+- **LinkedIn:** [Yiğit Örücü](https://www.linkedin.com/in/muhsin-yi%C4%9Fit-%C3%B6r%C3%BCc%C3%BC-09214911a/)
+- **E-posta:** orucuyigit@gmail.com
+
+> Projeyi beğendiysen ⭐ vermeyi unutma!
