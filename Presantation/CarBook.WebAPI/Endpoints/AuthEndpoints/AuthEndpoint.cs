@@ -18,7 +18,6 @@ namespace CarBook.WebAPI.Endpoints.AuthEndpoints
             auths.MapPost("logout", LogoutAsync).RequireAuthorization();
 
         }
-
         private static async Task<IResult> CreateUserAsync(IMediator mediator, CreateRegisterCommand command)
         {
             var result = await mediator.Send(command);

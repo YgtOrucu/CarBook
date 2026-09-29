@@ -51,7 +51,6 @@ namespace CarBook.WebAPI.CustomMiddlewares
                 var response = BaseResult<object>.Failure(message);
                 await context.Response.WriteAsJsonAsync(response);
             }
-
         }
     }
 }
