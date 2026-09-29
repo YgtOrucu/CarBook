@@ -62,8 +62,6 @@ public static class ServiceRegistration
                     }
                 }
             };
-
-
         });
 
         services.Configure<JwtTokenOption>(builder.GetSection(nameof(JwtTokenOption)));

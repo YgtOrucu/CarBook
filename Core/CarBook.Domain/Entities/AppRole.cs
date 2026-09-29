@@ -2,6 +2,4 @@
 
 namespace CarBook.Domain.Entities;
 
-public class AppRole : IdentityRole<Guid>
-{
-}
+public class AppRole : IdentityRole<Guid> { }

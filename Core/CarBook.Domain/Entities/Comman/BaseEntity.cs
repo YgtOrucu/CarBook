@@ -4,7 +4,6 @@ public abstract class BaseEntity
 {
     public int Id { get; set; }
 }
-
 public abstract class AuditableEntity : BaseEntity
 {
     public DateTime CreatedDate { get; set; }

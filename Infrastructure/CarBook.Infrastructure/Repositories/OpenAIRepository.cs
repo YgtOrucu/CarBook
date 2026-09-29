@@ -138,7 +138,6 @@ public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory h
         {
             return "Şu anda bir yanıt üretemedim, lütfen tekrar deneyin.";
         }
-
     }
 
     public async Task<string> GenerateReservationReplyAsync(string userPrompt, string? systemPrompt = null)
@@ -161,7 +160,6 @@ public class OpenAIRepository(IConfiguration configuration, IHttpClientFactory h
             },
             temperature = 0.5
         };
-
 
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _APIKEY);
 

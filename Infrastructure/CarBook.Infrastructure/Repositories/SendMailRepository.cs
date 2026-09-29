@@ -115,6 +115,7 @@ public class SendMailRepository(IOptions<MailSettingsOption> options) : ISendMai
         await smtp.SendAsync(email);
         await smtp.DisconnectAsync(true);
     }
+
     public async Task SendReservationDetailsAsync(string toEmail, string subject, string message)
     {
         var email = new MimeMessage();

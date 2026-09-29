@@ -2,7 +2,6 @@
 using System.Text.Json.Serialization;
 
 namespace CarBook.Application.Base;
-
 public class BaseResult<T>
 {
     public T? Data { get; set; }

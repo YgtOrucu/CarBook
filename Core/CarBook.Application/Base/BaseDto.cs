@@ -4,7 +4,6 @@ public abstract class BaseDto
 {
     public int Id { get; set; }
 }
-
 public abstract class AuditableDto : BaseDto
 {
     public DateTime CreatedDate { get; set; }
