@@ -5,7 +5,7 @@
 ![EF Core](https://img.shields.io/badge/EF%20Core-8.0-512BD4)
 ![SQL Server](https://img.shields.io/badge/MSSQL-CC2927?logo=microsoftsqlserver&logoColor=white)
 ![JWT](https://img.shields.io/badge/Auth-JWT-000000?logo=jsonwebtokens)
-![OpenAI](httphttps://github.com/YgtOrucus://img.shields.io/badge/AI-OpenAI-412991?logo=openai&logoColor=white)
+![OpenAI](https://img.shields.io/badge/AI-OpenAI-412991?logo=openai&logoColor=white)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean%20Architecture-blue)
 
 CarBook, modern web teknolojileri ve **Clean Architecture (Temiz Mimari)** ilkeleriyle geliştirilmiş; araç kiralama, blog ve yapay zeka entegrasyonunu tek çatı altında toplayan kapsamlı bir yönetim platformudur.
