@@ -9,10 +9,13 @@ namespace CarBook.WebUI.CustomMiddlewares
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = httpContextAccessor.HttpContext?.User.FindFirst("AccessToken")?.Value;
-            if (!string.IsNullOrEmpty(token))
+            if (httpContextAccessor.HttpContext!.User.Identity!.IsAuthenticated)
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var token = httpContextAccessor.HttpContext?.User.FindFirst("AccessToken")?.Value;
+                if (!string.IsNullOrEmpty(token))
+                {
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                }
             }
             var response = await base.SendAsync(request, cancellationToken);
 
